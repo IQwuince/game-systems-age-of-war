@@ -84,12 +84,21 @@ public class Upgrades : MonoBehaviour
     public float doubleTroubleChance = 0f; // percent, e.g. 5 means 5%
     public TextMeshProUGUI doubleTroubleChanceText;
 
+    [Header("Market Income Upgrade")]
+    public TextMeshProUGUI marketIncomeUpgradeButtonText;
+    public TextMeshProUGUI marketIncomeBonusText;
+    public int marketIncomeUpgradePrice = 20; // Set initial price in Inspector
+    public float marketIncomeBonusPercent = 0f; // e.g. 10 means +10%
+
+
     void Start()
     {
         UpdateTroopStatsUI();
         UpdateUpgradeButtonTexts();
         UpdateDoubleTroubleUI();
+        UpdateMarketIncomeUpgradeUI();
         pm.doubleTroubleChance = doubleTroubleChance;
+        pm.marketIncomeMultiplier = 1f + marketIncomeBonusPercent / 100f;
     }
 
     // Troop 1 upgrades
@@ -286,4 +295,25 @@ public class Upgrades : MonoBehaviour
         doubleTroubleButtonText.text = $"Double Trouble ({doubleTroubleUpgradePrice})";
         doubleTroubleChanceText.text = $"Chance: {doubleTroubleChance}%";
     }
+
+    public void UpgradeMarketIncome()
+    {
+        if (pm.money >= marketIncomeUpgradePrice)
+        {
+            pm.SubtractMoney(marketIncomeUpgradePrice);
+            marketIncomeBonusPercent += 10f;
+            marketIncomeUpgradePrice += 20;
+            pm.marketIncomeMultiplier = 1f + marketIncomeBonusPercent / 100f;
+            UpdateMarketIncomeUpgradeUI();
+        }
+
+    }
+    private void UpdateMarketIncomeUpgradeUI()
+    {
+        marketIncomeUpgradeButtonText.text = $"Market Income ({marketIncomeUpgradePrice})";
+        marketIncomeBonusText.text = $"Bonus: {marketIncomeBonusPercent}%";
+    }
+
 }
+
+

@@ -41,7 +41,9 @@ public class PlayerMoney : MonoBehaviour
     public int MarketIncome = 0;
 
     [Header("Upgrades")]
-    public float doubleTroubleChance = 0f; // percent chance for double troop
+    public float doubleTroubleChance = 0f;
+    public float marketIncomeMultiplier = 1f; // Default multiplier
+
 
     void Start()
     {
@@ -169,7 +171,8 @@ public class PlayerMoney : MonoBehaviour
     {
         if (Markets > 0 && MarketIncome > 0)
         {
-            AddMoney(Markets * MarketIncome);
+            int totalIncome = Mathf.RoundToInt(Markets * MarketIncome * marketIncomeMultiplier);
+            AddMoney(totalIncome);
         }
     }
 

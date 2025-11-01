@@ -6,7 +6,7 @@ public class TurnSystem : MonoBehaviour
 {
     public GameObject player1Button;
     public GameObject player2Button;
-    public Button combatButton;
+    public GameObject combatButton;
     public TextMeshProUGUI roundText;
 
     private int round = 1;
@@ -20,7 +20,6 @@ public class TurnSystem : MonoBehaviour
         currentTurn = Turn.Player1;
         UpdateUI();
 
-        combatButton.onClick.AddListener(OnCombatButton);
     }
 
     public void OnPlayer2Button()
