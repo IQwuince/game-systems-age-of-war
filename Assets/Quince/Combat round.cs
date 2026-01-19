@@ -7,54 +7,64 @@ public class Combatround : MonoBehaviour
     public PlayerMoney player2Money;
     public Upgrades player1Upgrades;
     public Upgrades player2Upgrades;
+    public TextMeshProUGUI player1BaseHealthText;
+    public TextMeshProUGUI player2BaseHealthText;
+
 
     // UI Texts for player 1
-    public TextMeshProUGUI player1Troop1Text;
-    public TextMeshProUGUI player1Troop2Text;
-    public TextMeshProUGUI player1Troop3Text;
+    public TextMeshProUGUI player1TroopText;
+    public TextMeshProUGUI player1TankText;
+    public TextMeshProUGUI player1RangeText;
     public TextMeshProUGUI player1Troop4Text;
 
     // UI Texts for player 2
-    public TextMeshProUGUI player2Troop1Text;
-    public TextMeshProUGUI player2Troop2Text;
-    public TextMeshProUGUI player2Troop3Text;
+    public TextMeshProUGUI player2TroopText;
+    public TextMeshProUGUI player2TankText;
+    public TextMeshProUGUI player2RangeText;
     public TextMeshProUGUI player2Troop4Text;
 
     // UI Texts for troop stats (per player)
-    public TextMeshProUGUI player1Troop1StatsText;
-    public TextMeshProUGUI player1Troop2StatsText;
-    public TextMeshProUGUI player1Troop3StatsText;
+    public TextMeshProUGUI player1TroopStatsText;
+    public TextMeshProUGUI player1TankStatsText;
+    public TextMeshProUGUI player1RangeStatsText;
     public TextMeshProUGUI player1Troop4StatsText;
 
-    public TextMeshProUGUI player2Troop1StatsText;
-    public TextMeshProUGUI player2Troop2StatsText;
-    public TextMeshProUGUI player2Troop3StatsText;
+    public TextMeshProUGUI player2TroopStatsText;
+    public TextMeshProUGUI player2TankStatsText;
+    public TextMeshProUGUI player2RangeStatsText;
     public TextMeshProUGUI player2Troop4StatsText;
 
+    private void Update()
+    {
+        ShowBaseHealth();
+    }
     public void ShowCombatInfo()
     {
-        // Player 1 troop counts
-        player1Troop1Text.text = $"Troop 1: {player1Money.troop1Count}";
-        player1Troop2Text.text = $"Troop 2: {player1Money.troop2Count}";
-        player1Troop3Text.text = $"Troop 3: {player1Money.troop3Count}";
-        player1Troop4Text.text = $"Troop 4: {player1Money.troop4Count}";
+        // Player 1 unit counts
+        player1TroopText.text = $"Troop: {player1Money.troopCount}";
+        player1TankText.text = $"Tank: {player1Money.tankCount}";
+        player1RangeText.text = $"Range: {player1Money.rangeCount}";
 
-        // Player 2 troop counts
-        player2Troop1Text.text = $"Troop 1: {player2Money.troop1Count}";
-        player2Troop2Text.text = $"Troop 2: {player2Money.troop2Count}";
-        player2Troop3Text.text = $"Troop 3: {player2Money.troop3Count}";
-        player2Troop4Text.text = $"Troop 4: {player2Money.troop4Count}";
+        // Player 2 unit counts
+        player2TroopText.text = $"Troop: {player2Money.troopCount}";
+        player2TankText.text = $"Tank: {player2Money.tankCount}";
+        player2RangeText.text = $"Range: {player2Money.rangeCount}";
 
-        // Player 1 troop stats
-        player1Troop1StatsText.text = $"Health: {player1Upgrades.troop1Health} | Damage: {player1Upgrades.troop1Damage} | Range: {player1Upgrades.troop1Range}";
-        player1Troop2StatsText.text = $"Health: {player1Upgrades.troop2Health} | Damage: {player1Upgrades.troop2Damage} | Range: {player1Upgrades.troop2Range}";
-        player1Troop3StatsText.text = $"Health: {player1Upgrades.troop3Health} | Damage: {player1Upgrades.troop3Damage} | Range: {player1Upgrades.troop3Range}";
-        player1Troop4StatsText.text = $"Health: {player1Upgrades.troop4Health} | Damage: {player1Upgrades.troop4Damage} | Range: {player1Upgrades.troop4Range}";
+        // Player 1 unit stats
+        player1TroopStatsText.text = $"Health: {player1Upgrades.troopHealth} | Damage: {player1Upgrades.troopDamage} | Range: {player1Upgrades.troopRange}";
+        player1TankStatsText.text = $"Health: {player1Upgrades.tankHealth} | Damage: {player1Upgrades.tankDamage} | Range: {player1Upgrades.tankRange}";
+        player1RangeStatsText.text = $"Health: {player1Upgrades.rangeHealth} | Damage: {player1Upgrades.rangeDamage} | Range: {player1Upgrades.rangeRange}";
 
-        // Player 2 troop stats
-        player2Troop1StatsText.text = $"Health: {player2Upgrades.troop1Health} | Damage: {player2Upgrades.troop1Damage} | Range: {player2Upgrades.troop1Range}";
-        player2Troop2StatsText.text = $"Health: {player2Upgrades.troop2Health} | Damage: {player2Upgrades.troop2Damage} | Range: {player2Upgrades.troop2Range}";
-        player2Troop3StatsText.text = $"Health: {player2Upgrades.troop3Health} | Damage: {player2Upgrades.troop3Damage} | Range: {player2Upgrades.troop3Range}";
-        player2Troop4StatsText.text = $"Health: {player2Upgrades.troop4Health} | Damage: {player2Upgrades.troop4Damage} | Range: {player2Upgrades.troop4Range}";
+        // Player 2 unit stats
+        player2TroopStatsText.text = $"Health: {player2Upgrades.troopHealth} | Damage: {player2Upgrades.troopDamage} | Range: {player2Upgrades.troopRange}";
+        player2TankStatsText.text = $"Health: {player2Upgrades.tankHealth} | Damage: {player2Upgrades.tankDamage} | Range: {player2Upgrades.tankRange}";
+        player2RangeStatsText.text = $"Health: {player2Upgrades.rangeHealth} | Damage: {player2Upgrades.rangeDamage} | Range: {player2Upgrades.rangeRange}";
     }
+
+    public void ShowBaseHealth()
+    {
+        player1BaseHealthText.text = $"Base Health: {player1Money.baseHealth}";
+        player2BaseHealthText.text = $"Base Health: {player2Money.baseHealth}";
+    }
+
 }

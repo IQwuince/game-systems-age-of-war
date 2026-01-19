@@ -10,44 +10,47 @@ public class PlayerMoney : MonoBehaviour
     public TextMeshProUGUI marketText;
     public TextMeshProUGUI marketPriceText;
 
-    [Header("Troop Counts")]
-    public int troop1Count = 0;
-    public int troop2Count = 0;
-    public int troop3Count = 0;
-    public int troop4Count = 0;
+    [Header("Unit Counts")]
+    public int troopCount = 0;
+    public int tankCount = 0;
+    public int rangeCount = 0;
 
-    [Header("Troop Prices")]
-    public int troop1Price = 15;
-    public int troop2Price = 20;
-    public int troop3Price = 25;
-    public int troop4Price = 30;
+    [Header("Unit Prices")]
+    public int troopPrice = 15;
+    public int tankPrice = 20;
+    public int rangePrice = 25;
 
-    [Header("Troop Count UI")]
-    public TextMeshProUGUI troop1Text;
-    public TextMeshProUGUI troop2Text;
-    public TextMeshProUGUI troop3Text;
-    public TextMeshProUGUI troop4Text;
+    [Header("Unit Count UI")]
+    public TextMeshProUGUI troopText;
+    public TextMeshProUGUI tankText;
+    public TextMeshProUGUI rangeText;
 
-    [Header("Troop Cost UI")]
-    public TextMeshProUGUI troop1CostText;
-    public TextMeshProUGUI troop2CostText;
-    public TextMeshProUGUI troop3CostText;
-    public TextMeshProUGUI troop4CostText;
+    [Header("Unit Cost UI")]
+    public TextMeshProUGUI troopCostText;
+    public TextMeshProUGUI tankCostText;
+    public TextMeshProUGUI rangeCostText;
 
     [Header("Market")]
     public int money = 0;
     public int Markets = 0;
     public int marketPrice = 10;
     public int MarketIncome = 0;
+    public int MarketIncrease;
 
     [Header("Upgrades")]
     public float doubleTroubleChance = 0f;
     public float marketIncomeMultiplier = 1f; // Default multiplier
 
-
+    [Header("Base Health")]
+    public int baseHealth = 100;
     void Start()
     {
         UpdateUI();
+    }
+    public void RemoveBaseHealth(int amount)
+    {
+        baseHealth -= amount;
+        if (baseHealth < 0) baseHealth = 0;
     }
 
     public void AddMoney(int amount)
@@ -69,100 +72,76 @@ public class PlayerMoney : MonoBehaviour
         {
             money -= marketPrice;
             Markets++;
-            marketPrice += 5;
+            marketPrice += MarketIncrease;
             UpdateUI();
         }
     }
 
-    public void BuyTroop1()
+    public void BuyTroop()
     {
-        if (money >= troop1Price)
+        if (money >= troopPrice)
         {
-            money -= troop1Price;
-            troop1Count++;
-            // Double Trouble logic
+            money -= troopPrice;
+            troopCount++;
             if (doubleTroubleChance > 0f && Random.value < doubleTroubleChance / 100f)
             {
-                troop1Count++;
+                troopCount++;
             }
             UpdateUI();
         }
     }
 
-    public void BuyTroop2()
+    public void BuyTank()
     {
-        if (money >= troop2Price)
+        if (money >= tankPrice)
         {
-            money -= troop2Price;
-            troop2Count++;
+            money -= tankPrice;
+            tankCount++;
             if (doubleTroubleChance > 0f && Random.value < doubleTroubleChance / 100f)
             {
-                troop2Count++;
+                tankCount++;
             }
             UpdateUI();
         }
     }
 
-    public void BuyTroop3()
+    public void BuyRange()
     {
-        if (money >= troop3Price)
+        if (money >= rangePrice)
         {
-            money -= troop3Price;
-            troop3Count++;
+            money -= rangePrice;
+            rangeCount++;
             if (doubleTroubleChance > 0f && Random.value < doubleTroubleChance / 100f)
             {
-                troop3Count++;
+                rangeCount++;
             }
             UpdateUI();
         }
     }
 
-    public void BuyTroop4()
+    public void RemoveTroop()
     {
-        if (money >= troop4Price)
+        if (troopCount > 0)
         {
-            money -= troop4Price;
-            troop4Count++;
-            if (doubleTroubleChance > 0f && Random.value < doubleTroubleChance / 100f)
-            {
-                troop4Count++;
-            }
+            troopCount--;
             UpdateUI();
         }
     }
 
-    public void RemoveTroop1()
+    public void RemoveTank()
     {
-        if (troop1Count > 0)
+        if (tankCount > 0)
         {
-            troop1Count--;
+            tankCount--;
             UpdateUI();
         }
     }
 
-    public void RemoveTroop2()
+    public void RemoveRange()
     {
-        if (troop2Count > 0)
+        if (rangeCount > 0)
         {
-            troop2Count--;
-            UpdateUI();
-        }
-    }
-
-    public void RemoveTroop3()
-    {
-        if (troop3Count > 0)
-        {
-            troop3Count--;
-            UpdateUI();
-        }
-    }
-
-    public void RemoveTroop4()
-    {
-        if (troop4Count > 0)
-        {
-            troop4Count--;
+            rangeCount--;
             UpdateUI();
         }
     }
@@ -182,14 +161,12 @@ public class PlayerMoney : MonoBehaviour
         marketText.text = $"Markets: {Markets}";
         marketPriceText.text = $"Buy ({marketPrice})";
 
-        troop1Text.text = $"Troop 1: {troop1Count}";
-        troop2Text.text = $"Troop 2: {troop2Count}";
-        troop3Text.text = $"Troop 3: {troop3Count}";
-        troop4Text.text = $"Troop 4: {troop4Count}";
+        troopText.text = $"Troop: {troopCount}";
+        tankText.text = $"Tank: {tankCount}";
+        rangeText.text = $"Range: {rangeCount}";
 
-        troop1CostText.text = $"Troop 1: {troop1Price}";
-        troop2CostText.text = $"Troop 2: {troop2Price}";
-        troop3CostText.text = $"Troop 3: {troop3Price}";
-        troop4CostText.text = $"Troop 4: {troop4Price}";
+        troopCostText.text = $"Troop: {troopPrice}";
+        tankCostText.text = $"Tank: {tankPrice}";
+        rangeCostText.text = $"Range: {rangePrice}";
     }
 }

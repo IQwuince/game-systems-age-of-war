@@ -10,7 +10,8 @@ public class TurnSystem : MonoBehaviour
     public TextMeshProUGUI roundText;
 
     private int round = 1;
-    public PlayerMoney playerMoney;
+    public PlayerMoney playerMoney1;
+    public PlayerMoney playerMoney2;
     private enum Turn { Player2, Combat, Player1 }
     private Turn currentTurn;
 
@@ -34,7 +35,8 @@ public class TurnSystem : MonoBehaviour
         roundText.text = $"round {round} ";
         currentTurn = Turn.Player1;
         UpdateUI();
-        playerMoney.CollectMarketIncome();
+        playerMoney1.CollectMarketIncome();
+        playerMoney2.CollectMarketIncome();
     }
 
     public void OnPlayer1Button()

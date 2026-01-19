@@ -1434,7 +1434,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 747839165}
         m_TargetAssemblyTypeName: PlayerMoney, Assembly-CSharp
-        m_MethodName: RemoveTroop1
+        m_MethodName: RemoveTroop
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3754,7 +3754,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2120946652}
         m_TargetAssemblyTypeName: Upgrades, Assembly-CSharp
-        m_MethodName: UpgradeTroop1Damage
+        m_MethodName: UpgradeTroopDamage
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4161,7 +4161,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1156947832}
         m_TargetAssemblyTypeName: PlayerMoney, Assembly-CSharp
-        m_MethodName: BuyTroop2
+        m_MethodName: BuyTank
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4704,7 +4704,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1156947832}
         m_TargetAssemblyTypeName: PlayerMoney, Assembly-CSharp
-        m_MethodName: RemoveTroop1
+        m_MethodName: RemoveTroop
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4973,7 +4973,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2120946652}
         m_TargetAssemblyTypeName: Upgrades, Assembly-CSharp
-        m_MethodName: UpgradeTroop3Range
+        m_MethodName: UpgradeRangeRange
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5694,7 +5694,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 747839165}
         m_TargetAssemblyTypeName: PlayerMoney, Assembly-CSharp
-        m_MethodName: BuyTroop2
+        m_MethodName: BuyTank
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5902,21 +5902,23 @@ MonoBehaviour:
   player2Money: {fileID: 1156947832}
   player1Upgrades: {fileID: 1496155590}
   player2Upgrades: {fileID: 2120946652}
-  player1Troop1Text: {fileID: 650540628}
-  player1Troop2Text: {fileID: 1487706203}
-  player1Troop3Text: {fileID: 1846358580}
+  player1BaseHealthText: {fileID: 1531058893}
+  player2BaseHealthText: {fileID: 2104229544}
+  player1TroopText: {fileID: 650540628}
+  player1TankText: {fileID: 1487706203}
+  player1RangeText: {fileID: 1846358580}
   player1Troop4Text: {fileID: 2097274755}
-  player2Troop1Text: {fileID: 261017746}
-  player2Troop2Text: {fileID: 67507094}
-  player2Troop3Text: {fileID: 1779528512}
+  player2TroopText: {fileID: 261017746}
+  player2TankText: {fileID: 67507094}
+  player2RangeText: {fileID: 1779528512}
   player2Troop4Text: {fileID: 497465767}
-  player1Troop1StatsText: {fileID: 102699375}
-  player1Troop2StatsText: {fileID: 156755980}
-  player1Troop3StatsText: {fileID: 863247727}
+  player1TroopStatsText: {fileID: 102699375}
+  player1TankStatsText: {fileID: 156755980}
+  player1RangeStatsText: {fileID: 863247727}
   player1Troop4StatsText: {fileID: 926518151}
-  player2Troop1StatsText: {fileID: 8482902}
-  player2Troop2StatsText: {fileID: 1029338238}
-  player2Troop3StatsText: {fileID: 1040791848}
+  player2TroopStatsText: {fileID: 8482902}
+  player2TankStatsText: {fileID: 1029338238}
+  player2RangeStatsText: {fileID: 1040791848}
   player2Troop4StatsText: {fileID: 774271876}
 --- !u!4 &397509400
 Transform:
@@ -6218,9 +6220,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Troop 1
-
-'
+  m_text: Range
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -6658,7 +6658,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2120946652}
         m_TargetAssemblyTypeName: Upgrades, Assembly-CSharp
-        m_MethodName: UpgradeTroop3Health
+        m_MethodName: UpgradeRangeHealth
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -7276,7 +7276,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 747839165}
         m_TargetAssemblyTypeName: PlayerMoney, Assembly-CSharp
-        m_MethodName: RemoveTroop2
+        m_MethodName: RemoveTank
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -7409,7 +7409,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1496155590}
         m_TargetAssemblyTypeName: Upgrades, Assembly-CSharp
-        m_MethodName: UpgradeTroop3Damage
+        m_MethodName: UpgradeRangeDamage
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -7719,7 +7719,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1496155590}
         m_TargetAssemblyTypeName: Upgrades, Assembly-CSharp
-        m_MethodName: UpgradeTroop1Range
+        m_MethodName: UpgradeTroopRange
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -7902,7 +7902,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2120946652}
         m_TargetAssemblyTypeName: Upgrades, Assembly-CSharp
-        m_MethodName: UpgradeTroop1Range
+        m_MethodName: UpgradeTroopRange
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -8168,7 +8168,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1496155590}
         m_TargetAssemblyTypeName: Upgrades, Assembly-CSharp
-        m_MethodName: UpgradeTroop2Damage
+        m_MethodName: UpgradeTankDamage
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -8301,7 +8301,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1496155590}
         m_TargetAssemblyTypeName: Upgrades, Assembly-CSharp
-        m_MethodName: UpgradeTroop2Range
+        m_MethodName: UpgradeRangeRange
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -10182,9 +10182,21 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 397509399}
-        m_TargetAssemblyTypeName: Combatround, Assembly-CSharp
-        m_MethodName: ShowCombatInfo
+      - m_Target: {fileID: 747839164}
+        m_TargetAssemblyTypeName: TurnSystem, Assembly-CSharp
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1643528657}
+        m_TargetAssemblyTypeName: TurnSystem, Assembly-CSharp
+        m_MethodName: OnCombatButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -10226,28 +10238,30 @@ MonoBehaviour:
   moneyText: {fileID: 846095555}
   marketText: {fileID: 540866911}
   marketPriceText: {fileID: 692756756}
-  troop1Count: 0
-  troop2Count: 0
-  troop3Count: 0
+  troopCount: 0
+  tankCount: 0
+  rangeCount: 0
   troop4Count: 0
-  troop1Price: 5
-  troop2Price: 10
-  troop3Price: 15
-  troop4Price: 20
-  troop1Text: {fileID: 278084731}
-  troop2Text: {fileID: 1916067866}
-  troop3Text: {fileID: 1064518127}
+  troopPrice: 25
+  tankPrice: 60
+  rangePrice: 40
+  troop4Price: 10000
+  troopText: {fileID: 278084731}
+  tankText: {fileID: 1916067866}
+  rangeText: {fileID: 1064518127}
   troop4Text: {fileID: 1168806331}
-  troop1CostText: {fileID: 223811178}
-  troop2CostText: {fileID: 1403961668}
-  troop3CostText: {fileID: 1897754042}
+  troopCostText: {fileID: 223811178}
+  tankCostText: {fileID: 1403961668}
+  rangeCostText: {fileID: 1897754042}
   troop4CostText: {fileID: 19224723}
-  money: 10
-  Markets: 0
-  marketPrice: 10
-  MarketIncome: 5
+  money: 100
+  Markets: 1
+  marketPrice: 75
+  MarketIncome: 30
+  MarketIncrease: 30
   doubleTroubleChance: 0
   marketIncomeMultiplier: 1
+  baseHealth: 100
 --- !u!4 &747839166
 Transform:
   m_ObjectHideFlags: 0
@@ -10662,7 +10676,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2120946652}
         m_TargetAssemblyTypeName: Upgrades, Assembly-CSharp
-        m_MethodName: UpgradeTroop3Damage
+        m_MethodName: UpgradeRangeDamage
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -12538,7 +12552,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1496155590}
         m_TargetAssemblyTypeName: Upgrades, Assembly-CSharp
-        m_MethodName: UpgradeTroop1Health
+        m_MethodName: UpgradeTroopHealth
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -14375,7 +14389,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 747839165}
         m_TargetAssemblyTypeName: PlayerMoney, Assembly-CSharp
-        m_MethodName: RemoveTroop3
+        m_MethodName: RemoveRange
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -15090,7 +15104,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1496155590}
         m_TargetAssemblyTypeName: Upgrades, Assembly-CSharp
-        m_MethodName: UpgradeTroop2Health
+        m_MethodName: UpgradeTankHealth
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -15579,28 +15593,30 @@ MonoBehaviour:
   moneyText: {fileID: 183475187}
   marketText: {fileID: 1876960404}
   marketPriceText: {fileID: 299952930}
-  troop1Count: 0
-  troop2Count: 0
-  troop3Count: 0
+  troopCount: 0
+  tankCount: 0
+  rangeCount: 0
   troop4Count: 0
-  troop1Price: 5
-  troop2Price: 10
-  troop3Price: 15
-  troop4Price: 20
-  troop1Text: {fileID: 1996423631}
-  troop2Text: {fileID: 1736866487}
-  troop3Text: {fileID: 476644382}
+  troopPrice: 25
+  tankPrice: 60
+  rangePrice: 40
+  troop4Price: 10000
+  troopText: {fileID: 1996423631}
+  tankText: {fileID: 1736866487}
+  rangeText: {fileID: 476644382}
   troop4Text: {fileID: 1135302066}
-  troop1CostText: {fileID: 450821182}
-  troop2CostText: {fileID: 1636155388}
-  troop3CostText: {fileID: 998096045}
+  troopCostText: {fileID: 450821182}
+  tankCostText: {fileID: 1636155388}
+  rangeCostText: {fileID: 998096045}
   troop4CostText: {fileID: 340834056}
-  money: 10
-  Markets: 0
-  marketPrice: 10
-  MarketIncome: 5
+  money: 100
+  Markets: 1
+  marketPrice: 75
+  MarketIncome: 30
+  MarketIncrease: 30
   doubleTroubleChance: 0
   marketIncomeMultiplier: 1
+  baseHealth: 100
 --- !u!4 &1156947833
 Transform:
   m_ObjectHideFlags: 0
@@ -15754,6 +15770,142 @@ RectTransform:
   m_AnchoredPosition: {x: -216.30219, y: -207}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &1178351273
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1178351274}
+  - component: {fileID: 1178351276}
+  - component: {fileID: 1178351275}
+  m_Layer: 5
+  m_Name: Text (TMP)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1178351274
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1178351273}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1834479092}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1178351275
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1178351273}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_text: Button
+  m_isRightToLeft: 0
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontSharedMaterials: []
+  m_fontMaterial: {fileID: 0}
+  m_fontMaterials: []
+  m_fontColor32:
+    serializedVersion: 2
+    rgba: 4281479730
+  m_fontColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_enableVertexGradient: 0
+  m_colorMode: 3
+  m_fontColorGradient:
+    topLeft: {r: 1, g: 1, b: 1, a: 1}
+    topRight: {r: 1, g: 1, b: 1, a: 1}
+    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
+    bottomRight: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColorGradientPreset: {fileID: 0}
+  m_spriteAsset: {fileID: 0}
+  m_tintAllSprites: 0
+  m_StyleSheet: {fileID: 0}
+  m_TextStyleHashCode: -1183493901
+  m_overrideHtmlColors: 0
+  m_faceColor:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontSize: 24
+  m_fontSizeBase: 24
+  m_fontWeight: 400
+  m_enableAutoSizing: 0
+  m_fontSizeMin: 18
+  m_fontSizeMax: 72
+  m_fontStyle: 0
+  m_HorizontalAlignment: 2
+  m_VerticalAlignment: 512
+  m_textAlignment: 65535
+  m_characterSpacing: 0
+  m_wordSpacing: 0
+  m_lineSpacing: 0
+  m_lineSpacingMax: 0
+  m_paragraphSpacing: 0
+  m_charWidthMaxAdj: 0
+  m_TextWrappingMode: 1
+  m_wordWrappingRatios: 0.4
+  m_overflowMode: 0
+  m_linkedTextComponent: {fileID: 0}
+  parentLinkedComponent: {fileID: 0}
+  m_enableKerning: 0
+  m_ActiveFontFeatures: 6e72656b
+  m_enableExtraPadding: 0
+  checkPaddingRequired: 0
+  m_isRichText: 1
+  m_EmojiFallbackSupport: 1
+  m_parseCtrlCharacters: 1
+  m_isOrthographic: 1
+  m_isCullingEnabled: 0
+  m_horizontalMapping: 0
+  m_verticalMapping: 0
+  m_uvLineOffset: 0
+  m_geometrySortingOrder: 0
+  m_IsTextObjectScaleStatic: 0
+  m_VertexBufferAutoSizeReduction: 0
+  m_useMaxVisibleDescender: 1
+  m_pageToDisplay: 1
+  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_isUsingLegacyAnimationComponent: 0
+  m_isVolumetricText: 0
+  m_hasFontAssetChanged: 0
+  m_baseMaterial: {fileID: 0}
+  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!222 &1178351276
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1178351273}
+  m_CullTransparentMesh: 1
 --- !u!1 &1187608064
 GameObject:
   m_ObjectHideFlags: 0
@@ -16202,10 +16354,12 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 741082505}
   - {fileID: 1292821218}
+  - {fileID: 741082505}
   - {fileID: 1430798551}
   - {fileID: 667757398}
+  - {fileID: 1834479092}
+  - {fileID: 2104229543}
   m_Father: {fileID: 124998880}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -16509,7 +16663,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 747839165}
         m_TargetAssemblyTypeName: PlayerMoney, Assembly-CSharp
-        m_MethodName: BuyTroop1
+        m_MethodName: BuyTroop
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -17137,6 +17291,8 @@ RectTransform:
   - {fileID: 863247725}
   - {fileID: 926518149}
   - {fileID: 2066310634}
+  - {fileID: 1531058892}
+  - {fileID: 2087510674}
   m_Father: {fileID: 1320697841}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -17583,36 +17739,36 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Upgrades
   pm: {fileID: 747839165}
   ts: {fileID: 1643528657}
-  troop1Health: 100
-  troop1Damage: 20
-  troop1Range: 0
-  troop1HealthText: {fileID: 802822239}
-  troop1DamageText: {fileID: 560607985}
-  troop1RangeText: {fileID: 1685898022}
-  troop1HealthUpgradeButtonText: {fileID: 1787134606}
-  troop1DamageUpgradeButtonText: {fileID: 954859684}
-  troop1RangeUpgradeButtonText: {fileID: 182528656}
-  troop2Health: 120
-  troop2Damage: 15
-  troop2Range: 0
-  troop2HealthText: {fileID: 865578201}
-  troop2DamageText: {fileID: 269735047}
-  troop2RangeText: {fileID: 1121825659}
-  troop2HealthUpgradeButtonText: {fileID: 1027436428}
-  troop2DamageUpgradeButtonText: {fileID: 737288927}
-  troop2RangeUpgradeButtonText: {fileID: 170021197}
-  troop3Health: 80
-  troop3Damage: 25
-  troop3Range: 5
-  troop3HealthText: {fileID: 133789416}
-  troop3DamageText: {fileID: 900013567}
-  troop3RangeText: {fileID: 1099091696}
-  troop3HealthUpgradeButtonText: {fileID: 1513358452}
-  troop3DamageUpgradeButtonText: {fileID: 1843296690}
-  troop3RangeUpgradeButtonText: {fileID: 657168144}
-  troop4Health: 150
-  troop4Damage: 10
-  troop4Range: 0
+  troopHealth: 100
+  troopDamage: 20
+  troopRange: 1
+  troopHealthText: {fileID: 802822239}
+  troopDamageText: {fileID: 560607985}
+  troopRangeText: {fileID: 1685898022}
+  troopHealthUpgradeButtonText: {fileID: 1787134606}
+  troopDamageUpgradeButtonText: {fileID: 954859684}
+  troopRangeUpgradeButtonText: {fileID: 182528656}
+  tankHealth: 200
+  tankDamage: 25
+  tankRange: 1
+  tankHealthText: {fileID: 865578201}
+  tankDamageText: {fileID: 269735047}
+  tankRangeText: {fileID: 1121825659}
+  tankHealthUpgradeButtonText: {fileID: 1027436428}
+  tankDamageUpgradeButtonText: {fileID: 737288927}
+  tankRangeUpgradeButtonText: {fileID: 170021197}
+  rangeHealth: 80
+  rangeDamage: 15
+  rangeRange: 3
+  rangeHealthText: {fileID: 133789416}
+  rangeDamageText: {fileID: 900013567}
+  rangeRangeText: {fileID: 1099091696}
+  rangeHealthUpgradeButtonText: {fileID: 1513358452}
+  rangeDamageUpgradeButtonText: {fileID: 1843296690}
+  rangeRangeUpgradeButtonText: {fileID: 657168144}
+  troop4Health: 1
+  troop4Damage: 1
+  troop4Range: 1
   troop4HealthText: {fileID: 1301097601}
   troop4DamageText: {fileID: 845859482}
   troop4RangeText: {fileID: 1429121928}
@@ -17620,12 +17776,12 @@ MonoBehaviour:
   troop4DamageUpgradeButtonText: {fileID: 372789276}
   troop4RangeUpgradeButtonText: {fileID: 186079989}
   doubleTroubleButtonText: {fileID: 29314999}
-  doubleTroubleUpgradePrice: 10
+  doubleTroubleUpgradePrice: 30
   doubleTroubleChance: 0
   doubleTroubleChanceText: {fileID: 920473523}
   marketIncomeUpgradeButtonText: {fileID: 1488492879}
   marketIncomeBonusText: {fileID: 45204743}
-  marketIncomeUpgradePrice: 20
+  marketIncomeUpgradePrice: 50
   marketIncomeBonusPercent: 0
 --- !u!4 &1496155591
 Transform:
@@ -18367,7 +18523,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1156947832}
         m_TargetAssemblyTypeName: PlayerMoney, Assembly-CSharp
-        m_MethodName: RemoveTroop3
+        m_MethodName: RemoveRange
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -18551,6 +18707,142 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!1 &1531058891
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1531058892}
+  - component: {fileID: 1531058894}
+  - component: {fileID: 1531058893}
+  m_Layer: 5
+  m_Name: Health
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1531058892
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1531058891}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1430798551}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -216, y: 32}
+  m_SizeDelta: {x: 200, y: 50}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1531058893
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1531058891}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_text: New Text
+  m_isRightToLeft: 0
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontSharedMaterials: []
+  m_fontMaterial: {fileID: 0}
+  m_fontMaterials: []
+  m_fontColor32:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+  m_enableVertexGradient: 0
+  m_colorMode: 3
+  m_fontColorGradient:
+    topLeft: {r: 1, g: 1, b: 1, a: 1}
+    topRight: {r: 1, g: 1, b: 1, a: 1}
+    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
+    bottomRight: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColorGradientPreset: {fileID: 0}
+  m_spriteAsset: {fileID: 0}
+  m_tintAllSprites: 0
+  m_StyleSheet: {fileID: 0}
+  m_TextStyleHashCode: -1183493901
+  m_overrideHtmlColors: 0
+  m_faceColor:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontSize: 36
+  m_fontSizeBase: 36
+  m_fontWeight: 400
+  m_enableAutoSizing: 0
+  m_fontSizeMin: 18
+  m_fontSizeMax: 72
+  m_fontStyle: 0
+  m_HorizontalAlignment: 1
+  m_VerticalAlignment: 256
+  m_textAlignment: 65535
+  m_characterSpacing: 0
+  m_wordSpacing: 0
+  m_lineSpacing: 0
+  m_lineSpacingMax: 0
+  m_paragraphSpacing: 0
+  m_charWidthMaxAdj: 0
+  m_TextWrappingMode: 1
+  m_wordWrappingRatios: 0.4
+  m_overflowMode: 0
+  m_linkedTextComponent: {fileID: 0}
+  parentLinkedComponent: {fileID: 0}
+  m_enableKerning: 0
+  m_ActiveFontFeatures: 6e72656b
+  m_enableExtraPadding: 0
+  checkPaddingRequired: 0
+  m_isRichText: 1
+  m_EmojiFallbackSupport: 1
+  m_parseCtrlCharacters: 1
+  m_isOrthographic: 1
+  m_isCullingEnabled: 0
+  m_horizontalMapping: 0
+  m_verticalMapping: 0
+  m_uvLineOffset: 0
+  m_geometrySortingOrder: 0
+  m_IsTextObjectScaleStatic: 0
+  m_VertexBufferAutoSizeReduction: 0
+  m_useMaxVisibleDescender: 1
+  m_pageToDisplay: 1
+  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_isUsingLegacyAnimationComponent: 0
+  m_isVolumetricText: 0
+  m_hasFontAssetChanged: 0
+  m_baseMaterial: {fileID: 0}
+  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!222 &1531058894
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1531058891}
+  m_CullTransparentMesh: 1
 --- !u!1 &1549602889
 GameObject:
   m_ObjectHideFlags: 0
@@ -18952,6 +19244,142 @@ CanvasRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1589361343}
+  m_CullTransparentMesh: 1
+--- !u!1 &1590737187
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1590737188}
+  - component: {fileID: 1590737190}
+  - component: {fileID: 1590737189}
+  m_Layer: 5
+  m_Name: Text (TMP)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1590737188
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1590737187}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2087510674}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1590737189
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1590737187}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_text: Button
+  m_isRightToLeft: 0
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontSharedMaterials: []
+  m_fontMaterial: {fileID: 0}
+  m_fontMaterials: []
+  m_fontColor32:
+    serializedVersion: 2
+    rgba: 4281479730
+  m_fontColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_enableVertexGradient: 0
+  m_colorMode: 3
+  m_fontColorGradient:
+    topLeft: {r: 1, g: 1, b: 1, a: 1}
+    topRight: {r: 1, g: 1, b: 1, a: 1}
+    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
+    bottomRight: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColorGradientPreset: {fileID: 0}
+  m_spriteAsset: {fileID: 0}
+  m_tintAllSprites: 0
+  m_StyleSheet: {fileID: 0}
+  m_TextStyleHashCode: -1183493901
+  m_overrideHtmlColors: 0
+  m_faceColor:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontSize: 24
+  m_fontSizeBase: 24
+  m_fontWeight: 400
+  m_enableAutoSizing: 0
+  m_fontSizeMin: 18
+  m_fontSizeMax: 72
+  m_fontStyle: 0
+  m_HorizontalAlignment: 2
+  m_VerticalAlignment: 512
+  m_textAlignment: 65535
+  m_characterSpacing: 0
+  m_wordSpacing: 0
+  m_lineSpacing: 0
+  m_lineSpacingMax: 0
+  m_paragraphSpacing: 0
+  m_charWidthMaxAdj: 0
+  m_TextWrappingMode: 1
+  m_wordWrappingRatios: 0.4
+  m_overflowMode: 0
+  m_linkedTextComponent: {fileID: 0}
+  parentLinkedComponent: {fileID: 0}
+  m_enableKerning: 0
+  m_ActiveFontFeatures: 6e72656b
+  m_enableExtraPadding: 0
+  checkPaddingRequired: 0
+  m_isRichText: 1
+  m_EmojiFallbackSupport: 1
+  m_parseCtrlCharacters: 1
+  m_isOrthographic: 1
+  m_isCullingEnabled: 0
+  m_horizontalMapping: 0
+  m_verticalMapping: 0
+  m_uvLineOffset: 0
+  m_geometrySortingOrder: 0
+  m_IsTextObjectScaleStatic: 0
+  m_VertexBufferAutoSizeReduction: 0
+  m_useMaxVisibleDescender: 1
+  m_pageToDisplay: 1
+  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_isUsingLegacyAnimationComponent: 0
+  m_isVolumetricText: 0
+  m_hasFontAssetChanged: 0
+  m_baseMaterial: {fileID: 0}
+  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!222 &1590737190
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1590737187}
   m_CullTransparentMesh: 1
 --- !u!1 &1608207342
 GameObject:
@@ -19531,7 +19959,8 @@ MonoBehaviour:
   player2Button: {fileID: 966389400}
   combatButton: {fileID: 1320697840}
   roundText: {fileID: 178159753}
-  playerMoney: {fileID: 747839165}
+  playerMoney1: {fileID: 747839165}
+  playerMoney2: {fileID: 1156947832}
 --- !u!4 &1643528658
 Transform:
   m_ObjectHideFlags: 0
@@ -19632,7 +20061,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2120946652}
         m_TargetAssemblyTypeName: Upgrades, Assembly-CSharp
-        m_MethodName: UpgradeTroop2Damage
+        m_MethodName: UpgradeTankDamage
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -20311,7 +20740,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1496155590}
         m_TargetAssemblyTypeName: Upgrades, Assembly-CSharp
-        m_MethodName: UpgradeTroop3Health
+        m_MethodName: UpgradeRangeHealth
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -20580,7 +21009,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2120946652}
         m_TargetAssemblyTypeName: Upgrades, Assembly-CSharp
-        m_MethodName: UpgradeTroop2Health
+        m_MethodName: UpgradeTankHealth
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -21117,7 +21546,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1156947832}
         m_TargetAssemblyTypeName: PlayerMoney, Assembly-CSharp
-        m_MethodName: RemoveTroop2
+        m_MethodName: RemoveTank
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -21250,7 +21679,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1496155590}
         m_TargetAssemblyTypeName: Upgrades, Assembly-CSharp
-        m_MethodName: UpgradeTroop1Damage
+        m_MethodName: UpgradeTroopDamage
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -21355,9 +21784,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Troop 1
-
-'
+  m_text: Tank
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -22203,7 +22630,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1156947832}
         m_TargetAssemblyTypeName: PlayerMoney, Assembly-CSharp
-        m_MethodName: BuyTroop1
+        m_MethodName: BuyTroop
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -22387,6 +22814,139 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!1 &1834479091
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1834479092}
+  - component: {fileID: 1834479095}
+  - component: {fileID: 1834479094}
+  - component: {fileID: 1834479093}
+  m_Layer: 5
+  m_Name: Remove health (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1834479092
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1834479091}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1178351274}
+  m_Father: {fileID: 1320697841}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 710, y: 32}
+  m_SizeDelta: {x: 160, y: 30}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1834479093
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1834479091}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Button
+  m_Navigation:
+    m_Mode: 3
+    m_WrapAround: 0
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 1
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_SelectedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_SelectedTrigger: Selected
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 1834479094}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1156947832}
+        m_TargetAssemblyTypeName: PlayerMoney, Assembly-CSharp
+        m_MethodName: RemoveBaseHealth
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 5
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &1834479094
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1834479091}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  m_Type: 1
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1834479095
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1834479091}
+  m_CullTransparentMesh: 1
 --- !u!1 &1843296688
 GameObject:
   m_ObjectHideFlags: 0
@@ -22880,7 +23440,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2120946652}
         m_TargetAssemblyTypeName: Upgrades, Assembly-CSharp
-        m_MethodName: UpgradeTroop2Range
+        m_MethodName: UpgradeTankRange
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -23151,7 +23711,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1156947832}
         m_TargetAssemblyTypeName: PlayerMoney, Assembly-CSharp
-        m_MethodName: BuyTroop3
+        m_MethodName: BuyRange
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -23420,7 +23980,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1496155590}
         m_TargetAssemblyTypeName: Upgrades, Assembly-CSharp
-        m_MethodName: UpgradeTroop3Range
+        m_MethodName: UpgradeRangeRange
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -24176,7 +24736,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2120946652}
         m_TargetAssemblyTypeName: Upgrades, Assembly-CSharp
-        m_MethodName: UpgradeTroop1Health
+        m_MethodName: UpgradeTroopHealth
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -24751,7 +25311,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 747839165}
         m_TargetAssemblyTypeName: PlayerMoney, Assembly-CSharp
-        m_MethodName: BuyTroop3
+        m_MethodName: BuyRange
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -24856,9 +25416,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Troop 1
-
-'
+  m_text: Tank
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -24994,9 +25552,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Troop 1
-
-'
+  m_text: Range
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -25387,6 +25943,139 @@ RectTransform:
   m_AnchoredPosition: {x: 290.5, y: -279.0078}
   m_SizeDelta: {x: 781, y: 461.98434}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &2087510673
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2087510674}
+  - component: {fileID: 2087510677}
+  - component: {fileID: 2087510676}
+  - component: {fileID: 2087510675}
+  m_Layer: 5
+  m_Name: Remove health
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &2087510674
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2087510673}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1590737188}
+  m_Father: {fileID: 1430798551}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 32}
+  m_SizeDelta: {x: 160, y: 30}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &2087510675
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2087510673}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Button
+  m_Navigation:
+    m_Mode: 3
+    m_WrapAround: 0
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 1
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_SelectedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_SelectedTrigger: Selected
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 2087510676}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 747839165}
+        m_TargetAssemblyTypeName: PlayerMoney, Assembly-CSharp
+        m_MethodName: RemoveBaseHealth
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 5
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &2087510676
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2087510673}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  m_Type: 1
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &2087510677
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2087510673}
+  m_CullTransparentMesh: 1
 --- !u!1 &2097274752
 GameObject:
   m_ObjectHideFlags: 0
@@ -25523,6 +26212,142 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!1 &2104229542
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2104229543}
+  - component: {fileID: 2104229545}
+  - component: {fileID: 2104229544}
+  m_Layer: 5
+  m_Name: Health (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &2104229543
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2104229542}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1320697841}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 494, y: 32}
+  m_SizeDelta: {x: 200, y: 50}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &2104229544
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2104229542}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_text: New Text
+  m_isRightToLeft: 0
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontSharedMaterials: []
+  m_fontMaterial: {fileID: 0}
+  m_fontMaterials: []
+  m_fontColor32:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+  m_enableVertexGradient: 0
+  m_colorMode: 3
+  m_fontColorGradient:
+    topLeft: {r: 1, g: 1, b: 1, a: 1}
+    topRight: {r: 1, g: 1, b: 1, a: 1}
+    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
+    bottomRight: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColorGradientPreset: {fileID: 0}
+  m_spriteAsset: {fileID: 0}
+  m_tintAllSprites: 0
+  m_StyleSheet: {fileID: 0}
+  m_TextStyleHashCode: -1183493901
+  m_overrideHtmlColors: 0
+  m_faceColor:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontSize: 36
+  m_fontSizeBase: 36
+  m_fontWeight: 400
+  m_enableAutoSizing: 0
+  m_fontSizeMin: 18
+  m_fontSizeMax: 72
+  m_fontStyle: 0
+  m_HorizontalAlignment: 1
+  m_VerticalAlignment: 256
+  m_textAlignment: 65535
+  m_characterSpacing: 0
+  m_wordSpacing: 0
+  m_lineSpacing: 0
+  m_lineSpacingMax: 0
+  m_paragraphSpacing: 0
+  m_charWidthMaxAdj: 0
+  m_TextWrappingMode: 1
+  m_wordWrappingRatios: 0.4
+  m_overflowMode: 0
+  m_linkedTextComponent: {fileID: 0}
+  parentLinkedComponent: {fileID: 0}
+  m_enableKerning: 0
+  m_ActiveFontFeatures: 6e72656b
+  m_enableExtraPadding: 0
+  checkPaddingRequired: 0
+  m_isRichText: 1
+  m_EmojiFallbackSupport: 1
+  m_parseCtrlCharacters: 1
+  m_isOrthographic: 1
+  m_isCullingEnabled: 0
+  m_horizontalMapping: 0
+  m_verticalMapping: 0
+  m_uvLineOffset: 0
+  m_geometrySortingOrder: 0
+  m_IsTextObjectScaleStatic: 0
+  m_VertexBufferAutoSizeReduction: 0
+  m_useMaxVisibleDescender: 1
+  m_pageToDisplay: 1
+  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_isUsingLegacyAnimationComponent: 0
+  m_isVolumetricText: 0
+  m_hasFontAssetChanged: 0
+  m_baseMaterial: {fileID: 0}
+  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!222 &2104229545
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2104229542}
+  m_CullTransparentMesh: 1
 --- !u!1 &2120024694
 GameObject:
   m_ObjectHideFlags: 0
@@ -25600,36 +26425,36 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Upgrades
   pm: {fileID: 1156947832}
   ts: {fileID: 1643528657}
-  troop1Health: 100
-  troop1Damage: 20
-  troop1Range: 0
-  troop1HealthText: {fileID: 1821135676}
-  troop1DamageText: {fileID: 65295036}
-  troop1RangeText: {fileID: 855384912}
-  troop1HealthUpgradeButtonText: {fileID: 1654169694}
-  troop1DamageUpgradeButtonText: {fileID: 45522247}
-  troop1RangeUpgradeButtonText: {fileID: 1884541210}
-  troop2Health: 120
-  troop2Damage: 15
-  troop2Range: 0
-  troop2HealthText: {fileID: 1976056360}
-  troop2DamageText: {fileID: 184960645}
-  troop2RangeText: {fileID: 1525584058}
-  troop2HealthUpgradeButtonText: {fileID: 194015253}
-  troop2DamageUpgradeButtonText: {fileID: 1445671384}
-  troop2RangeUpgradeButtonText: {fileID: 1097139017}
-  troop3Health: 80
-  troop3Damage: 25
-  troop3Range: 5
-  troop3HealthText: {fileID: 1685850725}
-  troop3DamageText: {fileID: 410260731}
-  troop3RangeText: {fileID: 1496176986}
-  troop3HealthUpgradeButtonText: {fileID: 2063338709}
-  troop3DamageUpgradeButtonText: {fileID: 717594864}
-  troop3RangeUpgradeButtonText: {fileID: 637417248}
-  troop4Health: 150
-  troop4Damage: 10
-  troop4Range: 0
+  troopHealth: 100
+  troopDamage: 20
+  troopRange: 1
+  troopHealthText: {fileID: 1821135676}
+  troopDamageText: {fileID: 65295036}
+  troopRangeText: {fileID: 855384912}
+  troopHealthUpgradeButtonText: {fileID: 1654169694}
+  troopDamageUpgradeButtonText: {fileID: 45522247}
+  troopRangeUpgradeButtonText: {fileID: 1884541210}
+  tankHealth: 200
+  tankDamage: 20
+  tankRange: 1
+  tankHealthText: {fileID: 1976056360}
+  tankDamageText: {fileID: 184960645}
+  tankRangeText: {fileID: 1525584058}
+  tankHealthUpgradeButtonText: {fileID: 194015253}
+  tankDamageUpgradeButtonText: {fileID: 1445671384}
+  tankRangeUpgradeButtonText: {fileID: 1097139017}
+  rangeHealth: 80
+  rangeDamage: 15
+  rangeRange: 3
+  rangeHealthText: {fileID: 1685850725}
+  rangeDamageText: {fileID: 410260731}
+  rangeRangeText: {fileID: 1496176986}
+  rangeHealthUpgradeButtonText: {fileID: 2063338709}
+  rangeDamageUpgradeButtonText: {fileID: 717594864}
+  rangeRangeUpgradeButtonText: {fileID: 637417248}
+  troop4Health: 1
+  troop4Damage: 2
+  troop4Range: 10000000
   troop4HealthText: {fileID: 1549602892}
   troop4DamageText: {fileID: 1832407079}
   troop4RangeText: {fileID: 1851089174}
@@ -25637,12 +26462,12 @@ MonoBehaviour:
   troop4DamageUpgradeButtonText: {fileID: 114691645}
   troop4RangeUpgradeButtonText: {fileID: 1817733930}
   doubleTroubleButtonText: {fileID: 1641681350}
-  doubleTroubleUpgradePrice: 10
+  doubleTroubleUpgradePrice: 30
   doubleTroubleChance: 0
   doubleTroubleChanceText: {fileID: 1666844136}
   marketIncomeUpgradeButtonText: {fileID: 2020119470}
   marketIncomeBonusText: {fileID: 1500300870}
-  marketIncomeUpgradePrice: 20
+  marketIncomeUpgradePrice: 50
   marketIncomeBonusPercent: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
