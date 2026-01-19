@@ -42,6 +42,11 @@ public class Upgrades : MonoBehaviour
     private int tankDamageUpgradePrice = 4;
     private int tankRangeUpgradePrice = 4;
 
+    [Header("Tank Upgrade Price Curves")]
+    public AnimationCurve tankHealthUpgradePriceCurve;
+    public AnimationCurve tankDamageUpgradePriceCurve;
+    public AnimationCurve tankRangeUpgradePriceCurve;
+
     // Range
     [Header("Range")]
     public int rangeHealth = 80;
@@ -60,7 +65,10 @@ public class Upgrades : MonoBehaviour
     public int rangeDamageUpgradePrice = 30;
     public int rangeRangeUpgradePrice = 30;
 
-    public int increaseUpgradePrice = 10;
+    [Header("Range Upgrade Price Curves")]
+    public AnimationCurve rangeHealthUpgradePriceCurve;
+    public AnimationCurve rangeDamageUpgradePriceCurve;
+    public AnimationCurve rangeRangeUpgradePriceCurve;
 
 
     [Header("Double Trouble Upgrade")]
@@ -75,8 +83,22 @@ public class Upgrades : MonoBehaviour
     public int marketIncomeUpgradePrice = 20; // Set initial price in Inspector
     public float marketIncomeBonusPercent = 0f; // e.g. 10 means +10%
 
+    [Header("Upgrade Price Curves")]
+    public AnimationCurve doubleTroubleUpgradePriceCurve;
+    public AnimationCurve marketIncomeUpgradePriceCurve;
+
+    private int tankHealthUpgradeLevel;
+    private int tankDamageUpgradeLevel;
+    private int tankRangeUpgradeLevel;
+    private int rangeHealthUpgradeLevel;
+    private int rangeDamageUpgradeLevel;
+    private int rangeRangeUpgradeLevel;
+    private int doubleTroubleUpgradeLevel;
+    private int marketIncomeUpgradeLevel;
+
     void Start()
     {
+        InitializeUpgradePrices();
         UpdateTroopStatsUI();
         UpdateUpgradeButtonTexts();
         UpdateDoubleTroubleUI();
@@ -92,7 +114,6 @@ public class Upgrades : MonoBehaviour
         {
             pm.SubtractMoney(troopHealthUpgradePrice);
             troopHealth += 10;
-            troopHealthUpgradePrice += increaseUpgradePrice;
             UpdateTroopStatsUI();
             UpdateUpgradeButtonTexts();
         }
@@ -103,7 +124,6 @@ public class Upgrades : MonoBehaviour
         {
             pm.SubtractMoney(troopDamageUpgradePrice);
             troopDamage += 2;
-            troopDamageUpgradePrice += increaseUpgradePrice;
             UpdateTroopStatsUI();
             UpdateUpgradeButtonTexts();
         }
@@ -114,7 +134,6 @@ public class Upgrades : MonoBehaviour
         {
             pm.SubtractMoney(troopRangeUpgradePrice);
             troopRange += 1f;
-            troopRangeUpgradePrice += increaseUpgradePrice;
             UpdateTroopStatsUI();
             UpdateUpgradeButtonTexts();
         }
@@ -127,7 +146,8 @@ public class Upgrades : MonoBehaviour
         {
             pm.SubtractMoney(tankHealthUpgradePrice);
             tankHealth += 10;
-            tankHealthUpgradePrice += increaseUpgradePrice;
+            tankHealthUpgradeLevel++;
+            tankHealthUpgradePrice = GetCurvePrice(tankHealthUpgradePriceCurve, tankHealthUpgradeLevel, tankHealthUpgradePrice);
             UpdateTroopStatsUI();
             UpdateUpgradeButtonTexts();
         }
@@ -138,7 +158,8 @@ public class Upgrades : MonoBehaviour
         {
             pm.SubtractMoney(tankDamageUpgradePrice);
             tankDamage += 2;
-            tankDamageUpgradePrice += increaseUpgradePrice;
+            tankDamageUpgradeLevel++;
+            tankDamageUpgradePrice = GetCurvePrice(tankDamageUpgradePriceCurve, tankDamageUpgradeLevel, tankDamageUpgradePrice);
             UpdateTroopStatsUI();
             UpdateUpgradeButtonTexts();
         }
@@ -149,7 +170,8 @@ public class Upgrades : MonoBehaviour
         {
             pm.SubtractMoney(tankRangeUpgradePrice);
             tankRange += 1f;
-            tankRangeUpgradePrice += increaseUpgradePrice;
+            tankRangeUpgradeLevel++;
+            tankRangeUpgradePrice = GetCurvePrice(tankRangeUpgradePriceCurve, tankRangeUpgradeLevel, tankRangeUpgradePrice);
             UpdateTroopStatsUI();
             UpdateUpgradeButtonTexts();
         }
@@ -162,7 +184,8 @@ public class Upgrades : MonoBehaviour
         {
             pm.SubtractMoney(rangeHealthUpgradePrice);
             rangeHealth += 10;
-            rangeHealthUpgradePrice += increaseUpgradePrice;
+            rangeHealthUpgradeLevel++;
+            rangeHealthUpgradePrice = GetCurvePrice(rangeHealthUpgradePriceCurve, rangeHealthUpgradeLevel, rangeHealthUpgradePrice);
             UpdateTroopStatsUI();
             UpdateUpgradeButtonTexts();
         }
@@ -173,7 +196,8 @@ public class Upgrades : MonoBehaviour
         {
             pm.SubtractMoney(rangeDamageUpgradePrice);
             rangeDamage += 2;
-            rangeDamageUpgradePrice += increaseUpgradePrice;
+            rangeDamageUpgradeLevel++;
+            rangeDamageUpgradePrice = GetCurvePrice(rangeDamageUpgradePriceCurve, rangeDamageUpgradeLevel, rangeDamageUpgradePrice);
             UpdateTroopStatsUI();
             UpdateUpgradeButtonTexts();
         }
@@ -184,7 +208,8 @@ public class Upgrades : MonoBehaviour
         {
             pm.SubtractMoney(rangeRangeUpgradePrice);
             rangeRange += 1f;
-            rangeRangeUpgradePrice += increaseUpgradePrice;
+            rangeRangeUpgradeLevel++;
+            rangeRangeUpgradePrice = GetCurvePrice(rangeRangeUpgradePriceCurve, rangeRangeUpgradeLevel, rangeRangeUpgradePrice);
             UpdateTroopStatsUI();
             UpdateUpgradeButtonTexts();
         }
@@ -223,7 +248,8 @@ public class Upgrades : MonoBehaviour
         {
             pm.SubtractMoney(doubleTroubleUpgradePrice);
             doubleTroubleChance += 5f;
-            doubleTroubleUpgradePrice += 20;
+            doubleTroubleUpgradeLevel++;
+            doubleTroubleUpgradePrice = GetCurvePrice(doubleTroubleUpgradePriceCurve, doubleTroubleUpgradeLevel, doubleTroubleUpgradePrice);
             UpdateDoubleTroubleUI();
             pm.doubleTroubleChance = doubleTroubleChance; // Sync to PlayerMoney
         }
@@ -241,7 +267,8 @@ public class Upgrades : MonoBehaviour
         {
             pm.SubtractMoney(marketIncomeUpgradePrice);
             marketIncomeBonusPercent += 10f;
-            marketIncomeUpgradePrice += 20;
+            marketIncomeUpgradeLevel++;
+            marketIncomeUpgradePrice = GetCurvePrice(marketIncomeUpgradePriceCurve, marketIncomeUpgradeLevel, marketIncomeUpgradePrice);
             pm.marketIncomeMultiplier = 1f + marketIncomeBonusPercent / 100f;
             UpdateMarketIncomeUpgradeUI();
         }
@@ -251,6 +278,29 @@ public class Upgrades : MonoBehaviour
         marketIncomeUpgradeButtonText.text = $"Market Income ({marketIncomeUpgradePrice})";
         marketIncomeBonusText.text = $"Bonus: {marketIncomeBonusPercent}%";
     }
-}
 
+    private void InitializeUpgradePrices()
+    {
+        tankHealthUpgradePrice = GetCurvePrice(tankHealthUpgradePriceCurve, tankHealthUpgradeLevel, tankHealthUpgradePrice);
+        tankDamageUpgradePrice = GetCurvePrice(tankDamageUpgradePriceCurve, tankDamageUpgradeLevel, tankDamageUpgradePrice);
+        tankRangeUpgradePrice = GetCurvePrice(tankRangeUpgradePriceCurve, tankRangeUpgradeLevel, tankRangeUpgradePrice);
+
+        rangeHealthUpgradePrice = GetCurvePrice(rangeHealthUpgradePriceCurve, rangeHealthUpgradeLevel, rangeHealthUpgradePrice);
+        rangeDamageUpgradePrice = GetCurvePrice(rangeDamageUpgradePriceCurve, rangeDamageUpgradeLevel, rangeDamageUpgradePrice);
+        rangeRangeUpgradePrice = GetCurvePrice(rangeRangeUpgradePriceCurve, rangeRangeUpgradeLevel, rangeRangeUpgradePrice);
+
+        doubleTroubleUpgradePrice = GetCurvePrice(doubleTroubleUpgradePriceCurve, doubleTroubleUpgradeLevel, doubleTroubleUpgradePrice);
+        marketIncomeUpgradePrice = GetCurvePrice(marketIncomeUpgradePriceCurve, marketIncomeUpgradeLevel, marketIncomeUpgradePrice);
+    }
+
+    private int GetCurvePrice(AnimationCurve curve, int level, int fallback)
+    {
+        if (curve == null || curve.length == 0)
+        {
+            return fallback;
+        }
+
+        return Mathf.Max(1, Mathf.RoundToInt(curve.Evaluate(level)));
+    }
+}
 

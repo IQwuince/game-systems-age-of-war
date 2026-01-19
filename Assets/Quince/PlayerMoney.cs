@@ -20,6 +20,11 @@ public class PlayerMoney : MonoBehaviour
     public int tankPrice = 20;
     public int rangePrice = 25;
 
+    [Header("Price Curves")]
+    public AnimationCurve tankPriceCurve;
+    public AnimationCurve rangePriceCurve;
+    public AnimationCurve marketPriceCurve;
+
     [Header("Unit Count UI")]
     public TextMeshProUGUI troopText;
     public TextMeshProUGUI tankText;
@@ -43,9 +48,25 @@ public class PlayerMoney : MonoBehaviour
 
     [Header("Base Health")]
     public int baseHealth = 100;
+
+    private int marketPurchaseCount;
+    private int tankPurchaseCount;
+    private int rangePurchaseCount;
     void Start()
     {
+        InitializePrices();
         UpdateUI();
+    }
+
+    private void InitializePrices()
+    {
+        marketPurchaseCount = Markets;
+        tankPurchaseCount = tankCount;
+        rangePurchaseCount = rangeCount;
+
+        marketPrice = GetCurvePrice(marketPriceCurve, marketPurchaseCount, marketPrice);
+        tankPrice = GetCurvePrice(tankPriceCurve, tankPurchaseCount, tankPrice);
+        rangePrice = GetCurvePrice(rangePriceCurve, rangePurchaseCount, rangePrice);
     }
     public void RemoveBaseHealth(int amount)
     {
@@ -72,7 +93,8 @@ public class PlayerMoney : MonoBehaviour
         {
             money -= marketPrice;
             Markets++;
-            marketPrice += MarketIncrease;
+            marketPurchaseCount++;
+            marketPrice = GetCurvePrice(marketPriceCurve, marketPurchaseCount, marketPrice);
             UpdateUI();
         }
     }
@@ -101,6 +123,8 @@ public class PlayerMoney : MonoBehaviour
             {
                 tankCount++;
             }
+            tankPurchaseCount++;
+            tankPrice = GetCurvePrice(tankPriceCurve, tankPurchaseCount, tankPrice);
             UpdateUI();
         }
     }
@@ -115,6 +139,8 @@ public class PlayerMoney : MonoBehaviour
             {
                 rangeCount++;
             }
+            rangePurchaseCount++;
+            rangePrice = GetCurvePrice(rangePriceCurve, rangePurchaseCount, rangePrice);
             UpdateUI();
         }
     }
@@ -168,5 +194,15 @@ public class PlayerMoney : MonoBehaviour
         troopCostText.text = $"Troop: {troopPrice}";
         tankCostText.text = $"Tank: {tankPrice}";
         rangeCostText.text = $"Range: {rangePrice}";
+    }
+
+    private int GetCurvePrice(AnimationCurve curve, int level, int fallback)
+    {
+        if (curve == null || curve.length == 0)
+        {
+            return fallback;
+        }
+
+        return Mathf.Max(1, Mathf.RoundToInt(curve.Evaluate(level)));
     }
 }
