@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79c69b52c72213c4587fd298396754bd, type: 3}
   m_Name: GameConfig
   m_EditorClassIdentifier: Assembly-CSharp::GameConfig
-  totalRounds: 10
+  totalRounds: 2
   startingMoney: 100
   baseMarketIncome: 20
   upgradeScalingBase: 1.35
@@ -40,3 +40,6 @@ MonoBehaviour:
   superTroopDamageUpgradeBaseCost: 95
   superTroopHealthPerLevel: 35
   superTroopDamagePerLevel: 10
+  doubleTroubleBaseCost: 40
+  doubleTroublePercentPerLevel: 10
+  doubleTroubleMaxPercent: 70
