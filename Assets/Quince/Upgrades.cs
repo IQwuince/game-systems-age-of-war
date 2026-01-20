@@ -60,10 +60,20 @@ public class Upgrades : MonoBehaviour
     private int tankDamageUpgradeCost;
     private int superTroopHealthUpgradeCost;
     private int superTroopDamageUpgradeCost;
-    private int marketIncomeUpgradeCost = 30;
+    private int marketIncomeUpgradeCost;
 
     void Start()
     {
+        // Initialize market income upgrade cost from config
+        if (gameConfig != null)
+        {
+            marketIncomeUpgradeCost = gameConfig.CalculateUpgradeCost(gameConfig.marketBaseCost, marketIncomeUpgradeLevel);
+        }
+        else
+        {
+            marketIncomeUpgradeCost = 30; // Fallback default
+        }
+        
         UpdateAllUpgradeCosts();
         UpdateAllStatsUI();
         UpdateAllUpgradeButtonTexts();
@@ -186,8 +196,8 @@ public class Upgrades : MonoBehaviour
             marketIncomeBonusPercent += 10f;
             marketIncomeUpgradeLevel++;
             marketIncomeUpgradeCost = gameConfig != null 
-                ? gameConfig.CalculateUpgradeCost(30, marketIncomeUpgradeLevel) 
-                : Mathf.RoundToInt(30 * Mathf.Pow(1.35f, marketIncomeUpgradeLevel - 1));
+                ? gameConfig.CalculateUpgradeCost(gameConfig.marketBaseCost, marketIncomeUpgradeLevel) 
+                : Mathf.RoundToInt(marketIncomeUpgradeCost * 1.35f); // Fallback scaling
             pm.marketIncomeMultiplier = 1f + marketIncomeBonusPercent / 100f;
             UpdateMarketIncomeUpgradeUI();
         }

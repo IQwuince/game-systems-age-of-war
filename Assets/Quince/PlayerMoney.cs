@@ -96,7 +96,6 @@ public class PlayerMoney : MonoBehaviour
 
     public void BuySoldier()
     {
-        UpdateTroopCosts(); // Ensure cost is current
         if (money >= currentSoldierCost)
         {
             money -= currentSoldierCost;
@@ -107,7 +106,6 @@ public class PlayerMoney : MonoBehaviour
 
     public void BuyTank()
     {
-        UpdateTroopCosts(); // Ensure cost is current
         if (money >= currentTankCost)
         {
             money -= currentTankCost;
@@ -118,7 +116,6 @@ public class PlayerMoney : MonoBehaviour
 
     public void BuySuperTroop()
     {
-        UpdateTroopCosts(); // Ensure cost is current
         if (money >= currentSuperTroopCost)
         {
             money -= currentSuperTroopCost;

@@ -145,8 +145,6 @@ public class TurnSystem : MonoBehaviour
             player1Button.SetActive(currentTurn == Turn.Player1);
         if (player2Button != null)
             player2Button.SetActive(currentTurn == Turn.Player2);
-        if (endRoundButton != null)
-            endRoundButton.SetActive(false); // Can enable if you want a shared end round button
     }
 
     /// <summary>
