@@ -53,6 +53,13 @@ public class Upgrades : MonoBehaviour
     public int marketIncomeUpgradeLevel = 1;
     public float marketIncomeBonusPercent = 0f;
 
+    // Double Trouble Upgrade
+    [Header("Double Trouble Upgrade")]
+    public TextMeshProUGUI doubleTroubleUpgradeButtonText;
+    public TextMeshProUGUI doubleTroublePercentText;
+    public int doubleTroubleLevel = 1;
+    public float doubleTroublePercent = 0f;
+
     // Current upgrade costs (calculated)
     private int soldierHealthUpgradeCost;
     private int soldierDamageUpgradeCost;
@@ -61,6 +68,7 @@ public class Upgrades : MonoBehaviour
     private int superTroopHealthUpgradeCost;
     private int superTroopDamageUpgradeCost;
     private int marketIncomeUpgradeCost;
+    private int doubleTroubleUpgradeCost;
 
     
 
@@ -70,20 +78,25 @@ public class Upgrades : MonoBehaviour
         if (gameConfig != null)
         {
             marketIncomeUpgradeCost = gameConfig.CalculateUpgradeCost(gameConfig.marketBaseCost, marketIncomeUpgradeLevel);
+            doubleTroubleUpgradeCost = gameConfig.CalculateUpgradeCost(gameConfig.doubleTroubleBaseCost, doubleTroubleLevel);
+            doubleTroublePercent = gameConfig.CalculateDoubleTroublePercent(doubleTroubleLevel);
         }
         else
         {
             marketIncomeUpgradeCost = 30; // Fallback default
+            doubleTroubleUpgradeCost = 40; // Fallback default
         }
         
         UpdateAllUpgradeCosts();
         UpdateAllStatsUI();
         UpdateAllUpgradeButtonTexts();
         UpdateMarketIncomeUpgradeUI();
+        UpdateDoubleTroubleUpgradeUI();
         
         if (pm != null)
         {
             pm.marketIncomeMultiplier = 1f + marketIncomeBonusPercent / 100f;
+            pm.doubleTroublePercent = doubleTroublePercent;
         }
     }
 
@@ -207,6 +220,26 @@ public class Upgrades : MonoBehaviour
         }
     }
 
+    // ===== DOUBLE TROUBLE UPGRADE =====
+    
+    public void UpgradeDoubleTrouble()
+    {
+        if (gameConfig == null) return;
+        
+        // Check if already at max
+        if (doubleTroublePercent >= gameConfig.doubleTroubleMaxPercent) return;
+        
+        if (pm.money >= doubleTroubleUpgradeCost)
+        {
+            pm.SubtractMoney(doubleTroubleUpgradeCost);
+            doubleTroubleLevel++;
+            doubleTroublePercent = gameConfig.CalculateDoubleTroublePercent(doubleTroubleLevel);
+            doubleTroubleUpgradeCost = gameConfig.CalculateUpgradeCost(gameConfig.doubleTroubleBaseCost, doubleTroubleLevel);
+            pm.doubleTroublePercent = doubleTroublePercent;
+            UpdateDoubleTroubleUpgradeUI();
+        }
+    }
+
     // ===== UI UPDATES =====
     
     private void UpdateAllStatsUI()
@@ -264,6 +297,25 @@ public class Upgrades : MonoBehaviour
             marketIncomeUpgradeButtonText.text = $"Market Income ({marketIncomeUpgradeCost})";
         if (marketIncomeBonusText != null)
             marketIncomeBonusText.text = $"Bonus: {marketIncomeBonusPercent}%";
+    }
+
+    private void UpdateDoubleTroubleUpgradeUI()
+    {
+        if (gameConfig == null) return;
+        
+        if (doubleTroubleUpgradeButtonText != null)
+        {
+            if (doubleTroublePercent >= gameConfig.doubleTroubleMaxPercent)
+            {
+                doubleTroubleUpgradeButtonText.text = "MAX";
+            }
+            else
+            {
+                doubleTroubleUpgradeButtonText.text = $"Double Trouble ({doubleTroubleUpgradeCost})";
+            }
+        }
+        if (doubleTroublePercentText != null)
+            doubleTroublePercentText.text = $"Chance: {doubleTroublePercent}%";
     }
 
     /// <summary>

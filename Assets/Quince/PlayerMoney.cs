@@ -35,6 +35,7 @@ public class PlayerMoney : MonoBehaviour
 
     [Header("Upgrades")]
     public float marketIncomeMultiplier = 1f;
+    public float doubleTroublePercent = 0f;
 
     private int currentSoldierCost;
     private int currentTankCost;
@@ -100,6 +101,13 @@ public class PlayerMoney : MonoBehaviour
         {
             money -= currentSoldierCost;
             soldierCount++;
+            
+            // Apply Double Trouble chance
+            if (doubleTroublePercent > 0f && Random.Range(0f, 100f) < doubleTroublePercent)
+            {
+                soldierCount++; // Bonus troop!
+            }
+            
             UpdateUI();
         }
     }
@@ -110,6 +118,13 @@ public class PlayerMoney : MonoBehaviour
         {
             money -= currentTankCost;
             tankCount++;
+            
+            // Apply Double Trouble chance
+            if (doubleTroublePercent > 0f && Random.Range(0f, 100f) < doubleTroublePercent)
+            {
+                tankCount++; // Bonus troop!
+            }
+            
             UpdateUI();
         }
     }
@@ -120,6 +135,13 @@ public class PlayerMoney : MonoBehaviour
         {
             money -= currentSuperTroopCost;
             superTroopCount++;
+            
+            // Apply Double Trouble chance
+            if (doubleTroublePercent > 0f && Random.Range(0f, 100f) < doubleTroublePercent)
+            {
+                superTroopCount++; // Bonus troop!
+            }
+            
             UpdateUI();
         }
     }

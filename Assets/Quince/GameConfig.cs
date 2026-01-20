@@ -91,6 +91,14 @@ public class GameConfig : ScriptableObject
     [Tooltip("Damage gained per upgrade level for Super Troop")]
     public int superTroopDamagePerLevel = 10;
 
+    [Header("=== DOUBLE TROUBLE ===")]
+    [Tooltip("Base cost to upgrade Double Trouble")]
+    public int doubleTroubleBaseCost = 40;
+    [Tooltip("Percentage gained per upgrade level for Double Trouble")]
+    public float doubleTroublePercentPerLevel = 10f;
+    [Tooltip("Maximum percentage for Double Trouble (default 70%)")]
+    public float doubleTroubleMaxPercent = 70f;
+
     /// <summary>
     /// Calculate upgrade cost using the formula: BaseCost * (upgradeScalingBase ^ (Level - 1))
     /// </summary>
@@ -155,5 +163,16 @@ public class GameConfig : ScriptableObject
     public int CalculateTroopCombatScore(int health, int damage)
     {
         return health + damage;
+    }
+
+    /// <summary>
+    /// Calculate the current Double Trouble percentage based on upgrade level.
+    /// Returns a value between 0 and doubleTroubleMaxPercent.
+    /// </summary>
+    public float CalculateDoubleTroublePercent(int level)
+    {
+        if (level <= 1) return 0f;
+        float percent = (level - 1) * doubleTroublePercentPerLevel;
+        return Mathf.Min(percent, doubleTroubleMaxPercent);
     }
 }
