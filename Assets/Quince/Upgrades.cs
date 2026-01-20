@@ -3,304 +3,282 @@ using TMPro;
 
 public class Upgrades : MonoBehaviour
 {
+    [Header("Configuration")]
+    public GameConfig gameConfig;
+    
+    [Header("References")]
     public PlayerMoney pm;
     public TurnSystem ts;
 
-    // Troop
-    [Header("Troop")]
-    public int troopHealth = 100;
-    public int troopDamage = 20;
-    public float troopRange = 0f;
+    // Soldier upgrade levels (starting at 1)
+    [Header("Soldier Upgrade Levels")]
+    public int soldierHealthLevel = 1;
+    public int soldierDamageLevel = 1;
 
-    public TextMeshProUGUI troopHealthText;
-    public TextMeshProUGUI troopDamageText;
-    public TextMeshProUGUI troopRangeText;
+    // Tank upgrade levels
+    [Header("Tank Upgrade Levels")]
+    public int tankHealthLevel = 1;
+    public int tankDamageLevel = 1;
 
-    public TextMeshProUGUI troopHealthUpgradeButtonText;
-    public TextMeshProUGUI troopDamageUpgradeButtonText;
-    public TextMeshProUGUI troopRangeUpgradeButtonText;
+    // Super Troop upgrade levels
+    [Header("Super Troop Upgrade Levels")]
+    public int superTroopHealthLevel = 1;
+    public int superTroopDamageLevel = 1;
 
-    private int troopHealthUpgradePrice = 4;
-    private int troopDamageUpgradePrice = 4;
-    private int troopRangeUpgradePrice = 4;
+    // Soldier UI
+    [Header("Soldier UI")]
+    public TextMeshProUGUI soldierHealthText;
+    public TextMeshProUGUI soldierDamageText;
+    public TextMeshProUGUI soldierHealthUpgradeButtonText;
+    public TextMeshProUGUI soldierDamageUpgradeButtonText;
 
-    // Tank
-    [Header("Tank")]
-    public int tankHealth = 120;
-    public int tankDamage = 15;
-    public float tankRange = 0f;
-
+    // Tank UI
+    [Header("Tank UI")]
     public TextMeshProUGUI tankHealthText;
     public TextMeshProUGUI tankDamageText;
-    public TextMeshProUGUI tankRangeText;
-
     public TextMeshProUGUI tankHealthUpgradeButtonText;
     public TextMeshProUGUI tankDamageUpgradeButtonText;
-    public TextMeshProUGUI tankRangeUpgradeButtonText;
 
-    private int tankHealthUpgradePrice = 4;
-    private int tankDamageUpgradePrice = 4;
-    private int tankRangeUpgradePrice = 4;
+    // Super Troop UI
+    [Header("Super Troop UI")]
+    public TextMeshProUGUI superTroopHealthText;
+    public TextMeshProUGUI superTroopDamageText;
+    public TextMeshProUGUI superTroopHealthUpgradeButtonText;
+    public TextMeshProUGUI superTroopDamageUpgradeButtonText;
 
-    [Header("Tank Upgrade Price Curves")]
-    public AnimationCurve tankHealthUpgradePriceCurve;
-    public AnimationCurve tankDamageUpgradePriceCurve;
-    public AnimationCurve tankRangeUpgradePriceCurve;
-
-    // Range
-    [Header("Range")]
-    public int rangeHealth = 80;
-    public int rangeDamage = 25;
-    public float rangeRange = 5.0f;
-
-    public TextMeshProUGUI rangeHealthText;
-    public TextMeshProUGUI rangeDamageText;
-    public TextMeshProUGUI rangeRangeText;
-
-    public TextMeshProUGUI rangeHealthUpgradeButtonText;
-    public TextMeshProUGUI rangeDamageUpgradeButtonText;
-    public TextMeshProUGUI rangeRangeUpgradeButtonText;
-
-    public int rangeHealthUpgradePrice = 30;
-    public int rangeDamageUpgradePrice = 30;
-    public int rangeRangeUpgradePrice = 30;
-
-    [Header("Range Upgrade Price Curves")]
-    public AnimationCurve rangeHealthUpgradePriceCurve;
-    public AnimationCurve rangeDamageUpgradePriceCurve;
-    public AnimationCurve rangeRangeUpgradePriceCurve;
-
-
-    [Header("Double Trouble Upgrade")]
-    public TextMeshProUGUI doubleTroubleButtonText;
-    public int doubleTroubleUpgradePrice = 10;
-    public float doubleTroubleChance = 0f; // percent, e.g. 5 means 5%
-    public TextMeshProUGUI doubleTroubleChanceText;
-
+    // Market Income Upgrade
     [Header("Market Income Upgrade")]
     public TextMeshProUGUI marketIncomeUpgradeButtonText;
     public TextMeshProUGUI marketIncomeBonusText;
-    public int marketIncomeUpgradePrice = 20; // Set initial price in Inspector
-    public float marketIncomeBonusPercent = 0f; // e.g. 10 means +10%
+    public int marketIncomeUpgradeLevel = 1;
+    public float marketIncomeBonusPercent = 0f;
 
-    [Header("Upgrade Price Curves")]
-    public AnimationCurve doubleTroubleUpgradePriceCurve;
-    public AnimationCurve marketIncomeUpgradePriceCurve;
-
-    private int tankHealthUpgradeLevel;
-    private int tankDamageUpgradeLevel;
-    private int tankRangeUpgradeLevel;
-    private int rangeHealthUpgradeLevel;
-    private int rangeDamageUpgradeLevel;
-    private int rangeRangeUpgradeLevel;
-    private int doubleTroubleUpgradeLevel;
-    private int marketIncomeUpgradeLevel;
+    // Current upgrade costs (calculated)
+    private int soldierHealthUpgradeCost;
+    private int soldierDamageUpgradeCost;
+    private int tankHealthUpgradeCost;
+    private int tankDamageUpgradeCost;
+    private int superTroopHealthUpgradeCost;
+    private int superTroopDamageUpgradeCost;
+    private int marketIncomeUpgradeCost = 30;
 
     void Start()
     {
-        InitializeUpgradePrices();
-        UpdateTroopStatsUI();
-        UpdateUpgradeButtonTexts();
-        UpdateDoubleTroubleUI();
+        UpdateAllUpgradeCosts();
+        UpdateAllStatsUI();
+        UpdateAllUpgradeButtonTexts();
         UpdateMarketIncomeUpgradeUI();
-        pm.doubleTroubleChance = doubleTroubleChance;
-        pm.marketIncomeMultiplier = 1f + marketIncomeBonusPercent / 100f;
-    }
-
-    // Troop upgrades
-    public void UpgradeTroopHealth()
-    {
-        if (pm.money >= troopHealthUpgradePrice)
+        
+        if (pm != null)
         {
-            pm.SubtractMoney(troopHealthUpgradePrice);
-            troopHealth += 10;
-            UpdateTroopStatsUI();
-            UpdateUpgradeButtonTexts();
-        }
-    }
-    public void UpgradeTroopDamage()
-    {
-        if (pm.money >= troopDamageUpgradePrice)
-        {
-            pm.SubtractMoney(troopDamageUpgradePrice);
-            troopDamage += 2;
-            UpdateTroopStatsUI();
-            UpdateUpgradeButtonTexts();
-        }
-    }
-    public void UpgradeTroopRange()
-    {
-        if (pm.money >= troopRangeUpgradePrice)
-        {
-            pm.SubtractMoney(troopRangeUpgradePrice);
-            troopRange += 1f;
-            UpdateTroopStatsUI();
-            UpdateUpgradeButtonTexts();
+            pm.marketIncomeMultiplier = 1f + marketIncomeBonusPercent / 100f;
         }
     }
 
-    // Tank upgrades
+    /// <summary>
+    /// Recalculates all upgrade costs based on current levels.
+    /// </summary>
+    private void UpdateAllUpgradeCosts()
+    {
+        if (gameConfig == null) return;
+        
+        soldierHealthUpgradeCost = gameConfig.CalculateUpgradeCost(gameConfig.soldierHealthUpgradeBaseCost, soldierHealthLevel);
+        soldierDamageUpgradeCost = gameConfig.CalculateUpgradeCost(gameConfig.soldierDamageUpgradeBaseCost, soldierDamageLevel);
+        
+        tankHealthUpgradeCost = gameConfig.CalculateUpgradeCost(gameConfig.tankHealthUpgradeBaseCost, tankHealthLevel);
+        tankDamageUpgradeCost = gameConfig.CalculateUpgradeCost(gameConfig.tankDamageUpgradeBaseCost, tankDamageLevel);
+        
+        superTroopHealthUpgradeCost = gameConfig.CalculateUpgradeCost(gameConfig.superTroopHealthUpgradeBaseCost, superTroopHealthLevel);
+        superTroopDamageUpgradeCost = gameConfig.CalculateUpgradeCost(gameConfig.superTroopDamageUpgradeBaseCost, superTroopDamageLevel);
+    }
+
+    // ===== SOLDIER UPGRADES =====
+    
+    public void UpgradeSoldierHealth()
+    {
+        if (pm.money >= soldierHealthUpgradeCost)
+        {
+            pm.SubtractMoney(soldierHealthUpgradeCost);
+            soldierHealthLevel++;
+            UpdateAllUpgradeCosts();
+            UpdateAllStatsUI();
+            UpdateAllUpgradeButtonTexts();
+            pm.UpdateTroopCosts(); // Update troop purchase costs
+        }
+    }
+    
+    public void UpgradeSoldierDamage()
+    {
+        if (pm.money >= soldierDamageUpgradeCost)
+        {
+            pm.SubtractMoney(soldierDamageUpgradeCost);
+            soldierDamageLevel++;
+            UpdateAllUpgradeCosts();
+            UpdateAllStatsUI();
+            UpdateAllUpgradeButtonTexts();
+            pm.UpdateTroopCosts();
+        }
+    }
+
+    // ===== TANK UPGRADES =====
+    
     public void UpgradeTankHealth()
     {
-        if (pm.money >= tankHealthUpgradePrice)
+        if (pm.money >= tankHealthUpgradeCost)
         {
-            pm.SubtractMoney(tankHealthUpgradePrice);
-            tankHealth += 10;
-            tankHealthUpgradeLevel++;
-            tankHealthUpgradePrice = GetCurvePrice(tankHealthUpgradePriceCurve, tankHealthUpgradeLevel, tankHealthUpgradePrice);
-            UpdateTroopStatsUI();
-            UpdateUpgradeButtonTexts();
+            pm.SubtractMoney(tankHealthUpgradeCost);
+            tankHealthLevel++;
+            UpdateAllUpgradeCosts();
+            UpdateAllStatsUI();
+            UpdateAllUpgradeButtonTexts();
+            pm.UpdateTroopCosts();
         }
     }
+    
     public void UpgradeTankDamage()
     {
-        if (pm.money >= tankDamageUpgradePrice)
+        if (pm.money >= tankDamageUpgradeCost)
         {
-            pm.SubtractMoney(tankDamageUpgradePrice);
-            tankDamage += 2;
-            tankDamageUpgradeLevel++;
-            tankDamageUpgradePrice = GetCurvePrice(tankDamageUpgradePriceCurve, tankDamageUpgradeLevel, tankDamageUpgradePrice);
-            UpdateTroopStatsUI();
-            UpdateUpgradeButtonTexts();
-        }
-    }
-    public void UpgradeTankRange()
-    {
-        if (pm.money >= tankRangeUpgradePrice)
-        {
-            pm.SubtractMoney(tankRangeUpgradePrice);
-            tankRange += 1f;
-            tankRangeUpgradeLevel++;
-            tankRangeUpgradePrice = GetCurvePrice(tankRangeUpgradePriceCurve, tankRangeUpgradeLevel, tankRangeUpgradePrice);
-            UpdateTroopStatsUI();
-            UpdateUpgradeButtonTexts();
+            pm.SubtractMoney(tankDamageUpgradeCost);
+            tankDamageLevel++;
+            UpdateAllUpgradeCosts();
+            UpdateAllStatsUI();
+            UpdateAllUpgradeButtonTexts();
+            pm.UpdateTroopCosts();
         }
     }
 
-    // Range upgrades
-    public void UpgradeRangeHealth()
+    // ===== SUPER TROOP UPGRADES =====
+    
+    public void UpgradeSuperTroopHealth()
     {
-        if (pm.money >= rangeHealthUpgradePrice)
+        if (pm.money >= superTroopHealthUpgradeCost)
         {
-            pm.SubtractMoney(rangeHealthUpgradePrice);
-            rangeHealth += 10;
-            rangeHealthUpgradeLevel++;
-            rangeHealthUpgradePrice = GetCurvePrice(rangeHealthUpgradePriceCurve, rangeHealthUpgradeLevel, rangeHealthUpgradePrice);
-            UpdateTroopStatsUI();
-            UpdateUpgradeButtonTexts();
+            pm.SubtractMoney(superTroopHealthUpgradeCost);
+            superTroopHealthLevel++;
+            UpdateAllUpgradeCosts();
+            UpdateAllStatsUI();
+            UpdateAllUpgradeButtonTexts();
+            pm.UpdateTroopCosts();
         }
     }
-    public void UpgradeRangeDamage()
+    
+    public void UpgradeSuperTroopDamage()
     {
-        if (pm.money >= rangeDamageUpgradePrice)
+        if (pm.money >= superTroopDamageUpgradeCost)
         {
-            pm.SubtractMoney(rangeDamageUpgradePrice);
-            rangeDamage += 2;
-            rangeDamageUpgradeLevel++;
-            rangeDamageUpgradePrice = GetCurvePrice(rangeDamageUpgradePriceCurve, rangeDamageUpgradeLevel, rangeDamageUpgradePrice);
-            UpdateTroopStatsUI();
-            UpdateUpgradeButtonTexts();
-        }
-    }
-    public void UpgradeRangeRange()
-    {
-        if (pm.money >= rangeRangeUpgradePrice)
-        {
-            pm.SubtractMoney(rangeRangeUpgradePrice);
-            rangeRange += 1f;
-            rangeRangeUpgradeLevel++;
-            rangeRangeUpgradePrice = GetCurvePrice(rangeRangeUpgradePriceCurve, rangeRangeUpgradeLevel, rangeRangeUpgradePrice);
-            UpdateTroopStatsUI();
-            UpdateUpgradeButtonTexts();
+            pm.SubtractMoney(superTroopDamageUpgradeCost);
+            superTroopDamageLevel++;
+            UpdateAllUpgradeCosts();
+            UpdateAllStatsUI();
+            UpdateAllUpgradeButtonTexts();
+            pm.UpdateTroopCosts();
         }
     }
 
-
-    public void UpdateTroopStatsUI()
-    {
-        troopHealthText.text = $"Health: {troopHealth}";
-        troopDamageText.text = $"Damage: {troopDamage}";
-
-        tankHealthText.text = $"Health: {tankHealth}";
-        tankDamageText.text = $"Damage: {tankDamage}";
-
-        rangeHealthText.text = $"Health: {rangeHealth}";
-        rangeDamageText.text = $"Damage: {rangeDamage}";
-        rangeRangeText.text = $"Range: {rangeRange}";
-    }
-
-    private void UpdateUpgradeButtonTexts()
-    {
-        troopHealthUpgradeButtonText.text = $"Upgrade ({troopHealthUpgradePrice})";
-        troopDamageUpgradeButtonText.text = $"Upgrade ({troopDamageUpgradePrice})";
-
-        tankHealthUpgradeButtonText.text = $"Upgrade ({tankHealthUpgradePrice})";
-        tankDamageUpgradeButtonText.text = $"Upgrade ({tankDamageUpgradePrice})";
-
-        rangeHealthUpgradeButtonText.text = $"Upgrade ({rangeHealthUpgradePrice})";
-        rangeDamageUpgradeButtonText.text = $"Upgrade ({rangeDamageUpgradePrice})";
-        rangeRangeUpgradeButtonText.text = $"Upgrade ({rangeRangeUpgradePrice})";
-    }
-
-    public void UpgradeDoubleTrouble()
-    {
-        if (pm.money >= doubleTroubleUpgradePrice)
-        {
-            pm.SubtractMoney(doubleTroubleUpgradePrice);
-            doubleTroubleChance += 5f;
-            doubleTroubleUpgradeLevel++;
-            doubleTroubleUpgradePrice = GetCurvePrice(doubleTroubleUpgradePriceCurve, doubleTroubleUpgradeLevel, doubleTroubleUpgradePrice);
-            UpdateDoubleTroubleUI();
-            pm.doubleTroubleChance = doubleTroubleChance; // Sync to PlayerMoney
-        }
-    }
-
-    private void UpdateDoubleTroubleUI()
-    {
-        doubleTroubleButtonText.text = $"Double Trouble ({doubleTroubleUpgradePrice})";
-        doubleTroubleChanceText.text = $"Chance: {doubleTroubleChance}%";
-    }
-
+    // ===== MARKET INCOME UPGRADE =====
+    
     public void UpgradeMarketIncome()
     {
-        if (pm.money >= marketIncomeUpgradePrice)
+        if (pm.money >= marketIncomeUpgradeCost)
         {
-            pm.SubtractMoney(marketIncomeUpgradePrice);
+            pm.SubtractMoney(marketIncomeUpgradeCost);
             marketIncomeBonusPercent += 10f;
             marketIncomeUpgradeLevel++;
-            marketIncomeUpgradePrice = GetCurvePrice(marketIncomeUpgradePriceCurve, marketIncomeUpgradeLevel, marketIncomeUpgradePrice);
+            marketIncomeUpgradeCost = gameConfig != null 
+                ? gameConfig.CalculateUpgradeCost(30, marketIncomeUpgradeLevel) 
+                : Mathf.RoundToInt(30 * Mathf.Pow(1.35f, marketIncomeUpgradeLevel - 1));
             pm.marketIncomeMultiplier = 1f + marketIncomeBonusPercent / 100f;
             UpdateMarketIncomeUpgradeUI();
         }
     }
+
+    // ===== UI UPDATES =====
+    
+    private void UpdateAllStatsUI()
+    {
+        if (gameConfig == null) return;
+        
+        // Get current stats from config
+        var soldierStats = gameConfig.GetSoldierStats(soldierHealthLevel, soldierDamageLevel);
+        var tankStats = gameConfig.GetTankStats(tankHealthLevel, tankDamageLevel);
+        var superTroopStats = gameConfig.GetSuperTroopStats(superTroopHealthLevel, superTroopDamageLevel);
+        
+        // Soldier stats
+        if (soldierHealthText != null)
+            soldierHealthText.text = $"Health: {soldierStats.health}";
+        if (soldierDamageText != null)
+            soldierDamageText.text = $"Damage: {soldierStats.damage}";
+        
+        // Tank stats
+        if (tankHealthText != null)
+            tankHealthText.text = $"Health: {tankStats.health}";
+        if (tankDamageText != null)
+            tankDamageText.text = $"Damage: {tankStats.damage}";
+        
+        // Super Troop stats
+        if (superTroopHealthText != null)
+            superTroopHealthText.text = $"Health: {superTroopStats.health}";
+        if (superTroopDamageText != null)
+            superTroopDamageText.text = $"Damage: {superTroopStats.damage}";
+    }
+
+    private void UpdateAllUpgradeButtonTexts()
+    {
+        // Soldier upgrade buttons
+        if (soldierHealthUpgradeButtonText != null)
+            soldierHealthUpgradeButtonText.text = $"Upgrade ({soldierHealthUpgradeCost})";
+        if (soldierDamageUpgradeButtonText != null)
+            soldierDamageUpgradeButtonText.text = $"Upgrade ({soldierDamageUpgradeCost})";
+        
+        // Tank upgrade buttons
+        if (tankHealthUpgradeButtonText != null)
+            tankHealthUpgradeButtonText.text = $"Upgrade ({tankHealthUpgradeCost})";
+        if (tankDamageUpgradeButtonText != null)
+            tankDamageUpgradeButtonText.text = $"Upgrade ({tankDamageUpgradeCost})";
+        
+        // Super Troop upgrade buttons
+        if (superTroopHealthUpgradeButtonText != null)
+            superTroopHealthUpgradeButtonText.text = $"Upgrade ({superTroopHealthUpgradeCost})";
+        if (superTroopDamageUpgradeButtonText != null)
+            superTroopDamageUpgradeButtonText.text = $"Upgrade ({superTroopDamageUpgradeCost})";
+    }
+
     private void UpdateMarketIncomeUpgradeUI()
     {
-        marketIncomeUpgradeButtonText.text = $"Market Income ({marketIncomeUpgradePrice})";
-        marketIncomeBonusText.text = $"Bonus: {marketIncomeBonusPercent}%";
+        if (marketIncomeUpgradeButtonText != null)
+            marketIncomeUpgradeButtonText.text = $"Market Income ({marketIncomeUpgradeCost})";
+        if (marketIncomeBonusText != null)
+            marketIncomeBonusText.text = $"Bonus: {marketIncomeBonusPercent}%";
     }
 
-    private void InitializeUpgradePrices()
+    /// <summary>
+    /// Get current Soldier stats (health, damage).
+    /// </summary>
+    public (int health, int damage) GetSoldierStats()
     {
-        tankHealthUpgradePrice = GetCurvePrice(tankHealthUpgradePriceCurve, tankHealthUpgradeLevel, tankHealthUpgradePrice);
-        tankDamageUpgradePrice = GetCurvePrice(tankDamageUpgradePriceCurve, tankDamageUpgradeLevel, tankDamageUpgradePrice);
-        tankRangeUpgradePrice = GetCurvePrice(tankRangeUpgradePriceCurve, tankRangeUpgradeLevel, tankRangeUpgradePrice);
-
-        rangeHealthUpgradePrice = GetCurvePrice(rangeHealthUpgradePriceCurve, rangeHealthUpgradeLevel, rangeHealthUpgradePrice);
-        rangeDamageUpgradePrice = GetCurvePrice(rangeDamageUpgradePriceCurve, rangeDamageUpgradeLevel, rangeDamageUpgradePrice);
-        rangeRangeUpgradePrice = GetCurvePrice(rangeRangeUpgradePriceCurve, rangeRangeUpgradeLevel, rangeRangeUpgradePrice);
-
-        doubleTroubleUpgradePrice = GetCurvePrice(doubleTroubleUpgradePriceCurve, doubleTroubleUpgradeLevel, doubleTroubleUpgradePrice);
-        marketIncomeUpgradePrice = GetCurvePrice(marketIncomeUpgradePriceCurve, marketIncomeUpgradeLevel, marketIncomeUpgradePrice);
+        return gameConfig != null 
+            ? gameConfig.GetSoldierStats(soldierHealthLevel, soldierDamageLevel)
+            : (60, 12);
     }
 
-    private int GetCurvePrice(AnimationCurve curve, int level, int fallback)
+    /// <summary>
+    /// Get current Tank stats (health, damage).
+    /// </summary>
+    public (int health, int damage) GetTankStats()
     {
-        if (curve == null || curve.length == 0)
-        {
-            return fallback;
-        }
+        return gameConfig != null 
+            ? gameConfig.GetTankStats(tankHealthLevel, tankDamageLevel)
+            : (160, 20);
+    }
 
-        return Mathf.Max(1, Mathf.RoundToInt(curve.Evaluate(level)));
+    /// <summary>
+    /// Get current Super Troop stats (health, damage).
+    /// </summary>
+    public (int health, int damage) GetSuperTroopStats()
+    {
+        return gameConfig != null 
+            ? gameConfig.GetSuperTroopStats(superTroopHealthLevel, superTroopDamageLevel)
+            : (220, 45);
     }
 }
-

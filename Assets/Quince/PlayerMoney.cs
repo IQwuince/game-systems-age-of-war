@@ -1,77 +1,73 @@
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
-using System.Runtime.CompilerServices;
 
 public class PlayerMoney : MonoBehaviour
 {
+    [Header("Configuration")]
+    public GameConfig gameConfig;
+    public Upgrades upgrades;
+
     [Header("UI Texts")]
     public TextMeshProUGUI moneyText;
     public TextMeshProUGUI marketText;
     public TextMeshProUGUI marketPriceText;
+    public TextMeshProUGUI combatScoreText;
 
     [Header("Unit Counts")]
-    public int troopCount = 0;
+    public int soldierCount = 0;
     public int tankCount = 0;
-    public int rangeCount = 0;
-
-    [Header("Unit Prices")]
-    public int troopPrice = 15;
-    public int tankPrice = 20;
-    public int rangePrice = 25;
-
-    [Header("Price Curves")]
-    public AnimationCurve tankPriceCurve;
-    public AnimationCurve rangePriceCurve;
-    public AnimationCurve marketPriceCurve;
+    public int superTroopCount = 0;
 
     [Header("Unit Count UI")]
-    public TextMeshProUGUI troopText;
+    public TextMeshProUGUI soldierText;
     public TextMeshProUGUI tankText;
-    public TextMeshProUGUI rangeText;
+    public TextMeshProUGUI superTroopText;
 
     [Header("Unit Cost UI")]
-    public TextMeshProUGUI troopCostText;
+    public TextMeshProUGUI soldierCostText;
     public TextMeshProUGUI tankCostText;
-    public TextMeshProUGUI rangeCostText;
+    public TextMeshProUGUI superTroopCostText;
 
     [Header("Market")]
     public int money = 0;
     public int Markets = 0;
-    public int marketPrice = 10;
-    public int MarketIncome = 0;
-    public int MarketIncrease;
 
     [Header("Upgrades")]
-    public float doubleTroubleChance = 0f;
-    public float marketIncomeMultiplier = 1f; // Default multiplier
+    public float marketIncomeMultiplier = 1f;
 
-    [Header("Base Health")]
-    public int baseHealth = 100;
+    private int currentSoldierCost;
+    private int currentTankCost;
+    private int currentSuperTroopCost;
+    private int currentMarketCost;
 
-    private int marketPurchaseCount;
-    private int tankPurchaseCount;
-    private int rangePurchaseCount;
     void Start()
     {
-        InitializePrices();
+        if (gameConfig != null)
+        {
+            money = gameConfig.startingMoney;
+        }
+        UpdateTroopCosts();
         UpdateUI();
     }
 
-    private void InitializePrices()
+    /// <summary>
+    /// Updates troop costs based on current upgrade levels.
+    /// </summary>
+    public void UpdateTroopCosts()
     {
-        marketPurchaseCount = Markets;
-        tankPurchaseCount = tankCount;
-        rangePurchaseCount = rangeCount;
-
-        marketPrice = GetCurvePrice(marketPriceCurve, marketPurchaseCount, marketPrice);
-        tankPrice = GetCurvePrice(tankPriceCurve, tankPurchaseCount, tankPrice);
-        rangePrice = GetCurvePrice(rangePriceCurve, rangePurchaseCount, rangePrice);
-    }
-    public void RemoveBaseHealth(int amount)
-    {
-        baseHealth -= amount;
-        if (baseHealth < 0) baseHealth = 0;
+        if (gameConfig == null) return;
+        
+        int highestSoldierLevel = upgrades != null ? Mathf.Max(upgrades.soldierHealthLevel, upgrades.soldierDamageLevel) : 1;
+        int highestTankLevel = upgrades != null ? Mathf.Max(upgrades.tankHealthLevel, upgrades.tankDamageLevel) : 1;
+        int highestSuperTroopLevel = upgrades != null ? Mathf.Max(upgrades.superTroopHealthLevel, upgrades.superTroopDamageLevel) : 1;
+        
+        currentSoldierCost = gameConfig.CalculateTroopCost(gameConfig.soldierBaseCost, highestSoldierLevel);
+        currentTankCost = gameConfig.CalculateTroopCost(gameConfig.tankBaseCost, highestTankLevel);
+        currentSuperTroopCost = gameConfig.CalculateTroopCost(gameConfig.superTroopBaseCost, highestSuperTroopLevel);
+        currentMarketCost = gameConfig.CalculateMarketCost(Markets);
+        
+        UpdateUI();
     }
 
     public void AddMoney(int amount)
@@ -89,67 +85,53 @@ public class PlayerMoney : MonoBehaviour
 
     public void BuyMarket()
     {
-        if (money >= marketPrice)
+        if (money >= currentMarketCost)
         {
-            money -= marketPrice;
+            money -= currentMarketCost;
             Markets++;
-            marketPurchaseCount++;
-            marketPrice = GetCurvePrice(marketPriceCurve, marketPurchaseCount, marketPrice);
+            currentMarketCost = gameConfig.CalculateMarketCost(Markets);
             UpdateUI();
         }
     }
 
-    public void BuyTroop()
+    public void BuySoldier()
     {
-        if (money >= troopPrice)
+        UpdateTroopCosts(); // Ensure cost is current
+        if (money >= currentSoldierCost)
         {
-            money -= troopPrice;
-            troopCount++;
-            if (doubleTroubleChance > 0f && Random.value < doubleTroubleChance / 100f)
-            {
-                troopCount++;
-            }
+            money -= currentSoldierCost;
+            soldierCount++;
             UpdateUI();
         }
     }
 
     public void BuyTank()
     {
-        if (money >= tankPrice)
+        UpdateTroopCosts(); // Ensure cost is current
+        if (money >= currentTankCost)
         {
-            money -= tankPrice;
+            money -= currentTankCost;
             tankCount++;
-            if (doubleTroubleChance > 0f && Random.value < doubleTroubleChance / 100f)
-            {
-                tankCount++;
-            }
-            tankPurchaseCount++;
-            tankPrice = GetCurvePrice(tankPriceCurve, tankPurchaseCount, tankPrice);
             UpdateUI();
         }
     }
 
-    public void BuyRange()
+    public void BuySuperTroop()
     {
-        if (money >= rangePrice)
+        UpdateTroopCosts(); // Ensure cost is current
+        if (money >= currentSuperTroopCost)
         {
-            money -= rangePrice;
-            rangeCount++;
-            if (doubleTroubleChance > 0f && Random.value < doubleTroubleChance / 100f)
-            {
-                rangeCount++;
-            }
-            rangePurchaseCount++;
-            rangePrice = GetCurvePrice(rangePriceCurve, rangePurchaseCount, rangePrice);
+            money -= currentSuperTroopCost;
+            superTroopCount++;
             UpdateUI();
         }
     }
 
-    public void RemoveTroop()
+    public void RemoveSoldier()
     {
-        if (troopCount > 0)
+        if (soldierCount > 0)
         {
-            troopCount--;
+            soldierCount--;
             UpdateUI();
         }
     }
@@ -163,46 +145,76 @@ public class PlayerMoney : MonoBehaviour
         }
     }
 
-    public void RemoveRange()
+    public void RemoveSuperTroop()
     {
-        if (rangeCount > 0)
+        if (superTroopCount > 0)
         {
-            rangeCount--;
+            superTroopCount--;
             UpdateUI();
         }
     }
 
     public void CollectMarketIncome()
     {
-        if (Markets > 0 && MarketIncome > 0)
+        if (gameConfig != null && Markets > 0)
         {
-            int totalIncome = Mathf.RoundToInt(Markets * MarketIncome * marketIncomeMultiplier);
+            int totalIncome = Mathf.RoundToInt(Markets * gameConfig.baseMarketIncome * marketIncomeMultiplier);
             AddMoney(totalIncome);
         }
     }
 
-    private void UpdateUI()
+    /// <summary>
+    /// Calculate total combat score for all troops.
+    /// Combat Score = (Health + Damage) for each troop.
+    /// </summary>
+    public int GetTotalCombatScore()
     {
-        moneyText.text = $"Money: {money}";
-        marketText.text = $"Markets: {Markets}";
-        marketPriceText.text = $"Buy ({marketPrice})";
-
-        troopText.text = $"Troop: {troopCount}";
-        tankText.text = $"Tank: {tankCount}";
-        rangeText.text = $"Range: {rangeCount}";
-
-        troopCostText.text = $"Troop: {troopPrice}";
-        tankCostText.text = $"Tank: {tankPrice}";
-        rangeCostText.text = $"Range: {rangePrice}";
+        if (gameConfig == null || upgrades == null) return 0;
+        
+        int totalScore = 0;
+        
+        // Soldier combat score
+        var soldierStats = gameConfig.GetSoldierStats(upgrades.soldierHealthLevel, upgrades.soldierDamageLevel);
+        int soldierCombatScore = gameConfig.CalculateTroopCombatScore(soldierStats.health, soldierStats.damage);
+        totalScore += soldierCount * soldierCombatScore;
+        
+        // Tank combat score
+        var tankStats = gameConfig.GetTankStats(upgrades.tankHealthLevel, upgrades.tankDamageLevel);
+        int tankCombatScore = gameConfig.CalculateTroopCombatScore(tankStats.health, tankStats.damage);
+        totalScore += tankCount * tankCombatScore;
+        
+        // Super Troop combat score
+        var superTroopStats = gameConfig.GetSuperTroopStats(upgrades.superTroopHealthLevel, upgrades.superTroopDamageLevel);
+        int superTroopCombatScore = gameConfig.CalculateTroopCombatScore(superTroopStats.health, superTroopStats.damage);
+        totalScore += superTroopCount * superTroopCombatScore;
+        
+        return totalScore;
     }
 
-    private int GetCurvePrice(AnimationCurve curve, int level, int fallback)
+    private void UpdateUI()
     {
-        if (curve == null || curve.length == 0)
-        {
-            return fallback;
-        }
+        if (moneyText != null)
+            moneyText.text = $"Money: {money}";
+        if (marketText != null)
+            marketText.text = $"Markets: {Markets}";
+        if (marketPriceText != null)
+            marketPriceText.text = $"Buy ({currentMarketCost})";
 
-        return Mathf.Max(1, Mathf.RoundToInt(curve.Evaluate(level)));
+        if (soldierText != null)
+            soldierText.text = $"Soldier: {soldierCount}";
+        if (tankText != null)
+            tankText.text = $"Tank: {tankCount}";
+        if (superTroopText != null)
+            superTroopText.text = $"Super Troop: {superTroopCount}";
+
+        if (soldierCostText != null)
+            soldierCostText.text = $"Soldier: {currentSoldierCost}";
+        if (tankCostText != null)
+            tankCostText.text = $"Tank: {currentTankCost}";
+        if (superTroopCostText != null)
+            superTroopCostText.text = $"Super Troop: {currentSuperTroopCost}";
+            
+        if (combatScoreText != null)
+            combatScoreText.text = $"Combat Score: {GetTotalCombatScore()}";
     }
 }
