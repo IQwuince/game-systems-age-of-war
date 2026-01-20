@@ -42,6 +42,14 @@ public class PlayerMoney : MonoBehaviour
     private int currentSuperTroopCost;
     private int currentMarketCost;
 
+    /// <summary>
+    /// Check if Double Trouble should trigger and return bonus troop count.
+    /// </summary>
+    private bool ShouldApplyDoubleTrouble()
+    {
+        return doubleTroublePercent > 0f && Random.Range(0f, 100f) < doubleTroublePercent;
+    }
+
     void Start()
     {
         if (gameConfig != null)
@@ -103,7 +111,7 @@ public class PlayerMoney : MonoBehaviour
             soldierCount++;
             
             // Apply Double Trouble chance
-            if (doubleTroublePercent > 0f && Random.Range(0f, 100f) < doubleTroublePercent)
+            if (ShouldApplyDoubleTrouble())
             {
                 soldierCount++; // Bonus troop!
             }
@@ -120,7 +128,7 @@ public class PlayerMoney : MonoBehaviour
             tankCount++;
             
             // Apply Double Trouble chance
-            if (doubleTroublePercent > 0f && Random.Range(0f, 100f) < doubleTroublePercent)
+            if (ShouldApplyDoubleTrouble())
             {
                 tankCount++; // Bonus troop!
             }
@@ -137,7 +145,7 @@ public class PlayerMoney : MonoBehaviour
             superTroopCount++;
             
             // Apply Double Trouble chance
-            if (doubleTroublePercent > 0f && Random.Range(0f, 100f) < doubleTroublePercent)
+            if (ShouldApplyDoubleTrouble())
             {
                 superTroopCount++; // Bonus troop!
             }
