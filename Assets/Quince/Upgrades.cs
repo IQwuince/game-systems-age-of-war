@@ -62,6 +62,8 @@ public class Upgrades : MonoBehaviour
     private int superTroopDamageUpgradeCost;
     private int marketIncomeUpgradeCost;
 
+    
+
     void Start()
     {
         // Initialize market income upgrade cost from config
@@ -100,6 +102,8 @@ public class Upgrades : MonoBehaviour
         
         superTroopHealthUpgradeCost = gameConfig.CalculateUpgradeCost(gameConfig.superTroopHealthUpgradeBaseCost, superTroopHealthLevel);
         superTroopDamageUpgradeCost = gameConfig.CalculateUpgradeCost(gameConfig.superTroopDamageUpgradeBaseCost, superTroopDamageLevel);
+
+
     }
 
     // ===== SOLDIER UPGRADES =====
@@ -291,4 +295,5 @@ public class Upgrades : MonoBehaviour
             ? gameConfig.GetSuperTroopStats(superTroopHealthLevel, superTroopDamageLevel)
             : (220, 45);
     }
+
 }
