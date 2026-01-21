@@ -227,7 +227,7 @@ public class GameConfig : ScriptableObject
         float penaltyMultiplier = 1f - (missingHealth * penaltyPerMissingHealth);
         
         // Ensure penalty doesn't go below 0
-        penaltyMultiplier = Mathf.Max(0f, penaltyMultiplier);
+        penaltyMultiplier = Mathf.Clamp01(penaltyMultiplier);
         
         return Mathf.RoundToInt(combatScore * penaltyMultiplier);
     }
