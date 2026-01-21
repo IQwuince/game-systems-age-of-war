@@ -43,3 +43,8 @@ MonoBehaviour:
   doubleTroubleBaseCost: 40
   doubleTroublePercentPerLevel: 10
   doubleTroubleMaxPercent: 70
+  playerStartingHealth: 100
+  damageMultiplier: 0.5
+  penaltyPerMissingHealth: 0.001
+  minimumCombatScoreBase: 100
+  minimumCombatScorePerRound: 200

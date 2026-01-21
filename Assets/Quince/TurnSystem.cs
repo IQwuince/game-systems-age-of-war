@@ -14,6 +14,7 @@ public class TurnSystem : MonoBehaviour
     public GameObject endRoundButton;
     public TextMeshProUGUI roundText;
     public TextMeshProUGUI gameOverText;
+    public TextMeshProUGUI minimumCombatScoreText;
     
     [Header("Player References")]
     public PlayerMoney playerMoney1;
@@ -36,6 +37,7 @@ public class TurnSystem : MonoBehaviour
         currentTurn = Turn.Player1;
         UpdateRoundUI();
         UpdateTurnUI();
+        UpdateMinimumCombatScoreUI();
         
         if (gameOverText != null)
             gameOverText.gameObject.SetActive(false);
@@ -75,6 +77,15 @@ public class TurnSystem : MonoBehaviour
         playerMoney1.CollectMarketIncome();
         playerMoney2.CollectMarketIncome();
         
+        // Evaluate minimum combat score and apply damage
+        EvaluateCombatScores();
+        
+        // Check if any player has died
+        if (CheckForPlayerDeath())
+        {
+            return;
+        }
+        
         // Fire round end event
         onRoundEnd?.Invoke();
         
@@ -90,6 +101,85 @@ public class TurnSystem : MonoBehaviour
         currentTurn = Turn.Player1;
         UpdateRoundUI();
         UpdateTurnUI();
+        UpdateMinimumCombatScoreUI();
+    }
+
+    /// <summary>
+    /// Evaluate both players' combat scores against the minimum requirement.
+    /// Apply damage if below the minimum.
+    /// </summary>
+    private void EvaluateCombatScores()
+    {
+        if (gameConfig == null) return;
+        
+        int minimumScore = gameConfig.GetMinimumCombatScoreForRound(currentRound);
+        
+        // Evaluate Player 1
+        int player1Score = playerMoney1.GetTotalCombatScore();
+        int player1Damage = gameConfig.CalculateDamageFromLowScore(minimumScore, player1Score);
+        if (player1Damage > 0)
+        {
+            playerMoney1.TakeDamage(player1Damage);
+            Debug.Log($"Player 1 took {player1Damage} damage (Score: {player1Score} < Min: {minimumScore})");
+        }
+        
+        // Evaluate Player 2
+        int player2Score = playerMoney2.GetTotalCombatScore();
+        int player2Damage = gameConfig.CalculateDamageFromLowScore(minimumScore, player2Score);
+        if (player2Damage > 0)
+        {
+            playerMoney2.TakeDamage(player2Damage);
+            Debug.Log($"Player 2 took {player2Damage} damage (Score: {player2Score} < Min: {minimumScore})");
+        }
+    }
+
+    /// <summary>
+    /// Check if any player's health has reached 0.
+    /// Returns true if the game ends due to player death.
+    /// </summary>
+    private bool CheckForPlayerDeath()
+    {
+        bool player1Dead = !playerMoney1.IsAlive();
+        bool player2Dead = !playerMoney2.IsAlive();
+        
+        if (player1Dead || player2Dead)
+        {
+            gameEnded = true;
+            
+            string winnerText;
+            if (player1Dead && player2Dead)
+            {
+                winnerText = "Both players eliminated!\nIt's a Draw!";
+            }
+            else if (player1Dead)
+            {
+                winnerText = $"Player 1 eliminated!\nPlayer 2 Wins!";
+            }
+            else
+            {
+                winnerText = $"Player 2 eliminated!\nPlayer 1 Wins!";
+            }
+            
+            // Display game over
+            if (gameOverText != null)
+            {
+                gameOverText.text = winnerText;
+                gameOverText.gameObject.SetActive(true);
+            }
+            
+            // Hide turn buttons
+            if (player1Button != null) player1Button.SetActive(false);
+            if (player2Button != null) player2Button.SetActive(false);
+            if (endRoundButton != null) endRoundButton.SetActive(false);
+            
+            // Fire game end event
+            onGameEnd?.Invoke();
+            
+            Debug.Log($"Game Over! {winnerText}");
+            return true;
+        }
+        
+        return false;
     }
 
     private void EndGame()
@@ -139,6 +229,15 @@ public class TurnSystem : MonoBehaviour
             roundText.text = $"Round {currentRound} / {totalRounds}";
     }
 
+    private void UpdateMinimumCombatScoreUI()
+    {
+        if (minimumCombatScoreText != null && gameConfig != null)
+        {
+            int minimumScore = gameConfig.GetMinimumCombatScoreForRound(currentRound);
+            minimumCombatScoreText.text = $"Min Combat Score: {minimumScore}";
+        }
+    }
+
     private void UpdateTurnUI()
     {
         if (player1Button != null)
@@ -161,4 +260,12 @@ public class TurnSystem : MonoBehaviour
     /// Check if the game has ended.
     /// </summary>
     public bool IsGameEnded() => gameEnded;
+    
+    /// <summary>
+    /// Get the minimum combat score requirement for the current round.
+    /// </summary>
+    public int GetCurrentMinimumCombatScore()
+    {
+        return gameConfig != null ? gameConfig.GetMinimumCombatScoreForRound(currentRound) : 0;
+    }
 }

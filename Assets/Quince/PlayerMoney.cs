@@ -19,6 +19,10 @@ public class PlayerMoney : MonoBehaviour
     public int tankCount = 0;
     public int superTroopCount = 0;
 
+    [Header("Player Health")]
+    public int health = 100;
+    public TextMeshProUGUI healthText;
+
     [Header("Unit Count UI")]
     public TextMeshProUGUI soldierText;
     public TextMeshProUGUI tankText;
@@ -55,6 +59,7 @@ public class PlayerMoney : MonoBehaviour
         if (gameConfig != null)
         {
             money = gameConfig.startingMoney;
+            health = gameConfig.playerStartingHealth;
         }
         UpdateTroopCosts();
         UpdateUI();
@@ -215,7 +220,35 @@ public class PlayerMoney : MonoBehaviour
         int superTroopCombatScore = gameConfig.CalculateTroopCombatScore(superTroopStats.health, superTroopStats.damage);
         totalScore += superTroopCount * superTroopCombatScore;
         
+        // Apply health penalty if health is below max
+        totalScore = gameConfig.ApplyHealthPenalty(totalScore, health);
+        
         return totalScore;
+    }
+
+    /// <summary>
+    /// Apply damage to the player's health.
+    /// </summary>
+    public void TakeDamage(int damage)
+    {
+        health = Mathf.Max(0, health - damage);
+        UpdateUI();
+    }
+
+    /// <summary>
+    /// Check if the player is still alive.
+    /// </summary>
+    public bool IsAlive()
+    {
+        return health > 0;
+    }
+
+    /// <summary>
+    /// Get the player's current health.
+    /// </summary>
+    public int GetHealth()
+    {
+        return health;
     }
 
     private void UpdateUI()
@@ -243,5 +276,8 @@ public class PlayerMoney : MonoBehaviour
             
         if (combatScoreText != null)
             combatScoreText.text = $"Combat Score: {GetTotalCombatScore()}";
+            
+        if (healthText != null)
+            healthText.text = $"Health: {health}";
     }
 }

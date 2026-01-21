@@ -99,6 +99,23 @@ public class GameConfig : ScriptableObject
     [Tooltip("Maximum percentage for Double Trouble (default 70%)")]
     public float doubleTroubleMaxPercent = 70f;
 
+    [Header("=== PLAYER HEALTH ===")]
+    [Tooltip("Starting health for each player")]
+    public int playerStartingHealth = 100;
+    
+    [Tooltip("Multiplier for damage taken when below minimum combat score")]
+    public float damageMultiplier = 0.5f;
+    
+    [Tooltip("Combat score penalty per missing health point (e.g., 0.001 = 0.1% penalty per missing health)")]
+    public float penaltyPerMissingHealth = 0.001f;
+
+    [Header("=== MINIMUM COMBAT SCORE ===")]
+    [Tooltip("Base minimum combat score for Round 1")]
+    public int minimumCombatScoreBase = 100;
+    
+    [Tooltip("Additional minimum combat score added per round after Round 1")]
+    public int minimumCombatScorePerRound = 200;
+
     /// <summary>
     /// Calculate upgrade cost using the formula: BaseCost * (upgradeScalingBase ^ (Level - 1))
     /// </summary>
@@ -174,5 +191,44 @@ public class GameConfig : ScriptableObject
         if (level <= 1) return 0f;
         float percent = (level - 1) * doubleTroublePercentPerLevel;
         return Mathf.Min(percent, doubleTroubleMaxPercent);
+    }
+
+    /// <summary>
+    /// Get the minimum combat score required for a specific round.
+    /// Formula: minimumCombatScoreBase + (round - 1) * minimumCombatScorePerRound
+    /// Example: Round 1 = 100, Round 2 = 300, Round 3 = 500 (with defaults)
+    /// </summary>
+    public int GetMinimumCombatScoreForRound(int round)
+    {
+        if (round <= 1) return minimumCombatScoreBase;
+        return minimumCombatScoreBase + (round - 1) * minimumCombatScorePerRound;
+    }
+
+    /// <summary>
+    /// Calculate damage taken when player's combat score is below the minimum.
+    /// Formula: damage = (minimumScore - playerScore) * damageMultiplier
+    /// </summary>
+    public int CalculateDamageFromLowScore(int minimumScore, int playerScore)
+    {
+        if (playerScore >= minimumScore) return 0;
+        return Mathf.RoundToInt((minimumScore - playerScore) * damageMultiplier);
+    }
+
+    /// <summary>
+    /// Apply health-based combat score penalty.
+    /// Formula: adjustedScore = combatScore * (1 - ((maxHealth - currentHealth) * penaltyPerMissingHealth))
+    /// Returns the adjusted combat score (reduced if health is below max).
+    /// </summary>
+    public int ApplyHealthPenalty(int combatScore, int currentHealth)
+    {
+        if (currentHealth >= playerStartingHealth) return combatScore;
+        
+        int missingHealth = playerStartingHealth - currentHealth;
+        float penaltyMultiplier = 1f - (missingHealth * penaltyPerMissingHealth);
+        
+        // Ensure penalty doesn't go below 0
+        penaltyMultiplier = Mathf.Max(0f, penaltyMultiplier);
+        
+        return Mathf.RoundToInt(combatScore * penaltyMultiplier);
     }
 }

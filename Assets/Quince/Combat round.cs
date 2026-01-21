@@ -13,6 +13,10 @@ public class Combatround : MonoBehaviour
     public TextMeshProUGUI player1CombatScoreText;
     public TextMeshProUGUI player2CombatScoreText;
 
+    [Header("Player Health UI")]
+    public TextMeshProUGUI player1HealthText;
+    public TextMeshProUGUI player2HealthText;
+
     // UI Texts for player 1 troop counts
     [Header("Player 1 Troop Count UI")]
     public TextMeshProUGUI player1SoldierText;
@@ -51,6 +55,13 @@ public class Combatround : MonoBehaviour
         
         if (player2CombatScoreText != null && player2Money != null)
             player2CombatScoreText.text = $"Combat Score: {player2Money.GetTotalCombatScore()}";
+        
+        // Update health displays
+        if (player1HealthText != null && player1Money != null)
+            player1HealthText.text = $"Health: {player1Money.GetHealth()}";
+        
+        if (player2HealthText != null && player2Money != null)
+            player2HealthText.text = $"Health: {player2Money.GetHealth()}";
     }
 
     /// <summary>
