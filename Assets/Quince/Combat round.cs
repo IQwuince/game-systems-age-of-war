@@ -8,10 +8,13 @@ public class Combatround : MonoBehaviour
     public PlayerMoney player2Money;
     public Upgrades player1Upgrades;
     public Upgrades player2Upgrades;
+    public TurnSystem turnSystem;
 
     [Header("Combat Score UI")]
     public TextMeshProUGUI player1CombatScoreText;
     public TextMeshProUGUI player2CombatScoreText;
+    public TextMeshProUGUI player1MinimumCombatScoreText;
+    public TextMeshProUGUI player2MinimumCombatScoreText;
 
     [Header("Player Health UI")]
     public TextMeshProUGUI player1HealthText;
@@ -55,6 +58,15 @@ public class Combatround : MonoBehaviour
         
         if (player2CombatScoreText != null && player2Money != null)
             player2CombatScoreText.text = $"Combat Score: {player2Money.GetTotalCombatScore()}";
+
+        if (player1MinimumCombatScoreText != null || player2MinimumCombatScoreText != null)
+        {
+            int minimumScore = GetMinimumCombatScore();
+            if (player1MinimumCombatScoreText != null)
+                player1MinimumCombatScoreText.text = $"Min Combat Score: {minimumScore}";
+            if (player2MinimumCombatScoreText != null)
+                player2MinimumCombatScoreText.text = $"Min Combat Score: {minimumScore}";
+        }
         
         // Update health displays
         if (player1HealthText != null && player1Money != null)
@@ -117,5 +129,19 @@ public class Combatround : MonoBehaviour
         
         // Update combat scores
         UpdateCombatScores();
+    }
+
+    private int GetMinimumCombatScore()
+    {
+        if (turnSystem != null)
+            return turnSystem.GetCurrentMinimumCombatScore();
+
+        GameConfig config = null;
+        if (player1Money != null)
+            config = player1Money.gameConfig;
+        if (config == null && player2Money != null)
+            config = player2Money.gameConfig;
+
+        return config != null ? config.minimumCombatScoreBase : 0;
     }
 }
