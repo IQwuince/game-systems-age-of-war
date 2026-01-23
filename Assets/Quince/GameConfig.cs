@@ -109,12 +109,38 @@ public class GameConfig : ScriptableObject
     [Tooltip("Combat score penalty per missing health point (e.g., 0.001 = 0.1% penalty per missing health)")]
     public float penaltyPerMissingHealth = 0.001f;
 
-    [Header("=== MINIMUM COMBAT SCORE ===")]
-    [Tooltip("Base minimum combat score for Round 1")]
-    public int minimumCombatScoreBase = 100;
+    [Header("=== MINIMUM COMBAT SCORE (Legacy - Disabled by Default) ===")]
+    [Tooltip("Enable legacy minimum combat score mechanic (disabled by default)")]
+    public bool useMinimumCombatScore = false;
     
-    [Tooltip("Additional minimum combat score added per round after Round 1")]
-    public int minimumCombatScorePerRound = 200;
+    [Tooltip("Base minimum combat score for Round 1 (only used when useMinimumCombatScore is true)")]
+    public int minimumCombatScoreBase = 0;
+    
+    [Tooltip("Additional minimum combat score added per round after Round 1 (only used when useMinimumCombatScore is true)")]
+    public int minimumCombatScorePerRound = 0;
+
+    [Header("=== COMBAT ROUND (New) ===")]
+    [Tooltip("Damage dealt per 100 combat score difference")]
+    public float damagePer100CombatScore = 5f;
+    
+    [Tooltip("Maximum damage that can be dealt in one combat round (cap)")]
+    public int maxDamagePerRound = 20;
+    
+    [Tooltip("Round winner damage rounding mode: 'round' / 'floor' / 'ceil'")]
+    public string damageRounding = "round";
+
+    [Header("=== SELL PRICES ===")]
+    [Tooltip("Percent of current purchase cost returned when selling a Soldier (0..1)")]
+    public float soldierSellPercent = 0.5f;
+    
+    [Tooltip("Percent of current purchase cost returned when selling a Tank (0..1)")]
+    public float tankSellPercent = 0.5f;
+    
+    [Tooltip("Percent of current purchase cost returned when selling a Super Troop (0..1)")]
+    public float superTroopSellPercent = 0.5f;
+    
+    [Tooltip("Percent of current purchase cost returned when selling a Market (0..1)")]
+    public float marketSellPercent = 0.8f;
 
     /// <summary>
     /// Calculate upgrade cost using the formula: BaseCost * (upgradeScalingBase ^ (Level - 1))
@@ -230,5 +256,75 @@ public class GameConfig : ScriptableObject
         penaltyMultiplier = Mathf.Clamp01(penaltyMultiplier);
         
         return Mathf.RoundToInt(combatScore * penaltyMultiplier);
+    }
+
+    /// <summary>
+    /// Calculate damage dealt in combat round based on the difference in combat scores.
+    /// Formula: damage = (scoreDifference / 100) * damagePer100CombatScore, capped at maxDamagePerRound.
+    /// </summary>
+    public int CalculateDamageFromCombatDifference(int scoreDifference)
+    {
+        if (scoreDifference <= 0) return 0;
+        
+        float rawDamage = (scoreDifference / 100f) * damagePer100CombatScore;
+        int damage;
+        
+        switch (damageRounding.ToLower())
+        {
+            case "floor":
+                damage = Mathf.FloorToInt(rawDamage);
+                break;
+            case "ceil":
+                damage = Mathf.CeilToInt(rawDamage);
+                break;
+            default: // "round" or any other value
+                damage = Mathf.RoundToInt(rawDamage);
+                break;
+        }
+        
+        return Mathf.Min(damage, maxDamagePerRound);
+    }
+
+    /// <summary>
+    /// Get the sell price for a Soldier based on current upgrade level.
+    /// Returns a percentage of the current purchase cost.
+    /// </summary>
+    public int GetSoldierSellPrice(int highestUpgradeLevel)
+    {
+        int currentCost = CalculateTroopCost(soldierBaseCost, highestUpgradeLevel);
+        return Mathf.RoundToInt(currentCost * soldierSellPercent);
+    }
+
+    /// <summary>
+    /// Get the sell price for a Tank based on current upgrade level.
+    /// Returns a percentage of the current purchase cost.
+    /// </summary>
+    public int GetTankSellPrice(int highestUpgradeLevel)
+    {
+        int currentCost = CalculateTroopCost(tankBaseCost, highestUpgradeLevel);
+        return Mathf.RoundToInt(currentCost * tankSellPercent);
+    }
+
+    /// <summary>
+    /// Get the sell price for a Super Troop based on current upgrade level.
+    /// Returns a percentage of the current purchase cost.
+    /// </summary>
+    public int GetSuperTroopSellPrice(int highestUpgradeLevel)
+    {
+        int currentCost = CalculateTroopCost(superTroopBaseCost, highestUpgradeLevel);
+        return Mathf.RoundToInt(currentCost * superTroopSellPercent);
+    }
+
+    /// <summary>
+    /// Get the sell price for a Market based on current market count.
+    /// Returns a percentage of the cost of the last purchased market.
+    /// </summary>
+    public int GetMarketSellPrice(int currentMarketCount)
+    {
+        if (currentMarketCount <= 0) return 0;
+        // Calculate the cost of the market being sold (the last one purchased)
+        int lastMarketIndex = currentMarketCount - 1;
+        int marketBuyCost = CalculateMarketCost(lastMarketIndex);
+        return Mathf.RoundToInt(marketBuyCost * marketSellPercent);
     }
 }

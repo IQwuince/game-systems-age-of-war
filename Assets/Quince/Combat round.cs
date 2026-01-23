@@ -20,6 +20,9 @@ public class Combatround : MonoBehaviour
     public TextMeshProUGUI player1HealthText;
     public TextMeshProUGUI player2HealthText;
 
+    [Header("Starting Player UI")]
+    public TextMeshProUGUI startingPlayerText;
+
     // UI Texts for player 1 troop counts
     [Header("Player 1 Troop Count UI")]
     public TextMeshProUGUI player1SoldierText;
@@ -74,6 +77,10 @@ public class Combatround : MonoBehaviour
         
         if (player2HealthText != null && player2Money != null)
             player2HealthText.text = $"Health: {player2Money.GetHealth()}";
+        
+        // Update starting player display
+        if (startingPlayerText != null && turnSystem != null)
+            startingPlayerText.text = $"Starting Player: P{turnSystem.GetStartingPlayer()}";
     }
 
     /// <summary>

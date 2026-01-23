@@ -15,6 +15,7 @@ public class TurnSystem : MonoBehaviour
     public TextMeshProUGUI roundText;
     public TextMeshProUGUI gameOverText;
     public TextMeshProUGUI minimumCombatScoreText;
+    public TextMeshProUGUI startingPlayerText;
     
     [Header("Player References")]
     public PlayerMoney playerMoney1;
@@ -28,16 +29,27 @@ public class TurnSystem : MonoBehaviour
     private int totalRounds;
     private bool gameEnded = false;
     
+    /// <summary>
+    /// The player who starts the current round (1 or 2).
+    /// Randomly chosen at match start, then alternates each round.
+    /// </summary>
+    public int startingPlayer = 1;
+    
     private enum Turn { Player1, Player2 }
     private Turn currentTurn;
 
     void Start()
     {
         totalRounds = gameConfig != null ? gameConfig.totalRounds : 10;
-        currentTurn = Turn.Player1;
+        
+        // Randomly choose starting player at match start (only once)
+        startingPlayer = Random.value < 0.5f ? 1 : 2;
+        currentTurn = (startingPlayer == 1) ? Turn.Player1 : Turn.Player2;
+        
         UpdateRoundUI();
         UpdateTurnUI();
         UpdateMinimumCombatScoreUI();
+        UpdateStartingPlayerUI();
         
         if (gameOverText != null)
             gameOverText.gameObject.SetActive(false);
@@ -77,8 +89,17 @@ public class TurnSystem : MonoBehaviour
         playerMoney1.CollectMarketIncome();
         playerMoney2.CollectMarketIncome();
         
-        // Evaluate minimum combat score and apply damage
-        EvaluateCombatScores();
+        // Combat logic: use new combat round or legacy minimum score system
+        if (gameConfig != null && gameConfig.useMinimumCombatScore)
+        {
+            // Legacy minimum combat score mechanic (disabled by default)
+            EvaluateCombatScores();
+        }
+        else
+        {
+            // New combat round system
+            CombatRound();
+        }
         
         // Check if any player has died
         if (CheckForPlayerDeath())
@@ -98,10 +119,49 @@ public class TurnSystem : MonoBehaviour
         
         // Advance to next round
         currentRound++;
-        currentTurn = Turn.Player1;
+        
+        // Alternate starting player for next round
+        startingPlayer = (startingPlayer == 1) ? 2 : 1;
+        currentTurn = (startingPlayer == 1) ? Turn.Player1 : Turn.Player2;
+        
         UpdateRoundUI();
         UpdateTurnUI();
         UpdateMinimumCombatScoreUI();
+        UpdateStartingPlayerUI();
+    }
+
+    /// <summary>
+    /// Simultaneous combat round: compare players' combat scores and deal damage to loser.
+    /// Winner is the player with higher score; damage is based on score difference.
+    /// </summary>
+    private void CombatRound()
+    {
+        if (gameConfig == null) return;
+        
+        int p1Score = playerMoney1.GetTotalCombatScore();
+        int p2Score = playerMoney2.GetTotalCombatScore();
+        
+        // Tie: no damage
+        if (p1Score == p2Score)
+        {
+            Debug.Log($"Combat round: Tie! Both players have score {p1Score}");
+            return;
+        }
+        
+        if (p1Score > p2Score)
+        {
+            int diff = p1Score - p2Score;
+            int damage = gameConfig.CalculateDamageFromCombatDifference(diff);
+            playerMoney2.TakeDamage(damage);
+            Debug.Log($"Combat round: P1 wins by {diff} -> dealt {damage} damage to P2");
+        }
+        else
+        {
+            int diff = p2Score - p1Score;
+            int damage = gameConfig.CalculateDamageFromCombatDifference(diff);
+            playerMoney1.TakeDamage(damage);
+            Debug.Log($"Combat round: P2 wins by {diff} -> dealt {damage} damage to P1");
+        }
     }
 
     /// <summary>
@@ -246,6 +306,12 @@ public class TurnSystem : MonoBehaviour
             player2Button.SetActive(currentTurn == Turn.Player2);
     }
 
+    private void UpdateStartingPlayerUI()
+    {
+        if (startingPlayerText != null)
+            startingPlayerText.text = $"Starting Player: P{startingPlayer}";
+    }
+
     /// <summary>
     /// Get the current round number.
     /// </summary>
@@ -268,4 +334,9 @@ public class TurnSystem : MonoBehaviour
     {
         return gameConfig != null ? gameConfig.GetMinimumCombatScoreForRound(currentRound) : 0;
     }
+    
+    /// <summary>
+    /// Get the player who starts the current round (1 or 2).
+    /// </summary>
+    public int GetStartingPlayer() => startingPlayer;
 }
