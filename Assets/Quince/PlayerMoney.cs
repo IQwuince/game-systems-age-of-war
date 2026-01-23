@@ -33,6 +33,12 @@ public class PlayerMoney : MonoBehaviour
     public TextMeshProUGUI tankCostText;
     public TextMeshProUGUI superTroopCostText;
 
+    [Header("Sell Price UI")]
+    public TextMeshProUGUI soldierSellPriceText;
+    public TextMeshProUGUI tankSellPriceText;
+    public TextMeshProUGUI superTroopSellPriceText;
+    public TextMeshProUGUI marketSellPriceText;
+
     [Header("Market")]
     public int money = 0;
     public int Markets = 0;
@@ -186,6 +192,66 @@ public class PlayerMoney : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Sell a soldier and receive money back based on sell price percent.
+    /// </summary>
+    public void SellSoldier()
+    {
+        if (soldierCount <= 0 || gameConfig == null || upgrades == null) return;
+        
+        int highestLevel = Mathf.Max(upgrades.soldierHealthLevel, upgrades.soldierDamageLevel);
+        int sellPrice = gameConfig.GetSoldierSellPrice(highestLevel);
+        
+        soldierCount--;
+        AddMoney(sellPrice);
+        UpdateUI();
+    }
+
+    /// <summary>
+    /// Sell a tank and receive money back based on sell price percent.
+    /// </summary>
+    public void SellTank()
+    {
+        if (tankCount <= 0 || gameConfig == null || upgrades == null) return;
+        
+        int highestLevel = Mathf.Max(upgrades.tankHealthLevel, upgrades.tankDamageLevel);
+        int sellPrice = gameConfig.GetTankSellPrice(highestLevel);
+        
+        tankCount--;
+        AddMoney(sellPrice);
+        UpdateUI();
+    }
+
+    /// <summary>
+    /// Sell a super troop and receive money back based on sell price percent.
+    /// </summary>
+    public void SellSuperTroop()
+    {
+        if (superTroopCount <= 0 || gameConfig == null || upgrades == null) return;
+        
+        int highestLevel = Mathf.Max(upgrades.superTroopHealthLevel, upgrades.superTroopDamageLevel);
+        int sellPrice = gameConfig.GetSuperTroopSellPrice(highestLevel);
+        
+        superTroopCount--;
+        AddMoney(sellPrice);
+        UpdateUI();
+    }
+
+    /// <summary>
+    /// Sell a market and receive money back based on sell price percent.
+    /// </summary>
+    public void SellMarket()
+    {
+        if (Markets <= 0 || gameConfig == null) return;
+        
+        int sellPrice = gameConfig.GetMarketSellPrice(Markets);
+        
+        Markets--;
+        AddMoney(sellPrice);
+        currentMarketCost = gameConfig.CalculateMarketCost(Markets);
+        UpdateUI();
+    }
+
     public void CollectMarketIncome()
     {
         if (gameConfig != null && Markets > 0)
@@ -274,10 +340,49 @@ public class PlayerMoney : MonoBehaviour
         if (superTroopCostText != null)
             superTroopCostText.text = $"Super Troop: {currentSuperTroopCost}";
             
+        // Update sell price UI
+        UpdateSellPriceUI();
+            
         if (combatScoreText != null)
             combatScoreText.text = $"Combat Score: {GetTotalCombatScore()}";
             
         if (healthText != null)
             healthText.text = $"Health: {health}";
+    }
+
+    /// <summary>
+    /// Update sell price display texts.
+    /// </summary>
+    private void UpdateSellPriceUI()
+    {
+        if (gameConfig == null || upgrades == null) return;
+        
+        int highestSoldierLevel = Mathf.Max(upgrades.soldierHealthLevel, upgrades.soldierDamageLevel);
+        int highestTankLevel = Mathf.Max(upgrades.tankHealthLevel, upgrades.tankDamageLevel);
+        int highestSuperTroopLevel = Mathf.Max(upgrades.superTroopHealthLevel, upgrades.superTroopDamageLevel);
+        
+        if (soldierSellPriceText != null)
+        {
+            int sellPrice = gameConfig.GetSoldierSellPrice(highestSoldierLevel);
+            soldierSellPriceText.text = soldierCount > 0 ? $"Sell ({sellPrice})" : "Sell (-)";
+        }
+        
+        if (tankSellPriceText != null)
+        {
+            int sellPrice = gameConfig.GetTankSellPrice(highestTankLevel);
+            tankSellPriceText.text = tankCount > 0 ? $"Sell ({sellPrice})" : "Sell (-)";
+        }
+        
+        if (superTroopSellPriceText != null)
+        {
+            int sellPrice = gameConfig.GetSuperTroopSellPrice(highestSuperTroopLevel);
+            superTroopSellPriceText.text = superTroopCount > 0 ? $"Sell ({sellPrice})" : "Sell (-)";
+        }
+        
+        if (marketSellPriceText != null)
+        {
+            int sellPrice = gameConfig.GetMarketSellPrice(Markets);
+            marketSellPriceText.text = Markets > 0 ? $"Sell ({sellPrice})" : "Sell (-)";
+        }
     }
 }
