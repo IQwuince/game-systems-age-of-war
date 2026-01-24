@@ -33,6 +33,7 @@ public class TurnSystem : MonoBehaviour
 
     void Start()
     {
+        // Use gameConfig.totalRounds if available, fallback matches gameConfig default
         totalRounds = gameConfig != null ? gameConfig.totalRounds : 10;
         currentTurn = Turn.Player1;
         UpdateRoundUI();

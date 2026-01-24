@@ -48,3 +48,23 @@ MonoBehaviour:
   penaltyPerMissingHealth: 0.001
   minimumCombatScoreBase: 100
   minimumCombatScorePerRound: 200
+  useMinimumCombatScore: 1
+  useMinimumCombatScoreAsDamage: 0
+  bonusGoldPer100CombatScore: 2
+  maxBonusGoldPerRound: 100
+  soldierSellPercent: 0.5
+  tankSellPercent: 0.5
+  superTroopSellPercent: 0.5
+  marketSellPercent: 0.8
+  combatHealthWeight: 1
+  combatDamageWeight: 1
+  soldierCombatMultiplier: 1
+  tankCombatMultiplier: 1
+  superTroopCombatMultiplier: 1
+  soldierCombatOffset: 0
+  tankCombatOffset: 0
+  superTroopCombatOffset: 0
+  marketIncomeUpgradeBaseCost: 30
+  marketIncomeBonusPercentPerLevel: 10
+  showPredictedMSCBonusInUI: 1
+  showSellButtonsByDefault: 1

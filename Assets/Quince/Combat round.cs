@@ -73,10 +73,10 @@ public class Combatround : MonoBehaviour
                 player2MinimumCombatScoreText.text = $"Min Combat Score: {minimumScore}";
         }
         
-        // Update MSC bonus prediction (only when using reward flow, not damage)
-        if (IsUsingMSCRewardMode())
+        // Update MSC bonus prediction (only when using reward flow and UI toggle is enabled)
+        GameConfig gameConfig = GetGameConfig();
+        if (IsUsingMSCRewardMode() && gameConfig != null && gameConfig.showPredictedMSCBonusInUI)
         {
-            GameConfig gameConfig = GetGameConfig();
             if (player1MSCBonusText != null && player1Money != null)
             {
                 int predictedBonus1 = gameConfig.CalculateBonusGoldFromScore(minimumScore, player1Money.GetTotalCombatScore());
@@ -90,7 +90,7 @@ public class Combatround : MonoBehaviour
         }
         else
         {
-            // Hide or clear bonus text when not using reward flow
+            // Hide or clear bonus text when not using reward flow or UI toggle is disabled
             if (player1MSCBonusText != null)
                 player1MSCBonusText.text = "";
             if (player2MSCBonusText != null)

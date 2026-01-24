@@ -77,14 +77,15 @@ public class Upgrades : MonoBehaviour
         // Initialize market income upgrade cost from config
         if (gameConfig != null)
         {
-            marketIncomeUpgradeCost = gameConfig.CalculateUpgradeCost(gameConfig.marketBaseCost, marketIncomeUpgradeLevel);
+            marketIncomeUpgradeCost = gameConfig.CalculateUpgradeCost(gameConfig.marketIncomeUpgradeBaseCost, marketIncomeUpgradeLevel);
             doubleTroubleUpgradeCost = gameConfig.CalculateUpgradeCost(gameConfig.doubleTroubleBaseCost, doubleTroubleLevel);
             doubleTroublePercent = gameConfig.CalculateDoubleTroublePercent(doubleTroubleLevel);
         }
         else
         {
-            marketIncomeUpgradeCost = 30; // Fallback default
-            doubleTroubleUpgradeCost = 40; // Fallback default
+            // Fallback to default values matching GameConfig defaults (used if gameConfig is null)
+            marketIncomeUpgradeCost = 30; // Matches gameConfig.marketIncomeUpgradeBaseCost default
+            doubleTroubleUpgradeCost = 40; // Matches gameConfig.doubleTroubleBaseCost default
         }
         
         UpdateAllUpgradeCosts();
@@ -210,11 +211,12 @@ public class Upgrades : MonoBehaviour
         if (pm.money >= marketIncomeUpgradeCost)
         {
             pm.SubtractMoney(marketIncomeUpgradeCost);
-            marketIncomeBonusPercent += 10f;
+            // Use config value for bonus percent per level, fallback to 10f if no config
+            marketIncomeBonusPercent += gameConfig != null ? gameConfig.marketIncomeBonusPercentPerLevel : 10f;
             marketIncomeUpgradeLevel++;
             marketIncomeUpgradeCost = gameConfig != null 
-                ? gameConfig.CalculateUpgradeCost(gameConfig.marketBaseCost, marketIncomeUpgradeLevel) 
-                : Mathf.RoundToInt(marketIncomeUpgradeCost * 1.35f); // Fallback scaling
+                ? gameConfig.CalculateUpgradeCost(gameConfig.marketIncomeUpgradeBaseCost, marketIncomeUpgradeLevel) 
+                : Mathf.RoundToInt(marketIncomeUpgradeCost * 1.35f); // Fallback to upgradeScalingBase default
             pm.marketIncomeMultiplier = 1f + marketIncomeBonusPercent / 100f;
             UpdateMarketIncomeUpgradeUI();
         }
@@ -320,32 +322,35 @@ public class Upgrades : MonoBehaviour
 
     /// <summary>
     /// Get current Soldier stats (health, damage).
+    /// Fallback values match GameConfig defaults for soldierBaseHealth and soldierBaseDamage.
     /// </summary>
     public (int health, int damage) GetSoldierStats()
     {
         return gameConfig != null 
             ? gameConfig.GetSoldierStats(soldierHealthLevel, soldierDamageLevel)
-            : (60, 12);
+            : (60, 12); // Fallback matches gameConfig.soldierBaseHealth, gameConfig.soldierBaseDamage defaults
     }
 
     /// <summary>
     /// Get current Tank stats (health, damage).
+    /// Fallback values match GameConfig defaults for tankBaseHealth and tankBaseDamage.
     /// </summary>
     public (int health, int damage) GetTankStats()
     {
         return gameConfig != null 
             ? gameConfig.GetTankStats(tankHealthLevel, tankDamageLevel)
-            : (160, 20);
+            : (160, 20); // Fallback matches gameConfig.tankBaseHealth, gameConfig.tankBaseDamage defaults
     }
 
     /// <summary>
     /// Get current Super Troop stats (health, damage).
+    /// Fallback values match GameConfig defaults for superTroopBaseHealth and superTroopBaseDamage.
     /// </summary>
     public (int health, int damage) GetSuperTroopStats()
     {
         return gameConfig != null 
             ? gameConfig.GetSuperTroopStats(superTroopHealthLevel, superTroopDamageLevel)
-            : (220, 45);
+            : (220, 45); // Fallback matches gameConfig.superTroopBaseHealth, gameConfig.superTroopBaseDamage defaults
     }
 
 }

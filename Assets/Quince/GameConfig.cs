@@ -167,6 +167,20 @@ public class GameConfig : ScriptableObject
     [Tooltip("Additive offset applied to Super Troop score after weighting (can be 0)")]
     public int superTroopCombatOffset = 0;
 
+    [Header("=== MARKET INCOME UPGRADE ===")]
+    [Tooltip("Base cost for the Market Income upgrade")]
+    public int marketIncomeUpgradeBaseCost = 30;
+    
+    [Tooltip("Income bonus percentage gained per Market Income upgrade level")]
+    public float marketIncomeBonusPercentPerLevel = 10f;
+
+    [Header("=== UI / DEBUG TOGGLES ===")]
+    [Tooltip("Show predicted MSC bonus in the UI")]
+    public bool showPredictedMSCBonusInUI = true;
+    
+    [Tooltip("Show sell buttons by default in the UI")]
+    public bool showSellButtonsByDefault = true;
+
     /// <summary>
     /// Calculate upgrade cost using the formula: BaseCost * (upgradeScalingBase ^ (Level - 1))
     /// </summary>

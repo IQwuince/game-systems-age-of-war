@@ -20,7 +20,8 @@ public class PlayerMoney : MonoBehaviour
     public int superTroopCount = 0;
 
     [Header("Player Health")]
-    public int health = 100;
+    [Tooltip("Player health - initialized from GameConfig.playerStartingHealth in Start()")]
+    public int health = 100; // Default matches gameConfig.playerStartingHealth, overwritten in Start()
     public TextMeshProUGUI healthText;
 
     [Header("Unit Count UI")]
