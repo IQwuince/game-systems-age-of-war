@@ -288,7 +288,7 @@ public class PlayerMoney : MonoBehaviour
 
     /// <summary>
     /// Calculate total combat score for all troops.
-    /// Combat Score = (Health + Damage) for each troop.
+    /// Uses config-driven per-unit combat score methods.
     /// </summary>
     public int GetTotalCombatScore()
     {
@@ -297,19 +297,16 @@ public class PlayerMoney : MonoBehaviour
         int totalScore = 0;
         
         // Soldier combat score
-        var soldierStats = gameConfig.GetSoldierStats(upgrades.soldierHealthLevel, upgrades.soldierDamageLevel);
-        int soldierCombatScore = gameConfig.CalculateTroopCombatScore(soldierStats.health, soldierStats.damage);
-        totalScore += soldierCount * soldierCombatScore;
+        int soldierUnitScore = gameConfig.GetSoldierCombatScore(upgrades.soldierHealthLevel, upgrades.soldierDamageLevel);
+        totalScore += soldierCount * soldierUnitScore;
         
         // Tank combat score
-        var tankStats = gameConfig.GetTankStats(upgrades.tankHealthLevel, upgrades.tankDamageLevel);
-        int tankCombatScore = gameConfig.CalculateTroopCombatScore(tankStats.health, tankStats.damage);
-        totalScore += tankCount * tankCombatScore;
+        int tankUnitScore = gameConfig.GetTankCombatScore(upgrades.tankHealthLevel, upgrades.tankDamageLevel);
+        totalScore += tankCount * tankUnitScore;
         
         // Super Troop combat score
-        var superTroopStats = gameConfig.GetSuperTroopStats(upgrades.superTroopHealthLevel, upgrades.superTroopDamageLevel);
-        int superTroopCombatScore = gameConfig.CalculateTroopCombatScore(superTroopStats.health, superTroopStats.damage);
-        totalScore += superTroopCount * superTroopCombatScore;
+        int superUnitScore = gameConfig.GetSuperTroopCombatScore(upgrades.superTroopHealthLevel, upgrades.superTroopDamageLevel);
+        totalScore += superTroopCount * superUnitScore;
         
         // Only apply health penalty when legacy health-based penalties are enabled
         if (gameConfig.playerStartingHealth > 0 && gameConfig.useMinimumCombatScoreAsDamage)

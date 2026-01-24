@@ -110,6 +110,8 @@ public class Combatround : MonoBehaviour
     /// </summary>
     public void ShowCombatInfo()
     {
+        GameConfig gameConfig = GetGameConfig();
+        
         // Player 1 unit counts
         if (player1SoldierText != null)
             player1SoldierText.text = $"Soldier: {player1Money.soldierCount}";
@@ -126,34 +128,44 @@ public class Combatround : MonoBehaviour
         if (player2SuperTroopText != null)
             player2SuperTroopText.text = $"Super Troop: {player2Money.superTroopCount}";
 
-        // Player 1 unit stats
+        // Player 1 unit stats with combat scores
         if (player1Upgrades != null)
         {
             var soldierStats = player1Upgrades.GetSoldierStats();
             var tankStats = player1Upgrades.GetTankStats();
             var superTroopStats = player1Upgrades.GetSuperTroopStats();
             
+            // Calculate per-unit combat scores using config-driven methods
+            int soldierScore = gameConfig != null ? gameConfig.GetSoldierCombatScore(player1Upgrades.soldierHealthLevel, player1Upgrades.soldierDamageLevel) : soldierStats.health + soldierStats.damage;
+            int tankScore = gameConfig != null ? gameConfig.GetTankCombatScore(player1Upgrades.tankHealthLevel, player1Upgrades.tankDamageLevel) : tankStats.health + tankStats.damage;
+            int superTroopScore = gameConfig != null ? gameConfig.GetSuperTroopCombatScore(player1Upgrades.superTroopHealthLevel, player1Upgrades.superTroopDamageLevel) : superTroopStats.health + superTroopStats.damage;
+            
             if (player1SoldierStatsText != null)
-                player1SoldierStatsText.text = $"Health: {soldierStats.health} | Damage: {soldierStats.damage}";
+                player1SoldierStatsText.text = $"HP: {soldierStats.health} | DMG: {soldierStats.damage} | Score: {soldierScore}";
             if (player1TankStatsText != null)
-                player1TankStatsText.text = $"Health: {tankStats.health} | Damage: {tankStats.damage}";
+                player1TankStatsText.text = $"HP: {tankStats.health} | DMG: {tankStats.damage} | Score: {tankScore}";
             if (player1SuperTroopStatsText != null)
-                player1SuperTroopStatsText.text = $"Health: {superTroopStats.health} | Damage: {superTroopStats.damage}";
+                player1SuperTroopStatsText.text = $"HP: {superTroopStats.health} | DMG: {superTroopStats.damage} | Score: {superTroopScore}";
         }
 
-        // Player 2 unit stats
+        // Player 2 unit stats with combat scores
         if (player2Upgrades != null)
         {
             var soldierStats = player2Upgrades.GetSoldierStats();
             var tankStats = player2Upgrades.GetTankStats();
             var superTroopStats = player2Upgrades.GetSuperTroopStats();
             
+            // Calculate per-unit combat scores using config-driven methods
+            int soldierScore = gameConfig != null ? gameConfig.GetSoldierCombatScore(player2Upgrades.soldierHealthLevel, player2Upgrades.soldierDamageLevel) : soldierStats.health + soldierStats.damage;
+            int tankScore = gameConfig != null ? gameConfig.GetTankCombatScore(player2Upgrades.tankHealthLevel, player2Upgrades.tankDamageLevel) : tankStats.health + tankStats.damage;
+            int superTroopScore = gameConfig != null ? gameConfig.GetSuperTroopCombatScore(player2Upgrades.superTroopHealthLevel, player2Upgrades.superTroopDamageLevel) : superTroopStats.health + superTroopStats.damage;
+            
             if (player2SoldierStatsText != null)
-                player2SoldierStatsText.text = $"Health: {soldierStats.health} | Damage: {soldierStats.damage}";
+                player2SoldierStatsText.text = $"HP: {soldierStats.health} | DMG: {soldierStats.damage} | Score: {soldierScore}";
             if (player2TankStatsText != null)
-                player2TankStatsText.text = $"Health: {tankStats.health} | Damage: {tankStats.damage}";
+                player2TankStatsText.text = $"HP: {tankStats.health} | DMG: {tankStats.damage} | Score: {tankScore}";
             if (player2SuperTroopStatsText != null)
-                player2SuperTroopStatsText.text = $"Health: {superTroopStats.health} | Damage: {superTroopStats.damage}";
+                player2SuperTroopStatsText.text = $"HP: {superTroopStats.health} | DMG: {superTroopStats.damage} | Score: {superTroopScore}";
         }
         
         // Update combat scores

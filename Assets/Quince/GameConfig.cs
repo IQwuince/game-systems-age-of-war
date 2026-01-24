@@ -142,6 +142,31 @@ public class GameConfig : ScriptableObject
     [Tooltip("Sell price as percentage of buy cost for Markets")]
     [Range(0f, 1f)] public float marketSellPercent = 0.8f;
 
+    [Header("=== COMBAT SCORE TUNING ===")]
+    [Tooltip("Weight applied to unit health when calculating unit combat score")]
+    public float combatHealthWeight = 1f;
+    
+    [Tooltip("Weight applied to unit damage when calculating unit combat score")]
+    public float combatDamageWeight = 1f;
+    
+    [Tooltip("Multiplier applied to per-soldier combat score")]
+    public float soldierCombatMultiplier = 1f;
+    
+    [Tooltip("Multiplier applied to per-tank combat score")]
+    public float tankCombatMultiplier = 1f;
+    
+    [Tooltip("Multiplier applied to per-super-troop combat score")]
+    public float superTroopCombatMultiplier = 1f;
+    
+    [Tooltip("Additive offset applied to soldier score after weighting (can be 0)")]
+    public int soldierCombatOffset = 0;
+    
+    [Tooltip("Additive offset applied to tank score after weighting (can be 0)")]
+    public int tankCombatOffset = 0;
+    
+    [Tooltip("Additive offset applied to super troop score after weighting (can be 0)")]
+    public int superTroopCombatOffset = 0;
+
     /// <summary>
     /// Calculate upgrade cost using the formula: BaseCost * (upgradeScalingBase ^ (Level - 1))
     /// </summary>
@@ -201,11 +226,46 @@ public class GameConfig : ScriptableObject
     }
 
     /// <summary>
-    /// Calculate Combat Score for a single troop (Health + Damage).
+    /// Calculate Combat Score for a single troop using configurable weights.
+    /// Formula: (combatHealthWeight * health) + (combatDamageWeight * damage)
     /// </summary>
     public int CalculateTroopCombatScore(int health, int damage)
     {
-        return health + damage;
+        float raw = combatHealthWeight * health + combatDamageWeight * damage;
+        return Mathf.RoundToInt(raw);
+    }
+
+    /// <summary>
+    /// Get the combat score for a Soldier with per-unit multiplier and offset applied.
+    /// </summary>
+    public int GetSoldierCombatScore(int healthLevel, int damageLevel)
+    {
+        var stats = GetSoldierStats(healthLevel, damageLevel);
+        int baseScore = CalculateTroopCombatScore(stats.health, stats.damage);
+        float scaled = baseScore * soldierCombatMultiplier + soldierCombatOffset;
+        return Mathf.Max(0, Mathf.RoundToInt(scaled));
+    }
+
+    /// <summary>
+    /// Get the combat score for a Tank with per-unit multiplier and offset applied.
+    /// </summary>
+    public int GetTankCombatScore(int healthLevel, int damageLevel)
+    {
+        var stats = GetTankStats(healthLevel, damageLevel);
+        int baseScore = CalculateTroopCombatScore(stats.health, stats.damage);
+        float scaled = baseScore * tankCombatMultiplier + tankCombatOffset;
+        return Mathf.Max(0, Mathf.RoundToInt(scaled));
+    }
+
+    /// <summary>
+    /// Get the combat score for a Super Troop with per-unit multiplier and offset applied.
+    /// </summary>
+    public int GetSuperTroopCombatScore(int healthLevel, int damageLevel)
+    {
+        var stats = GetSuperTroopStats(healthLevel, damageLevel);
+        int baseScore = CalculateTroopCombatScore(stats.health, stats.damage);
+        float scaled = baseScore * superTroopCombatMultiplier + superTroopCombatOffset;
+        return Mathf.Max(0, Mathf.RoundToInt(scaled));
     }
 
     /// <summary>
