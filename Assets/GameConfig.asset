@@ -14,48 +14,48 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GameConfig
   totalRounds: 10
   startingMoney: 100
-  baseMarketIncome: 20
-  upgradeScalingBase: 1.35
-  troopScalingBase: 1.4
-  marketBaseCost: 50
-  marketScalingBase: 1.35
-  soldierBaseCost: 30
-  soldierBaseHealth: 60
-  soldierBaseDamage: 12
-  soldierHealthUpgradeBaseCost: 18
-  soldierDamageUpgradeBaseCost: 22
-  soldierHealthPerLevel: 12
-  soldierDamagePerLevel: 4
-  tankBaseCost: 80
-  tankBaseHealth: 160
-  tankBaseDamage: 20
-  tankHealthUpgradeBaseCost: 45
-  tankDamageUpgradeBaseCost: 55
-  tankHealthPerLevel: 28
-  tankDamagePerLevel: 6
-  superTroopBaseCost: 160
-  superTroopBaseHealth: 220
-  superTroopBaseDamage: 45
-  superTroopHealthUpgradeBaseCost: 85
-  superTroopDamageUpgradeBaseCost: 95
-  superTroopHealthPerLevel: 35
-  superTroopDamagePerLevel: 10
-  doubleTroubleBaseCost: 40
-  doubleTroublePercentPerLevel: 10
-  doubleTroubleMaxPercent: 70
+  baseMarketIncome: 15
+  upgradeScalingBase: 1.3
+  troopScalingBase: 1.35
+  marketBaseCost: 60
+  marketScalingBase: 1.4
+  soldierBaseCost: 25
+  soldierBaseHealth: 50
+  soldierBaseDamage: 10
+  soldierHealthUpgradeBaseCost: 15
+  soldierDamageUpgradeBaseCost: 20
+  soldierHealthPerLevel: 10
+  soldierDamagePerLevel: 3
+  tankBaseCost: 70
+  tankBaseHealth: 140
+  tankBaseDamage: 18
+  tankHealthUpgradeBaseCost: 40
+  tankDamageUpgradeBaseCost: 50
+  tankHealthPerLevel: 25
+  tankDamagePerLevel: 5
+  superTroopBaseCost: 150
+  superTroopBaseHealth: 200
+  superTroopBaseDamage: 40
+  superTroopHealthUpgradeBaseCost: 80
+  superTroopDamageUpgradeBaseCost: 90
+  superTroopHealthPerLevel: 30
+  superTroopDamagePerLevel: 8
+  doubleTroubleBaseCost: 35
+  doubleTroublePercentPerLevel: 8
+  doubleTroubleMaxPercent: 60
   playerStartingHealth: 100
   damageMultiplier: 0.5
   penaltyPerMissingHealth: 0.001
-  minimumCombatScoreBase: 100
-  minimumCombatScorePerRound: 200
+  minimumCombatScoreBase: 80
+  minimumCombatScorePerRound: 150
   useMinimumCombatScore: 1
   useMinimumCombatScoreAsDamage: 0
-  bonusGoldPer100CombatScore: 2
-  maxBonusGoldPerRound: 100
+  bonusGoldPer100CombatScore: 1.5
+  maxBonusGoldPerRound: 80
   soldierSellPercent: 0.5
   tankSellPercent: 0.5
   superTroopSellPercent: 0.5
-  marketSellPercent: 0.8
+  marketSellPercent: 0.75
   combatHealthWeight: 1
   combatDamageWeight: 1
   soldierCombatMultiplier: 1

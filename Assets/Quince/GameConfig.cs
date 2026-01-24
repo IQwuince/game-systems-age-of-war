@@ -15,89 +15,89 @@ public class GameConfig : ScriptableObject
     public int startingMoney = 100;
     
     [Tooltip("Base income per market per round")]
-    public int baseMarketIncome = 20;
+    public int baseMarketIncome = 15;
 
     [Header("Scaling Formulas")]
     [Tooltip("Multiplier for upgrade cost scaling: BaseCost * (upgradeScalingBase ^ (Level - 1))")]
-    public float upgradeScalingBase = 1.35f;
+    public float upgradeScalingBase = 1.3f;
     
     [Tooltip("Multiplier for troop cost scaling when buying higher level troops: BaseCost * (troopScalingBase ^ (HighestUpgradeLevel - 1))")]
-    public float troopScalingBase = 1.4f;
+    public float troopScalingBase = 1.35f;
 
     [Header("Market Settings")]
     [Tooltip("Base cost to buy a market")]
-    public int marketBaseCost = 50;
+    public int marketBaseCost = 60;
     
     [Tooltip("Market cost scaling base (same formula as upgrade scaling)")]
-    public float marketScalingBase = 1.35f;
+    public float marketScalingBase = 1.4f;
 
     [Header("=== SOLDIER ===")]
     [Tooltip("Base cost to buy a Soldier at level 1")]
-    public int soldierBaseCost = 30;
+    public int soldierBaseCost = 25;
     [Tooltip("Base health of Soldier at level 1")]
-    public int soldierBaseHealth = 60;
+    public int soldierBaseHealth = 50;
     [Tooltip("Base damage of Soldier at level 1")]
-    public int soldierBaseDamage = 12;
+    public int soldierBaseDamage = 10;
     
     [Header("Soldier Upgrade Costs")]
     [Tooltip("Base cost to upgrade Soldier health")]
-    public int soldierHealthUpgradeBaseCost = 18;
+    public int soldierHealthUpgradeBaseCost = 15;
     [Tooltip("Base cost to upgrade Soldier damage")]
-    public int soldierDamageUpgradeBaseCost = 22;
+    public int soldierDamageUpgradeBaseCost = 20;
     
     [Header("Soldier Stat Gains Per Level")]
     [Tooltip("Health gained per upgrade level for Soldier")]
-    public int soldierHealthPerLevel = 12;
+    public int soldierHealthPerLevel = 10;
     [Tooltip("Damage gained per upgrade level for Soldier")]
-    public int soldierDamagePerLevel = 4;
+    public int soldierDamagePerLevel = 3;
 
     [Header("=== TANK ===")]
     [Tooltip("Base cost to buy a Tank at level 1")]
-    public int tankBaseCost = 80;
+    public int tankBaseCost = 70;
     [Tooltip("Base health of Tank at level 1")]
-    public int tankBaseHealth = 160;
+    public int tankBaseHealth = 140;
     [Tooltip("Base damage of Tank at level 1")]
-    public int tankBaseDamage = 20;
+    public int tankBaseDamage = 18;
     
     [Header("Tank Upgrade Costs")]
     [Tooltip("Base cost to upgrade Tank health")]
-    public int tankHealthUpgradeBaseCost = 45;
+    public int tankHealthUpgradeBaseCost = 40;
     [Tooltip("Base cost to upgrade Tank damage")]
-    public int tankDamageUpgradeBaseCost = 55;
+    public int tankDamageUpgradeBaseCost = 50;
     
     [Header("Tank Stat Gains Per Level")]
     [Tooltip("Health gained per upgrade level for Tank")]
-    public int tankHealthPerLevel = 28;
+    public int tankHealthPerLevel = 25;
     [Tooltip("Damage gained per upgrade level for Tank")]
-    public int tankDamagePerLevel = 6;
+    public int tankDamagePerLevel = 5;
 
     [Header("=== SUPER TROOP ===")]
     [Tooltip("Base cost to buy a Super Troop at level 1")]
-    public int superTroopBaseCost = 160;
+    public int superTroopBaseCost = 150;
     [Tooltip("Base health of Super Troop at level 1")]
-    public int superTroopBaseHealth = 220;
+    public int superTroopBaseHealth = 200;
     [Tooltip("Base damage of Super Troop at level 1")]
-    public int superTroopBaseDamage = 45;
+    public int superTroopBaseDamage = 40;
     
     [Header("Super Troop Upgrade Costs")]
     [Tooltip("Base cost to upgrade Super Troop health")]
-    public int superTroopHealthUpgradeBaseCost = 85;
+    public int superTroopHealthUpgradeBaseCost = 80;
     [Tooltip("Base cost to upgrade Super Troop damage")]
-    public int superTroopDamageUpgradeBaseCost = 95;
+    public int superTroopDamageUpgradeBaseCost = 90;
     
     [Header("Super Troop Stat Gains Per Level")]
     [Tooltip("Health gained per upgrade level for Super Troop")]
-    public int superTroopHealthPerLevel = 35;
+    public int superTroopHealthPerLevel = 30;
     [Tooltip("Damage gained per upgrade level for Super Troop")]
-    public int superTroopDamagePerLevel = 10;
+    public int superTroopDamagePerLevel = 8;
 
     [Header("=== DOUBLE TROUBLE ===")]
     [Tooltip("Base cost to upgrade Double Trouble")]
-    public int doubleTroubleBaseCost = 40;
+    public int doubleTroubleBaseCost = 35;
     [Tooltip("Percentage gained per upgrade level for Double Trouble")]
-    public float doubleTroublePercentPerLevel = 10f;
+    public float doubleTroublePercentPerLevel = 8f;
     [Tooltip("Maximum percentage for Double Trouble (default 70%)")]
-    public float doubleTroubleMaxPercent = 70f;
+    public float doubleTroubleMaxPercent = 60f;
 
     [Header("=== PLAYER HEALTH ===")]
     [Tooltip("Starting health for each player")]
@@ -111,10 +111,10 @@ public class GameConfig : ScriptableObject
 
     [Header("=== MINIMUM COMBAT SCORE ===")]
     [Tooltip("Base minimum combat score for Round 1")]
-    public int minimumCombatScoreBase = 100;
+    public int minimumCombatScoreBase = 80;
     
     [Tooltip("Additional minimum combat score added per round after Round 1")]
-    public int minimumCombatScorePerRound = 200;
+    public int minimumCombatScorePerRound = 150;
     
     [Tooltip("Enable the MSC system (either as reward or damage based on useMinimumCombatScoreAsDamage)")]
     public bool useMinimumCombatScore = true;
@@ -124,10 +124,10 @@ public class GameConfig : ScriptableObject
     
     [Header("MSC Reward Settings")]
     [Tooltip("Gold rewarded per 100 combat score above the minimum MSC")]
-    public float bonusGoldPer100CombatScore = 2f;
+    public float bonusGoldPer100CombatScore = 1.5f;
     
     [Tooltip("Maximum bonus gold a player can get in a single round")]
-    public int maxBonusGoldPerRound = 100;
+    public int maxBonusGoldPerRound = 80;
 
     [Header("=== SELL PRICES ===")]
     [Tooltip("Sell price as percentage of buy cost for Soldiers")]
@@ -140,7 +140,7 @@ public class GameConfig : ScriptableObject
     [Range(0f, 1f)] public float superTroopSellPercent = 0.5f;
     
     [Tooltip("Sell price as percentage of buy cost for Markets")]
-    [Range(0f, 1f)] public float marketSellPercent = 0.8f;
+    [Range(0f, 1f)] public float marketSellPercent = 0.75f;
 
     [Header("=== COMBAT SCORE TUNING ===")]
     [Tooltip("Weight applied to unit health when calculating unit combat score")]
