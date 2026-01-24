@@ -33,6 +33,12 @@ public class PlayerMoney : MonoBehaviour
     public TextMeshProUGUI tankCostText;
     public TextMeshProUGUI superTroopCostText;
 
+    [Header("Unit Sell Price UI")]
+    public TextMeshProUGUI soldierSellText;
+    public TextMeshProUGUI tankSellText;
+    public TextMeshProUGUI superTroopSellText;
+    public TextMeshProUGUI marketSellText;
+
     [Header("Market")]
     public int money = 0;
     public int Markets = 0;
@@ -186,6 +192,74 @@ public class PlayerMoney : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Sell a Soldier and receive gold based on sell price percentage.
+    /// </summary>
+    public void SellSoldier()
+    {
+        if (soldierCount <= 0) return;
+        int sellPrice = 0;
+        if (gameConfig != null && upgrades != null)
+        {
+            int highestLvl = Mathf.Max(upgrades.soldierHealthLevel, upgrades.soldierDamageLevel);
+            sellPrice = gameConfig.GetSoldierSellPrice(highestLvl);
+        }
+        soldierCount--;
+        AddMoney(sellPrice);
+        UpdateUI();
+    }
+
+    /// <summary>
+    /// Sell a Tank and receive gold based on sell price percentage.
+    /// </summary>
+    public void SellTank()
+    {
+        if (tankCount <= 0) return;
+        int sellPrice = 0;
+        if (gameConfig != null && upgrades != null)
+        {
+            int highestLvl = Mathf.Max(upgrades.tankHealthLevel, upgrades.tankDamageLevel);
+            sellPrice = gameConfig.GetTankSellPrice(highestLvl);
+        }
+        tankCount--;
+        AddMoney(sellPrice);
+        UpdateUI();
+    }
+
+    /// <summary>
+    /// Sell a Super Troop and receive gold based on sell price percentage.
+    /// </summary>
+    public void SellSuperTroop()
+    {
+        if (superTroopCount <= 0) return;
+        int sellPrice = 0;
+        if (gameConfig != null && upgrades != null)
+        {
+            int highestLvl = Mathf.Max(upgrades.superTroopHealthLevel, upgrades.superTroopDamageLevel);
+            sellPrice = gameConfig.GetSuperTroopSellPrice(highestLvl);
+        }
+        superTroopCount--;
+        AddMoney(sellPrice);
+        UpdateUI();
+    }
+
+    /// <summary>
+    /// Sell a Market and receive gold based on sell price percentage.
+    /// </summary>
+    public void SellMarket()
+    {
+        if (Markets <= 0) return;
+        int sellPrice = 0;
+        if (gameConfig != null)
+        {
+            // Pass index of last market (Markets-1) so market cost matches purchase cost scale
+            sellPrice = gameConfig.CalculateMarketSellPrice(Markets - 1);
+        }
+        Markets--;
+        AddMoney(sellPrice);
+        UpdateUI();
+    }
+
     public void CollectMarketIncome()
     {
         if (gameConfig != null && Markets > 0)
@@ -220,8 +294,11 @@ public class PlayerMoney : MonoBehaviour
         int superTroopCombatScore = gameConfig.CalculateTroopCombatScore(superTroopStats.health, superTroopStats.damage);
         totalScore += superTroopCount * superTroopCombatScore;
         
-        // Apply health penalty if health is below max
-        totalScore = gameConfig.ApplyHealthPenalty(totalScore, health);
+        // Only apply health penalty when legacy health-based penalties are enabled
+        if (gameConfig.playerStartingHealth > 0 && gameConfig.useMinimumCombatScoreAsDamage)
+        {
+            totalScore = gameConfig.ApplyHealthPenalty(totalScore, health);
+        }
         
         return totalScore;
     }
@@ -273,6 +350,35 @@ public class PlayerMoney : MonoBehaviour
             tankCostText.text = $"Tank: {currentTankCost}";
         if (superTroopCostText != null)
             superTroopCostText.text = $"Super Troop: {currentSuperTroopCost}";
+
+        // Update sell price texts
+        if (gameConfig != null && upgrades != null)
+        {
+            if (soldierSellText != null)
+            {
+                int soldierSellPrice = gameConfig.GetSoldierSellPrice(Mathf.Max(upgrades.soldierHealthLevel, upgrades.soldierDamageLevel));
+                soldierSellText.text = $"Sell: {soldierSellPrice}";
+            }
+            if (tankSellText != null)
+            {
+                int tankSellPrice = gameConfig.GetTankSellPrice(Mathf.Max(upgrades.tankHealthLevel, upgrades.tankDamageLevel));
+                tankSellText.text = $"Sell: {tankSellPrice}";
+            }
+            if (superTroopSellText != null)
+            {
+                int superTroopSellPrice = gameConfig.GetSuperTroopSellPrice(Mathf.Max(upgrades.superTroopHealthLevel, upgrades.superTroopDamageLevel));
+                superTroopSellText.text = $"Sell: {superTroopSellPrice}";
+            }
+        }
+        if (marketSellText != null && gameConfig != null && Markets > 0)
+        {
+            int marketSellPrice = gameConfig.CalculateMarketSellPrice(Markets - 1);
+            marketSellText.text = $"Sell: {marketSellPrice}";
+        }
+        else if (marketSellText != null)
+        {
+            marketSellText.text = "Sell: 0";
+        }
             
         if (combatScoreText != null)
             combatScoreText.text = $"Combat Score: {GetTotalCombatScore()}";

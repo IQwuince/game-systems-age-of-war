@@ -106,7 +106,7 @@ public class TurnSystem : MonoBehaviour
 
     /// <summary>
     /// Evaluate both players' combat scores against the minimum requirement.
-    /// Apply damage if below the minimum.
+    /// Apply damage if below the minimum (legacy), or reward gold if above (new flow).
     /// </summary>
     private void EvaluateCombatScores()
     {
@@ -116,20 +116,54 @@ public class TurnSystem : MonoBehaviour
         
         // Evaluate Player 1
         int player1Score = playerMoney1.GetTotalCombatScore();
-        int player1Damage = gameConfig.CalculateDamageFromLowScore(minimumScore, player1Score);
-        if (player1Damage > 0)
+        if (gameConfig.useMinimumCombatScore)
         {
-            playerMoney1.TakeDamage(player1Damage);
-            Debug.Log($"Player 1 took {player1Damage} damage (Score: {player1Score} < Min: {minimumScore})");
+            if (gameConfig.useMinimumCombatScoreAsDamage)
+            {
+                // Legacy behavior: damage for failing MSC
+                int player1Damage = gameConfig.CalculateDamageFromLowScore(minimumScore, player1Score);
+                if (player1Damage > 0)
+                {
+                    playerMoney1.TakeDamage(player1Damage);
+                    Debug.Log($"Player 1 took {player1Damage} damage (Score: {player1Score} < Min: {minimumScore})");
+                }
+            }
+            else
+            {
+                // New reward behavior: gold for exceeding MSC
+                int bonus1 = gameConfig.CalculateBonusGoldFromScore(minimumScore, player1Score);
+                if (bonus1 > 0)
+                {
+                    playerMoney1.AddMoney(bonus1);
+                    Debug.Log($"Player 1 rewarded {bonus1} gold for exceeding MSC (Score: {player1Score} > Min: {minimumScore})");
+                }
+            }
         }
         
         // Evaluate Player 2
         int player2Score = playerMoney2.GetTotalCombatScore();
-        int player2Damage = gameConfig.CalculateDamageFromLowScore(minimumScore, player2Score);
-        if (player2Damage > 0)
+        if (gameConfig.useMinimumCombatScore)
         {
-            playerMoney2.TakeDamage(player2Damage);
-            Debug.Log($"Player 2 took {player2Damage} damage (Score: {player2Score} < Min: {minimumScore})");
+            if (gameConfig.useMinimumCombatScoreAsDamage)
+            {
+                // Legacy behavior: damage for failing MSC
+                int player2Damage = gameConfig.CalculateDamageFromLowScore(minimumScore, player2Score);
+                if (player2Damage > 0)
+                {
+                    playerMoney2.TakeDamage(player2Damage);
+                    Debug.Log($"Player 2 took {player2Damage} damage (Score: {player2Score} < Min: {minimumScore})");
+                }
+            }
+            else
+            {
+                // New reward behavior: gold for exceeding MSC
+                int bonus2 = gameConfig.CalculateBonusGoldFromScore(minimumScore, player2Score);
+                if (bonus2 > 0)
+                {
+                    playerMoney2.AddMoney(bonus2);
+                    Debug.Log($"Player 2 rewarded {bonus2} gold for exceeding MSC (Score: {player2Score} > Min: {minimumScore})");
+                }
+            }
         }
     }
 

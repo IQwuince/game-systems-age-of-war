@@ -115,6 +115,32 @@ public class GameConfig : ScriptableObject
     
     [Tooltip("Additional minimum combat score added per round after Round 1")]
     public int minimumCombatScorePerRound = 200;
+    
+    [Tooltip("Enable the MSC system (either as reward or damage based on useMinimumCombatScoreAsDamage)")]
+    public bool useMinimumCombatScore = true;
+    
+    [Tooltip("If true, players below MSC take damage (legacy). If false, players above MSC get gold (new reward flow).")]
+    public bool useMinimumCombatScoreAsDamage = false;
+    
+    [Header("MSC Reward Settings")]
+    [Tooltip("Gold rewarded per 100 combat score above the minimum MSC")]
+    public float bonusGoldPer100CombatScore = 2f;
+    
+    [Tooltip("Maximum bonus gold a player can get in a single round")]
+    public int maxBonusGoldPerRound = 100;
+
+    [Header("=== SELL PRICES ===")]
+    [Tooltip("Sell price as percentage of buy cost for Soldiers")]
+    [Range(0f, 1f)] public float soldierSellPercent = 0.5f;
+    
+    [Tooltip("Sell price as percentage of buy cost for Tanks")]
+    [Range(0f, 1f)] public float tankSellPercent = 0.5f;
+    
+    [Tooltip("Sell price as percentage of buy cost for Super Troops")]
+    [Range(0f, 1f)] public float superTroopSellPercent = 0.5f;
+    
+    [Tooltip("Sell price as percentage of buy cost for Markets")]
+    [Range(0f, 1f)] public float marketSellPercent = 0.8f;
 
     /// <summary>
     /// Calculate upgrade cost using the formula: BaseCost * (upgradeScalingBase ^ (Level - 1))
@@ -230,5 +256,55 @@ public class GameConfig : ScriptableObject
         penaltyMultiplier = Mathf.Clamp01(penaltyMultiplier);
         
         return Mathf.RoundToInt(combatScore * penaltyMultiplier);
+    }
+
+    /// <summary>
+    /// Calculate bonus gold for exceeding the minimum combat score.
+    /// Formula: bonus = ((playerScore - minimumScore) / 100) * bonusGoldPer100CombatScore
+    /// Capped at maxBonusGoldPerRound.
+    /// </summary>
+    public int CalculateBonusGoldFromScore(int minimumScore, int playerScore)
+    {
+        if (playerScore <= minimumScore) return 0;
+        int diff = playerScore - minimumScore;
+        float rawBonus = (diff / 100f) * bonusGoldPer100CombatScore;
+        int bonus = Mathf.FloorToInt(rawBonus);
+        return Mathf.Min(bonus, maxBonusGoldPerRound);
+    }
+
+    /// <summary>
+    /// Calculate sell price for a Soldier based on current upgrade level.
+    /// </summary>
+    public int GetSoldierSellPrice(int highestUpgradeLevel)
+    {
+        int buyCost = CalculateTroopCost(soldierBaseCost, highestUpgradeLevel);
+        return Mathf.RoundToInt(buyCost * soldierSellPercent);
+    }
+
+    /// <summary>
+    /// Calculate sell price for a Tank based on current upgrade level.
+    /// </summary>
+    public int GetTankSellPrice(int highestUpgradeLevel)
+    {
+        int buyCost = CalculateTroopCost(tankBaseCost, highestUpgradeLevel);
+        return Mathf.RoundToInt(buyCost * tankSellPercent);
+    }
+
+    /// <summary>
+    /// Calculate sell price for a Super Troop based on current upgrade level.
+    /// </summary>
+    public int GetSuperTroopSellPrice(int highestUpgradeLevel)
+    {
+        int buyCost = CalculateTroopCost(superTroopBaseCost, highestUpgradeLevel);
+        return Mathf.RoundToInt(buyCost * superTroopSellPercent);
+    }
+
+    /// <summary>
+    /// Calculate sell price for a Market based on market index.
+    /// </summary>
+    public int CalculateMarketSellPrice(int marketIndex)
+    {
+        int buyCost = CalculateMarketCost(marketIndex);
+        return Mathf.RoundToInt(buyCost * marketSellPercent);
     }
 }

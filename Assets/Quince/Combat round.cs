@@ -20,6 +20,10 @@ public class Combatround : MonoBehaviour
     public TextMeshProUGUI player1HealthText;
     public TextMeshProUGUI player2HealthText;
 
+    [Header("MSC Bonus UI")]
+    public TextMeshProUGUI player1MSCBonusText;
+    public TextMeshProUGUI player2MSCBonusText;
+
     // UI Texts for player 1 troop counts
     [Header("Player 1 Troop Count UI")]
     public TextMeshProUGUI player1SoldierText;
@@ -59,13 +63,38 @@ public class Combatround : MonoBehaviour
         if (player2CombatScoreText != null && player2Money != null)
             player2CombatScoreText.text = $"Combat Score: {player2Money.GetTotalCombatScore()}";
 
+        int minimumScore = GetMinimumCombatScore();
+        
         if (player1MinimumCombatScoreText != null || player2MinimumCombatScoreText != null)
         {
-            int minimumScore = GetMinimumCombatScore();
             if (player1MinimumCombatScoreText != null)
                 player1MinimumCombatScoreText.text = $"Min Combat Score: {minimumScore}";
             if (player2MinimumCombatScoreText != null)
                 player2MinimumCombatScoreText.text = $"Min Combat Score: {minimumScore}";
+        }
+        
+        // Update MSC bonus prediction (only when using reward flow, not damage)
+        GameConfig gameConfig = GetGameConfig();
+        if (gameConfig != null && gameConfig.useMinimumCombatScore && !gameConfig.useMinimumCombatScoreAsDamage)
+        {
+            if (player1MSCBonusText != null && player1Money != null)
+            {
+                int predictedBonus1 = gameConfig.CalculateBonusGoldFromScore(minimumScore, player1Money.GetTotalCombatScore());
+                player1MSCBonusText.text = $"MSC Bonus: {predictedBonus1}g";
+            }
+            if (player2MSCBonusText != null && player2Money != null)
+            {
+                int predictedBonus2 = gameConfig.CalculateBonusGoldFromScore(minimumScore, player2Money.GetTotalCombatScore());
+                player2MSCBonusText.text = $"MSC Bonus: {predictedBonus2}g";
+            }
+        }
+        else
+        {
+            // Hide or clear bonus text when not using reward flow
+            if (player1MSCBonusText != null)
+                player1MSCBonusText.text = "";
+            if (player2MSCBonusText != null)
+                player2MSCBonusText.text = "";
         }
         
         // Update health displays
@@ -136,12 +165,16 @@ public class Combatround : MonoBehaviour
         if (turnSystem != null)
             return turnSystem.GetCurrentMinimumCombatScore();
 
-        GameConfig config = null;
-        if (player1Money != null)
-            config = player1Money.gameConfig;
-        if (config == null && player2Money != null)
-            config = player2Money.gameConfig;
-
+        GameConfig config = GetGameConfig();
         return config != null ? config.minimumCombatScoreBase : 0;
+    }
+
+    private GameConfig GetGameConfig()
+    {
+        if (player1Money != null && player1Money.gameConfig != null)
+            return player1Money.gameConfig;
+        if (player2Money != null && player2Money.gameConfig != null)
+            return player2Money.gameConfig;
+        return null;
     }
 }
