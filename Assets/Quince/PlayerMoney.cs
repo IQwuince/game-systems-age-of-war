@@ -53,6 +53,30 @@ public class PlayerMoney : MonoBehaviour
     private int currentMarketCost;
 
     /// <summary>
+    /// Get the highest upgrade level for Soldiers.
+    /// </summary>
+    private int GetHighestSoldierLevel()
+    {
+        return upgrades != null ? Mathf.Max(upgrades.soldierHealthLevel, upgrades.soldierDamageLevel) : 1;
+    }
+
+    /// <summary>
+    /// Get the highest upgrade level for Tanks.
+    /// </summary>
+    private int GetHighestTankLevel()
+    {
+        return upgrades != null ? Mathf.Max(upgrades.tankHealthLevel, upgrades.tankDamageLevel) : 1;
+    }
+
+    /// <summary>
+    /// Get the highest upgrade level for Super Troops.
+    /// </summary>
+    private int GetHighestSuperTroopLevel()
+    {
+        return upgrades != null ? Mathf.Max(upgrades.superTroopHealthLevel, upgrades.superTroopDamageLevel) : 1;
+    }
+
+    /// <summary>
     /// Check if Double Trouble should trigger and return bonus troop count.
     /// </summary>
     private bool ShouldApplyDoubleTrouble()
@@ -78,13 +102,9 @@ public class PlayerMoney : MonoBehaviour
     {
         if (gameConfig == null) return;
         
-        int highestSoldierLevel = upgrades != null ? Mathf.Max(upgrades.soldierHealthLevel, upgrades.soldierDamageLevel) : 1;
-        int highestTankLevel = upgrades != null ? Mathf.Max(upgrades.tankHealthLevel, upgrades.tankDamageLevel) : 1;
-        int highestSuperTroopLevel = upgrades != null ? Mathf.Max(upgrades.superTroopHealthLevel, upgrades.superTroopDamageLevel) : 1;
-        
-        currentSoldierCost = gameConfig.CalculateTroopCost(gameConfig.soldierBaseCost, highestSoldierLevel);
-        currentTankCost = gameConfig.CalculateTroopCost(gameConfig.tankBaseCost, highestTankLevel);
-        currentSuperTroopCost = gameConfig.CalculateTroopCost(gameConfig.superTroopBaseCost, highestSuperTroopLevel);
+        currentSoldierCost = gameConfig.CalculateTroopCost(gameConfig.soldierBaseCost, GetHighestSoldierLevel());
+        currentTankCost = gameConfig.CalculateTroopCost(gameConfig.tankBaseCost, GetHighestTankLevel());
+        currentSuperTroopCost = gameConfig.CalculateTroopCost(gameConfig.superTroopBaseCost, GetHighestSuperTroopLevel());
         currentMarketCost = gameConfig.CalculateMarketCost(Markets);
         
         UpdateUI();
@@ -199,10 +219,9 @@ public class PlayerMoney : MonoBehaviour
     {
         if (soldierCount <= 0) return;
         int sellPrice = 0;
-        if (gameConfig != null && upgrades != null)
+        if (gameConfig != null)
         {
-            int highestLvl = Mathf.Max(upgrades.soldierHealthLevel, upgrades.soldierDamageLevel);
-            sellPrice = gameConfig.GetSoldierSellPrice(highestLvl);
+            sellPrice = gameConfig.GetSoldierSellPrice(GetHighestSoldierLevel());
         }
         soldierCount--;
         AddMoney(sellPrice);
@@ -216,10 +235,9 @@ public class PlayerMoney : MonoBehaviour
     {
         if (tankCount <= 0) return;
         int sellPrice = 0;
-        if (gameConfig != null && upgrades != null)
+        if (gameConfig != null)
         {
-            int highestLvl = Mathf.Max(upgrades.tankHealthLevel, upgrades.tankDamageLevel);
-            sellPrice = gameConfig.GetTankSellPrice(highestLvl);
+            sellPrice = gameConfig.GetTankSellPrice(GetHighestTankLevel());
         }
         tankCount--;
         AddMoney(sellPrice);
@@ -233,10 +251,9 @@ public class PlayerMoney : MonoBehaviour
     {
         if (superTroopCount <= 0) return;
         int sellPrice = 0;
-        if (gameConfig != null && upgrades != null)
+        if (gameConfig != null)
         {
-            int highestLvl = Mathf.Max(upgrades.superTroopHealthLevel, upgrades.superTroopDamageLevel);
-            sellPrice = gameConfig.GetSuperTroopSellPrice(highestLvl);
+            sellPrice = gameConfig.GetSuperTroopSellPrice(GetHighestSuperTroopLevel());
         }
         superTroopCount--;
         AddMoney(sellPrice);
@@ -352,21 +369,21 @@ public class PlayerMoney : MonoBehaviour
             superTroopCostText.text = $"Super Troop: {currentSuperTroopCost}";
 
         // Update sell price texts
-        if (gameConfig != null && upgrades != null)
+        if (gameConfig != null)
         {
             if (soldierSellText != null)
             {
-                int soldierSellPrice = gameConfig.GetSoldierSellPrice(Mathf.Max(upgrades.soldierHealthLevel, upgrades.soldierDamageLevel));
+                int soldierSellPrice = gameConfig.GetSoldierSellPrice(GetHighestSoldierLevel());
                 soldierSellText.text = $"Sell: {soldierSellPrice}";
             }
             if (tankSellText != null)
             {
-                int tankSellPrice = gameConfig.GetTankSellPrice(Mathf.Max(upgrades.tankHealthLevel, upgrades.tankDamageLevel));
+                int tankSellPrice = gameConfig.GetTankSellPrice(GetHighestTankLevel());
                 tankSellText.text = $"Sell: {tankSellPrice}";
             }
             if (superTroopSellText != null)
             {
-                int superTroopSellPrice = gameConfig.GetSuperTroopSellPrice(Mathf.Max(upgrades.superTroopHealthLevel, upgrades.superTroopDamageLevel));
+                int superTroopSellPrice = gameConfig.GetSuperTroopSellPrice(GetHighestSuperTroopLevel());
                 superTroopSellText.text = $"Sell: {superTroopSellPrice}";
             }
         }

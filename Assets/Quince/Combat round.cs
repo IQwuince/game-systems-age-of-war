@@ -74,9 +74,9 @@ public class Combatround : MonoBehaviour
         }
         
         // Update MSC bonus prediction (only when using reward flow, not damage)
-        GameConfig gameConfig = GetGameConfig();
-        if (gameConfig != null && gameConfig.useMinimumCombatScore && !gameConfig.useMinimumCombatScoreAsDamage)
+        if (IsUsingMSCRewardMode())
         {
+            GameConfig gameConfig = GetGameConfig();
             if (player1MSCBonusText != null && player1Money != null)
             {
                 int predictedBonus1 = gameConfig.CalculateBonusGoldFromScore(minimumScore, player1Money.GetTotalCombatScore());
@@ -176,5 +176,14 @@ public class Combatround : MonoBehaviour
         if (player2Money != null && player2Money.gameConfig != null)
             return player2Money.gameConfig;
         return null;
+    }
+
+    /// <summary>
+    /// Check if the game is using MSC reward mode (not damage mode).
+    /// </summary>
+    private bool IsUsingMSCRewardMode()
+    {
+        GameConfig config = GetGameConfig();
+        return config != null && config.useMinimumCombatScore && !config.useMinimumCombatScoreAsDamage;
     }
 }
