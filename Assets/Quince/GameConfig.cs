@@ -164,7 +164,7 @@ public class GameConfig : ScriptableObject
     [Tooltip("Additive offset applied to tank score after weighting (can be 0)")]
     public int tankCombatOffset = 0;
     
-    [Tooltip("Additive offset applied to super troop score after weighting (can be 0)")]
+    [Tooltip("Additive offset applied to Super Troop score after weighting (can be 0)")]
     public int superTroopCombatOffset = 0;
 
     /// <summary>

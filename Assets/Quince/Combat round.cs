@@ -131,45 +131,71 @@ public class Combatround : MonoBehaviour
         // Player 1 unit stats with combat scores
         if (player1Upgrades != null)
         {
-            var soldierStats = player1Upgrades.GetSoldierStats();
-            var tankStats = player1Upgrades.GetTankStats();
-            var superTroopStats = player1Upgrades.GetSuperTroopStats();
-            
-            // Calculate per-unit combat scores using config-driven methods
-            int soldierScore = gameConfig != null ? gameConfig.GetSoldierCombatScore(player1Upgrades.soldierHealthLevel, player1Upgrades.soldierDamageLevel) : soldierStats.health + soldierStats.damage;
-            int tankScore = gameConfig != null ? gameConfig.GetTankCombatScore(player1Upgrades.tankHealthLevel, player1Upgrades.tankDamageLevel) : tankStats.health + tankStats.damage;
-            int superTroopScore = gameConfig != null ? gameConfig.GetSuperTroopCombatScore(player1Upgrades.superTroopHealthLevel, player1Upgrades.superTroopDamageLevel) : superTroopStats.health + superTroopStats.damage;
-            
-            if (player1SoldierStatsText != null)
-                player1SoldierStatsText.text = $"HP: {soldierStats.health} | DMG: {soldierStats.damage} | Score: {soldierScore}";
-            if (player1TankStatsText != null)
-                player1TankStatsText.text = $"HP: {tankStats.health} | DMG: {tankStats.damage} | Score: {tankScore}";
-            if (player1SuperTroopStatsText != null)
-                player1SuperTroopStatsText.text = $"HP: {superTroopStats.health} | DMG: {superTroopStats.damage} | Score: {superTroopScore}";
+            UpdateUnitStatsDisplay(
+                player1Upgrades, gameConfig,
+                player1SoldierStatsText, player1TankStatsText, player1SuperTroopStatsText);
         }
 
         // Player 2 unit stats with combat scores
         if (player2Upgrades != null)
         {
-            var soldierStats = player2Upgrades.GetSoldierStats();
-            var tankStats = player2Upgrades.GetTankStats();
-            var superTroopStats = player2Upgrades.GetSuperTroopStats();
-            
-            // Calculate per-unit combat scores using config-driven methods
-            int soldierScore = gameConfig != null ? gameConfig.GetSoldierCombatScore(player2Upgrades.soldierHealthLevel, player2Upgrades.soldierDamageLevel) : soldierStats.health + soldierStats.damage;
-            int tankScore = gameConfig != null ? gameConfig.GetTankCombatScore(player2Upgrades.tankHealthLevel, player2Upgrades.tankDamageLevel) : tankStats.health + tankStats.damage;
-            int superTroopScore = gameConfig != null ? gameConfig.GetSuperTroopCombatScore(player2Upgrades.superTroopHealthLevel, player2Upgrades.superTroopDamageLevel) : superTroopStats.health + superTroopStats.damage;
-            
-            if (player2SoldierStatsText != null)
-                player2SoldierStatsText.text = $"HP: {soldierStats.health} | DMG: {soldierStats.damage} | Score: {soldierScore}";
-            if (player2TankStatsText != null)
-                player2TankStatsText.text = $"HP: {tankStats.health} | DMG: {tankStats.damage} | Score: {tankScore}";
-            if (player2SuperTroopStatsText != null)
-                player2SuperTroopStatsText.text = $"HP: {superTroopStats.health} | DMG: {superTroopStats.damage} | Score: {superTroopScore}";
+            UpdateUnitStatsDisplay(
+                player2Upgrades, gameConfig,
+                player2SoldierStatsText, player2TankStatsText, player2SuperTroopStatsText);
         }
         
         // Update combat scores
         UpdateCombatScores();
+    }
+
+    /// <summary>
+    /// Updates the unit stats display for a player, including per-unit combat scores.
+    /// </summary>
+    private void UpdateUnitStatsDisplay(
+        Upgrades upgrades, GameConfig gameConfig,
+        TextMeshProUGUI soldierStatsText, TextMeshProUGUI tankStatsText, TextMeshProUGUI superTroopStatsText)
+    {
+        var soldierStats = upgrades.GetSoldierStats();
+        var tankStats = upgrades.GetTankStats();
+        var superTroopStats = upgrades.GetSuperTroopStats();
+        
+        // Calculate per-unit combat scores using config-driven methods
+        int soldierScore = GetUnitCombatScore(gameConfig, "soldier", 
+            upgrades.soldierHealthLevel, upgrades.soldierDamageLevel, soldierStats);
+        int tankScore = GetUnitCombatScore(gameConfig, "tank", 
+            upgrades.tankHealthLevel, upgrades.tankDamageLevel, tankStats);
+        int superTroopScore = GetUnitCombatScore(gameConfig, "superTroop", 
+            upgrades.superTroopHealthLevel, upgrades.superTroopDamageLevel, superTroopStats);
+        
+        if (soldierStatsText != null)
+            soldierStatsText.text = $"HP: {soldierStats.health} | DMG: {soldierStats.damage} | Score: {soldierScore}";
+        if (tankStatsText != null)
+            tankStatsText.text = $"HP: {tankStats.health} | DMG: {tankStats.damage} | Score: {tankScore}";
+        if (superTroopStatsText != null)
+            superTroopStatsText.text = $"HP: {superTroopStats.health} | DMG: {superTroopStats.damage} | Score: {superTroopScore}";
+    }
+
+    /// <summary>
+    /// Gets the combat score for a unit type using config-driven methods with fallback.
+    /// </summary>
+    private int GetUnitCombatScore(
+        GameConfig gameConfig, string unitType, 
+        int healthLevel, int damageLevel, (int health, int damage) stats)
+    {
+        if (gameConfig == null)
+            return stats.health + stats.damage;
+            
+        switch (unitType)
+        {
+            case "soldier":
+                return gameConfig.GetSoldierCombatScore(healthLevel, damageLevel);
+            case "tank":
+                return gameConfig.GetTankCombatScore(healthLevel, damageLevel);
+            case "superTroop":
+                return gameConfig.GetSuperTroopCombatScore(healthLevel, damageLevel);
+            default:
+                return stats.health + stats.damage;
+        }
     }
 
     private int GetMinimumCombatScore()
