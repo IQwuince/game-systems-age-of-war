@@ -60,6 +60,10 @@ public class Upgrades : MonoBehaviour
     public int doubleTroubleLevel = 1;
     public float doubleTroublePercent = 0f;
 
+    // Fallback constants matching GameConfig defaults (used when gameConfig is null)
+    private const float DEFAULT_UPGRADE_SCALING_BASE = 1.35f;
+    private const float DEFAULT_MARKET_INCOME_BONUS_PERCENT = 10f;
+
     // Current upgrade costs (calculated)
     private int soldierHealthUpgradeCost;
     private int soldierDamageUpgradeCost;
@@ -211,12 +215,12 @@ public class Upgrades : MonoBehaviour
         if (pm.money >= marketIncomeUpgradeCost)
         {
             pm.SubtractMoney(marketIncomeUpgradeCost);
-            // Use config value for bonus percent per level, fallback to 10f if no config
-            marketIncomeBonusPercent += gameConfig != null ? gameConfig.marketIncomeBonusPercentPerLevel : 10f;
+            // Use config value for bonus percent per level, fallback to constant if no config
+            marketIncomeBonusPercent += gameConfig != null ? gameConfig.marketIncomeBonusPercentPerLevel : DEFAULT_MARKET_INCOME_BONUS_PERCENT;
             marketIncomeUpgradeLevel++;
             marketIncomeUpgradeCost = gameConfig != null 
                 ? gameConfig.CalculateUpgradeCost(gameConfig.marketIncomeUpgradeBaseCost, marketIncomeUpgradeLevel) 
-                : Mathf.RoundToInt(marketIncomeUpgradeCost * 1.35f); // Fallback to upgradeScalingBase default
+                : Mathf.RoundToInt(marketIncomeUpgradeCost * DEFAULT_UPGRADE_SCALING_BASE);
             pm.marketIncomeMultiplier = 1f + marketIncomeBonusPercent / 100f;
             UpdateMarketIncomeUpgradeUI();
         }
