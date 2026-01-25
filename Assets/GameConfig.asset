@@ -14,53 +14,53 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GameConfig
   totalRounds: 10
   startingMoney: 100
-  baseMarketIncome: 15
-  upgradeScalingBase: 1.3
-  troopScalingBase: 1.35
+  baseMarketIncome: 18
+  upgradeScalingBase: 1.4
+  troopScalingBase: 1.45
   marketBaseCost: 60
   marketScalingBase: 1.4
   soldierBaseCost: 25
   soldierBaseHealth: 50
   soldierBaseDamage: 10
-  soldierHealthUpgradeBaseCost: 15
-  soldierDamageUpgradeBaseCost: 20
+  soldierHealthUpgradeBaseCost: 20
+  soldierDamageUpgradeBaseCost: 25
   soldierHealthPerLevel: 10
   soldierDamagePerLevel: 3
-  tankBaseCost: 70
+  tankBaseCost: 80
   tankBaseHealth: 140
   tankBaseDamage: 18
-  tankHealthUpgradeBaseCost: 40
-  tankDamageUpgradeBaseCost: 50
-  tankHealthPerLevel: 25
-  tankDamagePerLevel: 5
-  superTroopBaseCost: 150
+  tankHealthUpgradeBaseCost: 50
+  tankDamageUpgradeBaseCost: 60
+  tankHealthPerLevel: 20
+  tankDamagePerLevel: 4
+  superTroopBaseCost: 170
   superTroopBaseHealth: 200
   superTroopBaseDamage: 40
-  superTroopHealthUpgradeBaseCost: 80
-  superTroopDamageUpgradeBaseCost: 90
-  superTroopHealthPerLevel: 30
-  superTroopDamagePerLevel: 8
-  doubleTroubleBaseCost: 35
-  doubleTroublePercentPerLevel: 8
-  doubleTroubleMaxPercent: 60
+  superTroopHealthUpgradeBaseCost: 100
+  superTroopDamageUpgradeBaseCost: 110
+  superTroopHealthPerLevel: 26
+  superTroopDamagePerLevel: 6
+  doubleTroubleBaseCost: 40
+  doubleTroublePercentPerLevel: 6
+  doubleTroubleMaxPercent: 50
   playerStartingHealth: 100
   damageMultiplier: 0.5
   penaltyPerMissingHealth: 0.001
-  minimumCombatScoreBase: 80
-  minimumCombatScorePerRound: 150
+  minimumCombatScoreBase: 120
+  minimumCombatScorePerRound: 220
   useMinimumCombatScore: 1
   useMinimumCombatScoreAsDamage: 0
-  bonusGoldPer100CombatScore: 1.5
-  maxBonusGoldPerRound: 80
+  bonusGoldPer100CombatScore: 1
+  maxBonusGoldPerRound: 60
   soldierSellPercent: 0.5
   tankSellPercent: 0.5
   superTroopSellPercent: 0.5
   marketSellPercent: 0.75
   combatHealthWeight: 1
   combatDamageWeight: 1
-  soldierCombatMultiplier: 1
-  tankCombatMultiplier: 1
-  superTroopCombatMultiplier: 1
+  soldierCombatMultiplier: 1.15
+  tankCombatMultiplier: 0.95
+  superTroopCombatMultiplier: 0.9
   soldierCombatOffset: 0
   tankCombatOffset: 0
   superTroopCombatOffset: 0
